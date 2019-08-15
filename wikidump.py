@@ -11,6 +11,7 @@ class WikiDump():
         self._page = None
         self.path_xml = path_xml
         self.path_idx = path_idx
+        self.offset_max = 0
         
     def get_idx(self):
         if self._idx:
@@ -27,6 +28,7 @@ class WikiDump():
                 block_end = offset_prev if offset < offset_prev else block_end
                 self._idx[name] = (offset, pid, block_end-offset)
                 offset_prev = offset
+            self.offset_max = max([x[0] for x in self._idx.values()])
             print('WikiDump: Loaded.')
             return self._idx
     idx = property(get_idx)
@@ -53,7 +55,8 @@ class WikiDump():
             return
         offset, pid, block_size = self.idx[page_name]
         xml = WikiDump.fetch_block(self.path_xml, offset, block_size)
-        root = ET.fromstring(b'<root>' + xml + b'</root>')
+        xml = b'<mediawiki>' + xml + b'</mediawiki>'*(offset != self.offset_max)
+        root = ET.fromstring(xml)
         text = WikiDump.search_id(root, pid)
         text = WikiDump.filter_top_section(text) if filter_top else text
         self.page = mph.parse(text)
