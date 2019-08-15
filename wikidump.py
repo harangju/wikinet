@@ -12,6 +12,7 @@ class WikiDump():
         self.path_xml = path_xml
         self.path_idx = path_idx
         self.offset_max = 0
+        self.cache = (0, None) # offset, cache
         
     def get_idx(self):
         if self._idx:
@@ -23,7 +24,7 @@ class WikiDump():
             block_end = os.path.getsize(self.path_xml)
             offset_prev = block_end
             for line in reversed(lines):
-                [offset, pid, name] = line.strip().split(b':', 2)
+                offset, pid, name = line.strip().split(b':', 2)
                 offset, pid, name = (int(offset), int(pid), name.decode('utf8'))
                 block_end = offset_prev if offset < offset_prev else block_end
                 self._idx[name] = (offset, pid, block_end-offset)
@@ -54,9 +55,13 @@ class WikiDump():
             self.page = None
             return
         offset, pid, block_size = self.idx[page_name]
-        xml = WikiDump.fetch_block(self.path_xml, offset, block_size)
-        xml = b'<mediawiki>' + xml + b'</mediawiki>'*(offset != self.offset_max)
-        root = ET.fromstring(xml)
+        if offset == self.cache[0]:
+            root = self.cache[1]
+        else:
+            xml = WikiDump.fetch_block(self.path_xml, offset, block_size)
+            xml = b'<mediawiki>' + xml + b'</mediawiki>'*(offset != self.offset_max)
+            root = ET.fromstring(xml)
+            self.cache = (offset, root)
         text = WikiDump.search_id(root, pid)
         text = WikiDump.filter_top_section(text) if filter_top else text
         self.page = mph.parse(text)
