@@ -17,7 +17,7 @@ class WikiDump():
             return self._idx
         else:
             print('WikiDump: Loading index...')
-            with bz2.BZ2File(path_index, 'rb') as file:
+            with bz2.BZ2File(self.path_idx, 'rb') as file:
                 lines = [line for line in file]
             block_end = os.path.getsize(self.path_xml)
             offset_prev = block_end
