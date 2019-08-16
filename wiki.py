@@ -43,15 +43,16 @@ class Dump():
         if self._links:
             return self._links
         elif self.page:
-            self._links = [x.title for x in self.page.filter_wikilinks()]
+            self._links = [str(x.title).split('#')[0].capitalize()
+                           for x in self.page.filter_wikilinks()]
             return self._links
     links = property(get_links)
     
     def get_article_links(self):
         if self._article_links:
             return self._article_links
-        elif self.page:
-            self._article_links = [x.title for x in self.page.filter_wikilinks()]
+        elif self.links:
+            self._article_links = [x for x in self.links if ':' not in x]
             return self._article_links
     article_links = property(get_article_links)
     
