@@ -151,7 +151,6 @@ class Crawler():
             page = dump.load_page(name, filter_top=True)
             if not page:
                 page_noload.append(name)
-                print('no page ' + name)
                 continue
             links = [l for l in dump.article_links
                      if Crawler.filter(name, l, graph, nodes)]
