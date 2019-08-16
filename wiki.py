@@ -141,8 +141,7 @@ class Crawler():
             page = dump.load_page(name, filter_top=True)
             if not page:
                 continue
-            links = [Crawler.parse(l) for l in dump.links]
-            links = [l for l in links\
+            links = [l for l in dump.article_links
                      if Crawler.filter(name, l, graph, nodes)]
             for link in links:
                 graph.add_edge(link, name, weight=1)
@@ -172,7 +171,3 @@ class Crawler():
         if (page, link) in graph.edges:
             return False
         return True
-    
-    @staticmethod
-    def parse(link):
-         return str(link).split('#')[0].capitalize()
