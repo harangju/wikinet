@@ -7,7 +7,6 @@ class WikiCorpus:
     def __init__(self, path_xml, path_index):
         self.dump = WikiDump(path_xml, path_index)
         self.names = list(self.dump.idx.keys())
-        self.names = self.names[:100]
     
     def __iter__(self):
         self.i = 0
