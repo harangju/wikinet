@@ -46,6 +46,7 @@ class Dump():
             self._links = [str(x.title).split('#')[0].capitalize()
                            for x in self.page.filter_wikilinks()]
             return self._links
+            return self._links
     links = property(get_links)
     
     def get_article_links(self):
@@ -53,6 +54,8 @@ class Dump():
             return self._article_links
         elif self.links:
             self._article_links = [x for x in self.links if ':' not in x]
+            return self._article_links
+        else:
             return self._article_links
     article_links = property(get_article_links)
     
