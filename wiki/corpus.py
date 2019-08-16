@@ -1,4 +1,4 @@
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from gensim.models.doc2vec import TaggedDocument
 from gensim.utils import simple_preprocess
 import sys
 from .dump import WikiDump
