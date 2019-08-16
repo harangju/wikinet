@@ -17,8 +17,9 @@ class WikiCorpus:
             sys.stdout.write("\rCorpus index: " + str(self.i) + 
                              '/' + str(len(self.names)))
             sys.stdout.flush()
+            doc = TaggedDocument(self.doc_at(self.i), [self.i])
             self.i += 1
-            return TaggedDocument(self.doc_at(self.i), [self.i])
+            return doc
         else:
             raise StopIteration
     
