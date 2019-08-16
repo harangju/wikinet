@@ -11,8 +11,8 @@ from gensim.utils import simple_preprocess
 class Dump():
     def __init__(self, path_xml, path_idx):
         self._idx = {}
-        self._article_links = []
         self._links = []
+        self._article_links = []
         self._page = None
         self.path_xml = path_xml
         self.path_idx = path_idx
@@ -62,6 +62,7 @@ class Dump():
     def set_page(self, page):
         self._page = page
         self._links = []
+        self._article_links = []
     page = property(get_page, set_page)
     
     def load_page(self, page_name, filter_top=False):
@@ -101,6 +102,7 @@ class Dump():
 
 class Corpus:
     def __init__(self, path_xml, path_index):
+        # init with dump, not paths
         self.dump = Dump(path_xml, path_index)
         self.names = list(self.dump.idx.keys())
     
@@ -133,10 +135,12 @@ class Crawler():
         print('Depth: ' + str(depth))
         while queue:
             name = queue.pop(0)
+            sys.stdout.write("\rCrawler: len(queue) = " + str(len(queue)))
+            sys.stdout.flush()
             depth_num_items -= 1
             if depth_num_items == 0:
                 depth += 1
-                print('Depth: ' + str(depth))
+                print('\nDepth: ' + str(depth))
                 depth_inc_pending = True
             page = dump.load_page(name, filter_top=True)
             if not page:
