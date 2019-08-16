@@ -159,15 +159,3 @@ class Crawler():
         if (page, link) in graph.edges:
             return False
         return True
-    
-    @staticmethod
-    def parse(link):
-         return str(link).split('#')[0].capitalize()
-    
-    @staticmethod
-    def filter(page, link, graph, nodes=None):
-        if nodes and link not in nodes:
-            return False
-        if (page, link) in graph.edges:
-            return False
-        return True
