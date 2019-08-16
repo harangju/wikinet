@@ -129,6 +129,7 @@ class Crawler():
     @staticmethod
     def bfs(graph, dump, queue, depth_goal=1, nodes=None):
         # all elements in queue & nodes should be of type string
+        queue = queue.copy()
         depth = 0
         depth_num_items = len(queue)
         depth_inc_pending = False
@@ -149,7 +150,8 @@ class Crawler():
                      if Crawler.filter(name, l, graph, nodes)]
             for link in links:
                 graph.add_edge(link, name, weight=1)
-                queue.append(link)
+                if link not in queue:
+                    queue.append(link)
             if depth_inc_pending:
                 depth_num_items = len(queue)
                 depth_inc_pending = False
