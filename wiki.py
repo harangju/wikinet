@@ -46,6 +46,7 @@ class Dump():
             self._links = [str(x.title).split('#')[0].capitalize()
                            for x in self.page.filter_wikilinks()]
             return self._links
+        else:
             return self._links
     links = property(get_links)
     
@@ -133,6 +134,7 @@ class Crawler():
     def bfs(graph, dump, queue, depth_goal=1, nodes=None):
         # all elements in queue & nodes should be of type string
         queue = queue.copy()
+        page_noload = []
         depth = 0
         depth_num_items = len(queue)
         depth_inc_pending = False
@@ -148,6 +150,8 @@ class Crawler():
                 depth_inc_pending = True
             page = dump.load_page(name, filter_top=True)
             if not page:
+                page_noload.append(name)
+                print('no page ' + name)
                 continue
             links = [l for l in dump.article_links
                      if Crawler.filter(name, l, graph, nodes)]
@@ -160,6 +164,7 @@ class Crawler():
                 depth_inc_pending = False
             if depth == depth_goal:
                 break
+        return page_noload
     
     @staticmethod
     def filter(page, link, graph, nodes=None):
