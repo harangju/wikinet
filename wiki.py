@@ -9,6 +9,45 @@ from gensim.models.doc2vec import TaggedDocument
 from gensim.utils import simple_preprocess
 
 class Dump():
+    """Dump loads and parses dumps from wikipedia.
+    
+    Attributes
+    ----------
+    idx: dictionary
+        Loaded index file as {'page_name': (byte offset, page id, block size)}
+        Cached. Lazily loaded (when needed).
+    links: list of stringns
+        All links.
+    article_links: list of strings
+        Article links (not files, categories, etc.)
+    page: mwparserfromhell.wikicode
+        Current loaded wiki page
+    path_xml: string
+        Path to the zipped XML dump file.
+    path_idx: string
+        Path to the zipped index file.
+    offset_max: int
+        Maximum offset. Set as the size of the zipped dump.
+    cache: xml.etree.ElementTree.Node
+        Cache of the XML tree in current block
+    
+    Methods
+    -------
+    load_page(page_name)
+        Loads page with page_name
+    
+    Static methods
+    --------------
+    fetch_block(path, offset, block_size)
+        Fetches block of bytes at offset in the zipped dump at path.
+        Returns uncompressed text.
+    search_id(root, pid)
+        Returns the text of the page with id pid
+    filter_top_section(text)
+        Returns the top section of text,
+        where the first header has the form '==Heading=='
+    """
+    
     def __init__(self, path_xml, path_idx):
         self._idx = {}
         self._links = []
@@ -105,6 +144,9 @@ class Dump():
         return text[:idx] #(text[:idx], text[idx:])
 
 class Corpus:
+    """Corpus is an iterable & an iterator
+    that uses Dump to iterate through articles.
+    """
     def __init__(self, path_xml, path_index):
         # init with dump, not paths
         self.dump = Dump(path_xml, path_index)
