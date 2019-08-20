@@ -140,7 +140,7 @@ class Dump():
             self.cache = (offset, root)
         text = Dump.search_id(root, pid)
         text = Dump.filter_top_section(text) if filter_top else text
-        self.page = mph.parse(text)
+        self.page = mph.parse(text, skip_style_tags = True)
         return self.page
     
     @staticmethod
