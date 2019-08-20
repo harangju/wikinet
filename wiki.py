@@ -179,13 +179,17 @@ class Dump():
         prepositions = ['about', 'around', 'after', 'at', 'as',
                         'approximately', 'before', 'between', 'by',
                         'during', 'from', 'in', 'near', 'past',
-                        'since', 'until', 'within']
-        # removed prepositions: on
+                        'since', 'until', 'within'] # removed: on
         conjugations = ['and']
-        patterns = months + prepositions + conjugations
-        re_string = r'\b(' + '|'.join(patterns) + r')\b \b([0-9]{3,4})'
-        return [int(match.group(2)) 
+        articles = ['the']
+        patterns = months + prepositions + conjugations + articles
+        re_string = r'\b(' + '|'.join(patterns) + r')\b \b([0-9]{3,4})s?\b\s?(BCE|BC)?'
+        years = [int(match.group(2)) * (-2*bool(match.group(3))+1)
                 for match in re.finditer(re_string, text, re.IGNORECASE)]
+        re_string = r'([0-9]{1,2})th century\s?(BCE|BC)?'
+        centuries = [(int(match.group(1)) * 100 - 100) * (-2*bool(match.group(2))+1)
+                     for match in re.finditer(re_string, text, re.IGNORECASE)]
+        return sorted(years + centuries)
 
 class Corpus:
     """Corpus is an iterable & an iterator
