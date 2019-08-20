@@ -16,7 +16,7 @@ class Dump():
     idx: dictionary
         Loaded index file as {'page_name': (byte offset, page id, block size)}
         Cached. Lazily loaded (when needed).
-    links: list of stringns
+    links: list of strings
         All links.
     article_links: list of strings
         Article links (not files, categories, etc.)
@@ -38,20 +38,26 @@ class Dump():
     
     Static methods
     --------------
-    fetch_block(path, offset, block_size)
+    fetch_block(path, offset, block_size) -> string
         Fetches block of bytes at offset in the zipped dump at path.
         Returns uncompressed text.
-    search_id(root, pid)
+    search_id(root, pid) -> string
         Returns the text of the page with id pid
-    filter_top_section(text)
+    filter_top_section(text) -> string
         Returns the top section of text,
         where the first header has the form '==Heading=='
+    get_history(page) -> string
+        Returns the text of the history section.
+        Returns None if not found.
+    filter_years(text) -> list of integers
+        Filters the years from text.
     """
     
     def __init__(self, path_xml, path_idx):
         self._idx = {}
         self._links = []
         self._article_links = []
+        self._years = []
         self._page = None
         self.path_xml = path_xml
         self.path_idx = path_idx
@@ -99,6 +105,17 @@ class Dump():
             return self._article_links
     article_links = property(get_article_links)
     
+    def get_years(self):
+        if self._years:
+            return self._years
+        elif self.page:
+            history = Dump.get_history(self.page)
+            self._years = Dump.filter_years(history) if history else []
+            return self._years
+        else:
+            return self._years
+    years = property(get_years)
+    
     def get_page(self):
         return self._page
     
@@ -106,6 +123,7 @@ class Dump():
         self._page = page
         self._links = []
         self._article_links = []
+        self._years = []
     page = property(get_page, set_page)
     
     def load_page(self, page_name, filter_top=False):
@@ -142,6 +160,32 @@ class Dump():
         head = re.search(r'==.*?==', text)
         idx = head.span(0)[0] if head else len(text)
         return text[:idx] #(text[:idx], text[idx:])
+    
+    @staticmethod
+    def get_history(page):
+        headings = page.filter_headings()
+        idx = [i for i, head in enumerate(headings) 
+                       if 'History' in head]
+        if not idx:
+            return
+        sections = page.get_sections(include_headings=True)
+        history = str(sections[idx[0]+1].strip_code())
+        return history
+    
+    @staticmethod
+    def filter_years(text):
+        months = ['january', 'february', 'march', 'april', 'may', 'june',
+                  'july', 'august', 'september', 'october', 'november', 'december']
+        prepositions = ['about', 'around', 'after', 'at', 'as',
+                        'approximately', 'before', 'between', 'by',
+                        'during', 'from', 'in', 'near', 'past',
+                        'since', 'until', 'within']
+        # removed prepositions: on
+        conjugations = ['and']
+        patterns = months + prepositions + conjugations
+        re_string = r'\b(' + '|'.join(patterns) + r')\b \b([0-9]{3,4})'
+        return [int(match.group(2)) 
+                for match in re.finditer(re_string, text, re.IGNORECASE)]
 
 class Corpus:
     """Corpus is an iterable & an iterator
