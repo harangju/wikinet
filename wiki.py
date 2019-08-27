@@ -222,7 +222,7 @@ class Corpus:
     
 class Crawler():
     @staticmethod
-    def bfs(graph, dump, queue, depth_goal=1, nodes=None):
+    def bfs(graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
         # all elements in queue & nodes should be of type string
         queue = queue.copy()
         page_noload = []
@@ -239,7 +239,7 @@ class Crawler():
                 depth += 1
                 print('\nDepth: ' + str(depth))
                 depth_inc_pending = True
-            page = dump.load_page(name, filter_top=True)
+            page = dump.load_page(name, filter_top=filter_top)
             if not page:
                 page_noload.append(name)
                 continue
