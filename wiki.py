@@ -29,6 +29,9 @@ class Dump():
         All links.
     article_links: list of strings
         Article links (not files, categories, etc.)
+    years: list of int
+        Years in the History section of a wikipedia page
+        BC denoted as negative values
     page: mwparserfromhell.wikicode
         Current loaded wiki page
     path_xml: string
