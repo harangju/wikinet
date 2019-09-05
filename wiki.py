@@ -4,6 +4,7 @@ Module: wiki
 contains classes
 - Dump
 - Corpus
+- Net
 - Crawler
 """
 
@@ -11,13 +12,15 @@ import sys
 import os
 import bz2
 import re
+import math
 import xml.etree.ElementTree as ET
 import mwparserfromhell as mph
 import networkx as nx
 from gensim.models.doc2vec import TaggedDocument
 from gensim.utils import simple_preprocess
+import dionysus as d
 
-class Dump():
+class Dump:
     """Dump loads and parses dumps from wikipedia.
     
     Attributes
@@ -231,34 +234,236 @@ class Corpus:
     def __getitem__(self, index):
         doc = self.dump.load_page(self.names[index])
         return simple_preprocess(doc.strip_code())
+
+class Net:
+    """ Net is a wrapper for networkx.DiGraph.
+    Uses dionysus for persistence homology.
     
-class Crawler():
+    Attributes
+    ----------
+    name: string
+        Name of network
+    graph: networkx.DiGraph
+        node name is name of wikipedia page
+        'Year' attribute indicates year
+    numbered: networkx.DiGraph (lazy)
+        node name is an index (see nodes)
+        'Year' is an index (see years)
+    nodes: list (lazy)
+        List of node names,
+        indexed by node in numbered
+    years: list (lazy)
+        List of years,
+        indexed by 'Year' attribute in numbered
+    nodes_for_year: dict (lazy)
+        Dictionary of {int year: [int node_index]}
+        (see nodes)
+    cliques: list of lists (lazy)
+    filtration: dionysus.filtration (lazy)
+    persistence: dionysus.reduced_matrix (lazy)
+    
+    Methods
+    -------
+    build_graph(path)
+    load_graph(path)
+    save_graph(path)
+    
+    Static methods
+    --------------        
+    fill_empty_nodes()
+    bft()
+    filter()
+    """
+    def __init__(self, name='', graph=None, 
+                 numbered=None, nodes=[], years=[], nodes_for_year={},
+                 cliques=[], filtration=None, persistence=None):
+        self.name = name
+        self.graph = graph
+        self._numbered = numbered
+        self._nodes = nodes
+        self._years = years
+        self._nodes_for_year = nodes_for_year
+        self._cliques = cliques
+        self._filtration = filtration
+        self._persistence = persistence
+    
+    def build_graph(self, dump, nodes=None, depth_goal=1, filter_top=True,
+                    remove_isolates=True, add_years=True, fill_empty_years=True):
+        """ Builds self.graph (networkx.Graph)
+        Parameters
+        ----------
+        dump: wiki.Dump
+        nodes: list of **strings**
+        depth_goal: int
+        filter_top: bool
+        add_years: bool
+        fill_empty_years: bool
+        """
+        self.graph = nx.DiGraph()
+        print('wiki.Net: traversing Wikipedia...')
+        Net.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
+                nodes=nodes, filter_top=filter_top)
+        if remove_isolates:
+            print('wiki.Net: removing isolates...')
+            self.graph.remove_nodes_from(nx.isolates(self.graph))
+        if add_years:
+            print('wiki.Net: adding years...')
+            for node in self.graph.nodes:
+                dump.load_page(node)
+                self.graph.nodes[node]['year'] = dump.years[0] if len(dump.years)>0 else []
+        if fill_empty_years:
+            print('wiki.Net: filling empty years...')
+            nodes_filled = True
+            while nodes_filled:
+                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=True)
+            nodes_filled = True
+            while nodes_filled:
+                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=False)
+            for node in self.graph.nodes:
+                if not self.graph.nodes[node]['year']:
+                    self.graph.nodes[node]['year'] = 2030#math.inf
+    
+    def get_numbered(self):
+        if self._numbered:
+            return self._numbered
+        else:
+            self._numbered = nx.DiGraph()
+            for node in self.graph.nodes:
+                self._numbered.add_node(self.nodes.index(node),
+                                        year = self.years.index(self.graph.nodes[node]['year']))
+                self._numbered.add_edges_from([(self.nodes.index(node), self.nodes.index(succ))
+                                               for succ in self.graph.successors(node)])
+            return self._numbered
+    numbered = property(get_numbered)
+    
+    def get_nodes(self):
+        if self._nodes:
+            return self._nodes
+        else:
+            self._nodes = [n for n in self.graph.nodes()]
+            return self._nodes
+    nodes = property(get_nodes)
+    
+    def get_years(self):
+        if self._years:
+            return self._years
+        else:
+            self._years = [self.graph.nodes[n]['year']
+                           for n in self.graph.nodes()]
+            self._years = sorted(list(set(self._years)))
+            return self._years
+    years = property(get_years)
+    
+    def get_nodes_for_year(self):
+        if self._nodes_for_year:
+            return self._nodes_for_year
+        else:
+            self._nodes_for_year = {year: [self.nodes.index(n)
+                                           for n in self.nodes
+                                           if self.graph.nodes[n]['year']==year]
+                                    for year in self.years}
+            return self._nodes_for_year
+    nodes_for_year = property(get_nodes_for_year)
+    
+    def get_cliques(self):
+        if self._cliques:
+            return self._cliques
+        else:
+            self._cliques = list(nx.algorithms.clique.\
+                                 enumerate_all_cliques(nx.Graph(self.numbered)))
+            return self._cliques
+    cliques = property(get_cliques)
+    
+    def get_filtration(self):
+        if self._filtration != None:
+            return self._filtration
+        else:
+            self._filtration = d.Filtration()
+            nodes_so_far = []
+            for year in self.years:
+                nodes_now = self.nodes_for_year[year]
+                nodes_so_far.extend(nodes_now)
+                for clique in self.cliques:
+                    if all([n in nodes_so_far for n in clique]):
+                        self._filtration.append(d.Simplex(clique, year))
+            self._filtration.sort()
+            return self._filtration
+    filtration = property(get_filtration)
+    
+    def get_persistence(self):
+        if self._persistence:
+            return self._persistence
+        else:
+            self._persistence = d.homology_persistence(self.filtration)
+            return self._persistence
+    persistence = property(get_persistence)
+    
+    def load_graph(self, path):
+        self.graph = nx.read_gexf(path)
+        return self.graph
+    
+    def save_graph(self, path):
+        nx.write_gexf(self.graph, path)
+    
     @staticmethod
-    def bfs(graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
+    def fill_empty_nodes(graph, full_parents=True):
         """
+        Returns
+        -------
+        bool
+            whether at least 1 empty node was filled
         """
-        # all elements in queue & nodes should be of type string
+        empty_nodes = [n for n in graph.nodes if not graph.nodes[n]['year']]
+        for node in empty_nodes:
+            years = [graph.nodes[p]['year'] for p in graph.predecessors(node)]
+            if not years:
+                continue
+            if full_parents:
+                if [] not in years:
+                    graph.nodes[node]['year'] = max(years)
+                    return True
+            else:
+                years_filtered = [y for y in years if y]
+                if years_filtered:
+                    graph.nodes[node]['year'] = max(years_filtered)
+                    return True
+        return False
+    
+    @staticmethod
+    def bft(graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
+        """ breadth-first traversal
+        Parameters
+        ----------
+        graph: networkx.DiGraph
+        dump: wiki.Dump
+        queue: list of **strings**
+            names of Wikipedia pages
+        depth_goal: int
+        nodes: list of **strings**
+            names of Wikipedia pages
+        filter_top: bool
+        """
         queue = queue.copy()
         page_noload = []
         depth = 0
         depth_num_items = len(queue)
         depth_inc_pending = False
-        print('Depth: ' + str(depth))
+        print('wiki.Net: depth = ' + str(depth))
         while queue:
             name = queue.pop(0)
-            sys.stdout.write("\rCrawler: len(queue) = " + str(len(queue)))
+            sys.stdout.write("\rwiki.Net: len(queue) = " + str(len(queue)))
             sys.stdout.flush()
             depth_num_items -= 1
             if depth_num_items == 0:
                 depth += 1
-                print('\nDepth: ' + str(depth))
+                print('\nwiki.Net: depth = ' + str(depth))
                 depth_inc_pending = True
             page = dump.load_page(name, filter_top=filter_top)
             if not page:
                 page_noload.append(name)
                 continue
             links = [l for l in dump.article_links
-                     if Crawler.filter(name, l, graph, nodes)]
+                     if Net.filter(name, l, graph, nodes)]
             for link in links:
                 graph.add_edge(link, name, weight=1)
                 if link not in queue:
@@ -267,6 +472,7 @@ class Crawler():
                 depth_num_items = len(queue)
                 depth_inc_pending = False
             if depth == depth_goal:
+                print('')
                 break
         return page_noload
     
