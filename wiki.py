@@ -1,3 +1,12 @@
+"""
+Module: wiki
+
+contains classes
+- Dump
+- Corpus
+- Crawler
+"""
+
 import sys
 import os
 import bz2
@@ -216,13 +225,15 @@ class Corpus:
         else:
             raise StopIteration
     
-    def doc_at(self, index):
+    def __getitem__(self, index):
         doc = self.dump.load_page(self.names[index])
         return simple_preprocess(doc.strip_code())
     
 class Crawler():
     @staticmethod
     def bfs(graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
+        """
+        """
         # all elements in queue & nodes should be of type string
         queue = queue.copy()
         page_noload = []
