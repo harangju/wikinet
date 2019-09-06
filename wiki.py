@@ -326,7 +326,7 @@ class Net:
                 nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=False)
             for node in self.graph.nodes:
                 if not self.graph.nodes[node]['year']:
-                    self.graph.nodes[node]['year'] = 2030#math.inf
+                    self.graph.nodes[node]['year'] = 2020#math.inf
     
     def get_numbered(self):
         if self._numbered:
@@ -410,8 +410,7 @@ class Net:
         else:
             self._barcodes = Net.compute_barcodes(self.filtration,
                                                   self.persistence,
-                                                  self.graph,
-                                                  self.nodes)
+                                                  self.graph, self.nodes)
             return self._barcodes
     barcodes = property(get_barcodes)
     
@@ -542,9 +541,9 @@ class Net:
                 barcodes.append([dim, birth_year, np.inf,
                                  birth_simplex, [], []])
         print('')
+        barcodes.sort(key=lambda x: x[0])
         bar_data = pd.DataFrame(data=barcodes,
                                 columns=['dim', 'birth', 'death',
                                          'birth simplex', 'death nodes',
                                          'death simplex'])
-        bar_data.sort_values(by=['dim','birth'])
         return bar_data
