@@ -19,6 +19,8 @@ import networkx as nx
 from gensim.models.doc2vec import TaggedDocument
 from gensim.utils import simple_preprocess
 import dionysus as d
+import pandas as pd
+import numpy as np
 
 class Dump:
     """Dump loads and parses dumps from wikipedia.
@@ -261,6 +263,7 @@ class Net:
     cliques: list of lists (lazy)
     filtration: dionysus.filtration (lazy)
     persistence: dionysus.reduced_matrix (lazy)
+    barcodes: pandas.DataFrame (lazy)
     
     Methods
     -------
@@ -274,9 +277,10 @@ class Net:
     bft()
     filter()
     """
-    def __init__(self, name='', graph=None, 
-                 numbered=None, nodes=[], years=[], nodes_for_year={},
-                 cliques=[], filtration=None, persistence=None):
+    def __init__(self, name='', graph=None, numbered=None,
+                 nodes=[], years=[], nodes_for_year={},
+                 cliques=[], filtration=None,
+                 persistence=None, barcodes=None):
         self.name = name
         self.graph = graph
         self._numbered = numbered
@@ -286,10 +290,11 @@ class Net:
         self._cliques = cliques
         self._filtration = filtration
         self._persistence = persistence
+        self._barcodes = barcodes
     
     def build_graph(self, dump, nodes=None, depth_goal=1, filter_top=True,
                     remove_isolates=True, add_years=True, fill_empty_years=True):
-        """ Builds self.graph (networkx.Graph)
+        """ Builds self.graph (networkx.Graph) from nodes
         Parameters
         ----------
         dump: wiki.Dump
@@ -398,6 +403,18 @@ class Net:
             return self._persistence
     persistence = property(get_persistence)
     
+    def get_barcodes(self):
+        if isinstance(self._barcodes, pd.DataFrame)\
+            and len(self._barcodes.index) != 0:
+            return self._barcodes
+        else:
+            self._barcodes = Net.compute_barcodes(self.filtration,
+                                                  self.persistence,
+                                                  self.graph,
+                                                  self.nodes)
+            return self._barcodes
+    barcodes = property(get_barcodes)
+    
     def load_graph(self, path):
         self.graph = nx.read_gexf(path)
     
@@ -407,6 +424,12 @@ class Net:
     @staticmethod
     def fill_empty_nodes(graph, full_parents=True):
         """
+        Parameters
+        ----------
+        graph: networkx.DiGraph
+        full_parents: bool
+            whether to fill empty nodes that have
+            all parents with non-empty 'year'
         Returns
         -------
         bool
@@ -482,3 +505,46 @@ class Net:
         if (page, link) in graph.edges:
             return False
         return True
+    
+    @staticmethod
+    def compute_barcodes(f, m, graph, names):
+        """ Uses dionysus filtration & persistence
+        (in reduced matrix form) to compute barcodes
+        Parameters
+        ----------
+        f: dionysus.Filtration
+        m: dionysus.ReducedMatrix
+            (see homology_persistence)
+        names: list of strings
+            names of node indices
+        Returns
+        -------
+        barcodes: pandas.DataFrame
+        """
+        print('wiki.Net: computing barcodes... (skip negatives)')
+        barcodes = []
+        for i in range(len(m)):
+            if m.pair(i) < i: continue
+            sys.stdout.write("\rwiki.Net: barcode {}/{}".\
+                             format(i+1,len(m)))
+            sys.stdout.flush()
+            dim = f[i].dimension()
+            birth_year = int(f[i].data)
+            birth_simplex = [names[s] for s in f[i]]
+            if m.pair(i) != m.unpaired:
+                death_year = int(f[m.pair(i)].data)
+                death_simplex = [names[s] for s in f[m.pair(i)]]
+                death_nodes = [n for n in death_simplex
+                               if death_year==graph.nodes[n]['year']]
+                barcodes.append([dim, birth_year, death_year,
+                                 birth_simplex, death_nodes, death_simplex])
+            else:
+                barcodes.append([dim, birth_year, np.inf,
+                                 birth_simplex, [], []])
+        print('')
+        bar_data = pd.DataFrame(data=barcodes,
+                                columns=['dim', 'birth', 'death',
+                                         'birth simplex', 'death nodes',
+                                         'death simplex'])
+        bar_data.sort_values(by=['dim','birth'])
+        return bar_data
