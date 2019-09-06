@@ -400,7 +400,6 @@ class Net:
     
     def load_graph(self, path):
         self.graph = nx.read_gexf(path)
-        return self.graph
     
     def save_graph(self, path):
         nx.write_gexf(self.graph, path)
