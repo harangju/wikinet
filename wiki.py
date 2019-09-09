@@ -530,20 +530,24 @@ class Net:
             dim = f[i].dimension()
             birth_year = int(f[i].data)
             birth_simplex = [names[s] for s in f[i]]
+            birth_nodes = [n for n in birth_simplex
+                           if graph.nodes[n]['year']==birth_year]
             if m.pair(i) != m.unpaired:
                 death_year = int(f[m.pair(i)].data)
                 death_simplex = [names[s] for s in f[m.pair(i)]]
                 death_nodes = [n for n in death_simplex
-                               if death_year==graph.nodes[n]['year']]
-                barcodes.append([dim, birth_year, death_year,
-                                 birth_simplex, death_nodes, death_simplex])
+                               if graph.nodes[n]['year']==death_year]
             else:
-                barcodes.append([dim, birth_year, np.inf,
-                                 birth_simplex, [], []])
+                death_year = np.inf
+                death_simplex = []
+                death_nodes = []
+            barcodes.append([dim, birth_year, death_year,
+                             birth_simplex, death_simplex,
+                             birth_nodes, death_nodes])
         print('')
         barcodes.sort(key=lambda x: x[0])
         bar_data = pd.DataFrame(data=barcodes,
                                 columns=['dim', 'birth', 'death',
-                                         'birth simplex', 'death nodes',
-                                         'death simplex'])
+                                         'birth simplex', 'death simplex',
+                                         'birth nodes', 'death nodes'])
         return bar_data
