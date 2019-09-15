@@ -213,9 +213,8 @@ class Corpus:
     """Corpus is an iterable & an iterator
     that uses Dump to iterate through articles.
     """
-    def __init__(self, path_xml, path_index):
-        # init with dump, not paths
-        self.dump = Dump(path_xml, path_index)
+    def __init__(self, dump):
+        self.dump = dump
         self.names = list(self.dump.idx.keys())
     
     def __iter__(self):
