@@ -213,9 +213,20 @@ class Corpus:
     """Corpus is an iterable & an iterator
     that uses Dump to iterate through articles.
     """
-    def __init__(self, dump):
+    def __init__(self, dump, output='doc', dct=None):
+        """
+        dump: wiki.Dump
+        output: string
+            'doc' for array of documents
+            'tag' for TaggedDocument(doc, [self.i])
+            'bow' for bag of words [(int, int)]
+        dct: gensim.corpus.Dictionary
+            used to create BoW representation
+        """
         self.dump = dump
         self.names = list(self.dump.idx.keys())
+        self.output = output
+        self.dct = dct
     
     def __iter__(self):
         self.i = 0
@@ -223,10 +234,15 @@ class Corpus:
     
     def __next__(self):
         if self.i < len(self.names):
-            sys.stdout.write("\rCorpus index: " + str(self.i) + 
+            sys.stdout.write("\rCorpus index: " + str(self.i+1) + 
                              '/' + str(len(self.names)))
             sys.stdout.flush()
-            doc = TaggedDocument(self.doc_at(self.i), [self.i])
+            if self.output == 'doc':
+                doc = self[self.i]
+            elif self.output == 'tag':
+                doc = TaggedDocument(self[self.i], [self.i])
+            elif self.output == 'bow':
+                doc = self.dct.doc2bow(self[self.i])
             self.i += 1
             return doc
         else:
