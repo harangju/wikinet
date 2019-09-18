@@ -162,25 +162,25 @@ class Dump:
         return self.page
     
     @staticmethod
-    def fetch_block(path, offset, block_size):
+    def fetch_block(cls, path, offset, block_size):
         with open(path, 'rb') as file:
             file.seek(offset)
             return bz2.decompress(file.read(block_size))
     
     @staticmethod
-    def search_id(root, pid):
+    def search_id(cls, root, pid):
         for page in root.iter('page'):
             if pid == int(page.find('id').text):
                 return page.find('revision').find('text').text
     
     @staticmethod
-    def filter_top_section(text):
+    def filter_top_section(cls, text):
         head = re.search(r'==.*?==', text)
         idx = head.span(0)[0] if head else len(text)
         return text[:idx] #(text[:idx], text[idx:])
     
     @staticmethod
-    def get_history(page):
+    def get_history(cls, page):
         headings = page.filter_headings()
         idx = [i for i, head in enumerate(headings) 
                        if 'History' in head]
@@ -191,7 +191,7 @@ class Dump:
         return history
     
     @staticmethod
-    def filter_years(text):
+    def filter_years(cls, text):
         months = ['january', 'february', 'march', 'april', 'may', 'june',
                   'july', 'august', 'september', 'october', 'november', 'december']
         prepositions = ['about', 'around', 'after', 'at', 'as',
@@ -462,7 +462,7 @@ class Net:
         pickle.dump(self.barcodes, open(path, 'wb'))
     
     @staticmethod
-    def fill_empty_nodes(graph, full_parents=True):
+    def fill_empty_nodes(cls, graph, full_parents=True):
         """
         Parameters
         ----------
@@ -494,7 +494,7 @@ class Net:
         return False
     
     @staticmethod
-    def bft(graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
+    def bft(cls, graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
         """ breadth-first traversal
         Parameters
         ----------
@@ -541,7 +541,7 @@ class Net:
         return page_noload
     
     @staticmethod
-    def filter(page, link, graph, nodes=None):
+    def filter(cls, page, link, graph, nodes=None):
         if nodes and link not in nodes:
             return False
         if (page, link) in graph.edges:
@@ -549,7 +549,7 @@ class Net:
         return True
     
     @staticmethod
-    def compute_barcodes(f, m, graph, names):
+    def compute_barcodes(cls, f, m, graph, names):
         """ Uses dionysus filtration & persistence
         (in reduced matrix form) to compute barcodes
         Parameters
