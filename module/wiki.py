@@ -298,6 +298,7 @@ class Net:
     save_graph(path)
     load_barcodes(path)
     save_barcodes(path)
+        NOTE: computes barcodes to save
     
     Static methods
     --------------        
@@ -458,7 +459,7 @@ class Net:
         self._barcodes = pickle.load(open(path, 'rb'))
     
     def save_barcodes(self, path):
-        pickle.dump(self._barcodes, open(path, 'wb'))
+        pickle.dump(self.barcodes, open(path, 'wb'))
     
     @staticmethod
     def fill_empty_nodes(graph, full_parents=True):
