@@ -292,6 +292,8 @@ class Net:
     bft()
     filter()
     """
+    max_years = 2020
+    
     def __init__(self, name='', graph=None, numbered=None,
                  nodes=[], years=[], nodes_for_year={},
                  cliques=[], filtration=None,
@@ -308,7 +310,8 @@ class Net:
         self._barcodes = barcodes
     
     def build_graph(self, dump, nodes=None, depth_goal=1, filter_top=True,
-                    remove_isolates=True, add_years=True, fill_empty_years=True):
+                    remove_isolates=True, add_years=True, fill_empty_years=True,
+                    calculate_weigths=True):
         """ Builds self.graph (networkx.Graph) from nodes
         Parameters
         ----------
@@ -342,6 +345,8 @@ class Net:
             for node in self.graph.nodes:
                 if not self.graph.nodes[node]['year']:
                     self.graph.nodes[node]['year'] = 2020#math.inf
+        if calculate_weights:
+            print('wiki.Net: calculating weights...')
     
     def get_numbered(self):
         if self._numbered:
