@@ -13,6 +13,7 @@ import os
 import bz2
 import re
 import math
+import pickle
 import xml.etree.ElementTree as ET
 import mwparserfromhell as mph
 import networkx as nx
@@ -285,6 +286,8 @@ class Net:
     build_graph(path)
     load_graph(path)
     save_graph(path)
+    load_barcodes(path)
+    save_barcodes(path)
     
     Static methods
     --------------        
@@ -439,6 +442,12 @@ class Net:
     
     def save_graph(self, path):
         nx.write_gexf(self.graph, path)
+    
+    def load_barcodes(self, path):
+        self._barcodes = pickle.load(open(path, 'rb'))
+    
+    def save_barcodes(self, path):
+        pickle.dump(self._barcodes, open(path, 'wb'))
     
     @staticmethod
     def fill_empty_nodes(graph, full_parents=True):
