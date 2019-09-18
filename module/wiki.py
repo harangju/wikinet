@@ -127,8 +127,8 @@ class Dump:
         if self._years:
             return self._years
         elif self.page:
-            history = Dump.get_history(self.page)
-            self._years = Dump.filter_years(history) if history else []
+            history = cls.get_history(self.page)
+            self._years = cls.filter_years(history) if history else []
             return self._years
         else:
             return self._years
@@ -152,12 +152,12 @@ class Dump:
         if offset == self.cache[0]:
             root = self.cache[1]
         else:
-            xml = Dump.fetch_block(self.path_xml, offset, block_size)
+            xml = cls.fetch_block(self.path_xml, offset, block_size)
             xml = b'<mediawiki>' + xml + b'</mediawiki>'*(offset != self.offset_max)
             root = ET.fromstring(xml)
             self.cache = (offset, root)
-        text = Dump.search_id(root, pid)
-        text = Dump.filter_top_section(text) if filter_top else text
+        text = cls.search_id(root, pid)
+        text = cls.filter_top_section(text) if filter_top else text
         self.page = mph.parse(text, skip_style_tags = True)
         return self.page
     
@@ -281,6 +281,16 @@ class Net:
     persistence: dionysus.reduced_matrix (lazy)
     barcodes: pandas.DataFrame (lazy)
     
+    Class attributes
+    ----------------
+    MAX_YEAR: int
+        when calling fill_empty_nodes(),
+        year = MAX_YEAR for nodes with
+        parents without years
+    YEAR_FILLED_DELTA: int
+        when calling fill_empty_nodes(),
+        year = year of parents + YEAR_FILLED_DELTA
+    
     Methods
     -------
     build_graph(path)
@@ -295,7 +305,8 @@ class Net:
     bft()
     filter()
     """
-    max_years = 2020
+    MAX_YEAR = 2020
+    YEAR_FILLED_DELTA = 1
     
     def __init__(self, name='', graph=None, numbered=None,
                  nodes=[], years=[], nodes_for_year={},
@@ -327,7 +338,7 @@ class Net:
         """
         self.graph = nx.DiGraph()
         print('wiki.Net: traversing Wikipedia...')
-        Net.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
+        cls.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
                 nodes=nodes, filter_top=filter_top)
         if remove_isolates:
             print('wiki.Net: removing isolates...')
@@ -341,13 +352,13 @@ class Net:
             print('wiki.Net: filling empty years...')
             nodes_filled = True
             while nodes_filled:
-                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=True)
+                nodes_filled = cls.fill_empty_nodes(self.graph, full_parents=True)
             nodes_filled = True
             while nodes_filled:
-                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=False)
+                nodes_filled = cls.fill_empty_nodes(self.graph, full_parents=False)
             for node in self.graph.nodes:
                 if not self.graph.nodes[node]['year']:
-                    self.graph.nodes[node]['year'] = 2020#math.inf
+                    self.graph.nodes[node]['year'] = cls.MAX_YEAR
         if calculate_weights:
             print('wiki.Net: calculating weights...')
     
@@ -431,7 +442,7 @@ class Net:
             and len(self._barcodes.index) != 0:
             return self._barcodes
         else:
-            self._barcodes = Net.compute_barcodes(self.filtration,
+            self._barcodes = cls.compute_barcodes(self.filtration,
                                                   self.persistence,
                                                   self.graph, self.nodes)
             return self._barcodes
@@ -470,12 +481,14 @@ class Net:
                 continue
             if full_parents:
                 if [] not in years:
-                    graph.nodes[node]['year'] = max(years)
+                    graph.nodes[node]['year'] = max(years) \
+                                                + cls.YEAR_FILLED_DELTA
                     return True
             else:
                 years_filtered = [y for y in years if y]
                 if years_filtered:
-                    graph.nodes[node]['year'] = max(years_filtered)
+                    graph.nodes[node]['year'] = max(years_filtered) \
+                                                + cls.YEAR_FILLED_DELTA
                     return True
         return False
     
@@ -513,7 +526,7 @@ class Net:
                 page_noload.append(name)
                 continue
             links = [l for l in dump.article_links
-                     if Net.filter(name, l, graph, nodes)]
+                     if cls.filter(name, l, graph, nodes)]
             for link in links:
                 graph.add_edge(link, name, weight=1)
                 if link not in queue:
