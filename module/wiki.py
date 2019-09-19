@@ -14,14 +14,15 @@ import bz2
 import re
 import math
 import pickle
-import xml.etree.ElementTree as ET
-import mwparserfromhell as mph
-import networkx as nx
-from gensim.models.doc2vec import TaggedDocument
-from gensim.utils import simple_preprocess
-import dionysus as d
-import pandas as pd
 import numpy as np
+import pandas as pd
+import dionysus as d
+import networkx as nx
+import gensim.utils as gu
+import gensim.models as gm
+import mwparserfromhell as mph
+import xml.etree.ElementTree as ET
+import sklearn.metrics.pairwise as smp
 
 class Dump:
     """Dump loads and parses dumps from wikipedia.
@@ -241,7 +242,7 @@ class Corpus:
             if self.output == 'doc':
                 doc = self[self.i]
             elif self.output == 'tag':
-                doc = TaggedDocument(self[self.i], [self.i])
+                doc = gm.doc2vec.TaggedDocument(self[self.i], [self.i])
             elif self.output == 'bow':
                 doc = self.dct.doc2bow(self[self.i])
             self.i += 1
@@ -251,7 +252,7 @@ class Corpus:
     
     def __getitem__(self, index):
         doc = self.dump.load_page(self.names[index])
-        return simple_preprocess(doc.strip_code())
+        return gu.simple_preprocess(doc.strip_code())
 
 class Net:
     """ Net is a wrapper for networkx.DiGraph.
@@ -326,7 +327,7 @@ class Net:
     
     def build_graph(self, dump, nodes=None, depth_goal=1, filter_top=True,
                     remove_isolates=True, add_years=True, fill_empty_years=True,
-                    calculate_weigths=True):
+                    calculate_weights=False, model=None, dct=):
         """ Builds self.graph (networkx.Graph) from nodes
         Parameters
         ----------
@@ -336,6 +337,7 @@ class Net:
         filter_top: bool
         add_years: bool
         fill_empty_years: bool
+        calculate_weights: bool
         """
         self.graph = nx.DiGraph()
         print('wiki.Net: traversing Wikipedia...')
