@@ -510,7 +510,6 @@ class Net:
         filter_top: bool
         """
         queue = queue.copy()
-        page_noload = []
         depth = 0
         depth_num_items = len(queue)
         depth_inc_pending = False
@@ -525,9 +524,7 @@ class Net:
                 print('\nwiki.Net: depth = ' + str(depth))
                 depth_inc_pending = True
             page = dump.load_page(name, filter_top=filter_top)
-            if not page:
-                page_noload.append(name)
-                continue
+            if not page: continue
             links = [l for l in dump.article_links
                      if Net.filter(name, l, graph, nodes)]
             for link in links:
@@ -540,7 +537,6 @@ class Net:
             if depth == depth_goal:
                 print('')
                 break
-        return page_noload
     
     @staticmethod
     def filter(page, link, graph, nodes=None):
