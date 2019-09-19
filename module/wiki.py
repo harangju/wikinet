@@ -306,6 +306,7 @@ class Net:
     fill_empty_nodes()
     bft()
     filter()
+    set_weights()
     """
     MAX_YEAR = 2020
     YEAR_FILLED_DELTA = 1
@@ -327,7 +328,7 @@ class Net:
     
     def build_graph(self, dump, nodes=None, depth_goal=1, filter_top=True,
                     remove_isolates=True, add_years=True, fill_empty_years=True,
-                    calculate_weights=False, model=None, dct=):
+                    model=None, dct=None):
         """ Builds self.graph (networkx.Graph) from nodes
         Parameters
         ----------
@@ -338,11 +339,14 @@ class Net:
         add_years: bool
         fill_empty_years: bool
         calculate_weights: bool
+        model: gensim.modes.tfidfmodel.TfidfModel
+            set model & dct to calculate edge weights
+        dct: gensim.corpora.Dictionary
         """
         self.graph = nx.DiGraph()
         print('wiki.Net: traversing Wikipedia...')
         Net.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
-                nodes=nodes, filter_top=filter_top)
+                nodes=nodes, filter_top=filter_top, model=model, dct=dct)
         if remove_isolates:
             print('wiki.Net: removing isolates...')
             self.graph.remove_nodes_from(nx.isolates(self.graph))
@@ -362,8 +366,9 @@ class Net:
             for node in self.graph.nodes:
                 if not self.graph.nodes[node]['year']:
                     self.graph.nodes[node]['year'] = Net.MAX_YEAR
-        if calculate_weights:
+        if model and dct:
             print('wiki.Net: calculating weights...')
+            Net.set_weights(graph, dump, model, dct)
     
     def get_numbered(self):
         if self._numbered:
@@ -545,6 +550,20 @@ class Net:
         if (page, link) in graph.edges:
             return False
         return True
+    
+    @staticmethod
+    def set_weights(graph, dump, model, dct):
+        """
+        graph: networkx.DiGraph
+        dump: wiki.Dump
+        model: gensim.modes.tfidfmodel.TfidfModel
+        dct: gensim.corpora.Dictionary
+        """
+        for n1, n2 in graph.edges:
+            p1 = gu.simple_preprocess(dump.load_page(n1).strip_code())
+            p2 = gu.simple_preprocess(dump.load_page(n2).strip_code())
+            graph[n1][n2]['weight'] = smp.cosine_similarity(X=model[dct.doc2bow(p1)],
+                                                            Y=model[dct.doc2bow(p2)])
     
     @staticmethod
     def compute_barcodes(f, m, graph, names):
