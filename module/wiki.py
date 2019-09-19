@@ -326,7 +326,7 @@ class Net:
         self._persistence = persistence
         self._barcodes = barcodes
     
-    def build_graph(self, dump, nodes=None, depth_goal=1, filter_top=True,
+    def build_graph(self, dump=None, nodes=None, depth_goal=1, filter_top=True,
                     remove_isolates=True, add_years=True, fill_empty_years=True,
                     model=None, dct=None):
         """ Builds self.graph (networkx.Graph) from nodes
@@ -344,6 +344,8 @@ class Net:
         dct: gensim.corpora.Dictionary
         """
         self.graph = nx.DiGraph()
+        if not dump:
+            raise AttributeError('wiki.Net: Provide wiki.Dump object.')
         print('wiki.Net: traversing Wikipedia...')
         Net.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
                 nodes=nodes, filter_top=filter_top, model=model, dct=dct)
