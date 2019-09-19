@@ -265,22 +265,25 @@ class Net:
     graph: networkx.DiGraph
         node name is name of wikipedia page
         'Year' attribute indicates year
-    numbered: networkx.DiGraph (lazy)
+    
+    Attributes (lazy)
+    -----------------
+    numbered: networkx.DiGraph
         node name is an index (see nodes)
         'Year' is an index (see years)
-    nodes: list (lazy)
+    nodes: list
         List of node names,
         indexed by node in numbered
-    years: list (lazy)
+    years: list
         List of years,
         indexed by 'Year' attribute in numbered
-    nodes_for_year: dict (lazy)
+    nodes_for_year: dict
         Dictionary of {int year: [int node_index]}
         (see nodes)
-    cliques: list of lists (lazy)
-    filtration: dionysus.filtration (lazy)
-    persistence: dionysus.reduced_matrix (lazy)
-    barcodes: pandas.DataFrame (lazy)
+    cliques: list of lists
+    filtration: dionysus.filtration
+    persistence: dionysus.reduced_matrix
+    barcodes: pandas.DataFrame
     
     Class attributes
     ----------------
@@ -311,20 +314,16 @@ class Net:
     MAX_YEAR = 2020
     YEAR_FILLED_DELTA = 1
     
-    def __init__(self, name='', graph=None, numbered=None,
-                 nodes=[], years=[], nodes_for_year={},
-                 cliques=[], filtration=None,
-                 persistence=None, barcodes=None):
-        self.name = name
-        self.graph = graph
-        self._numbered = numbered
-        self._nodes = nodes
-        self._years = years
-        self._nodes_for_year = nodes_for_year
-        self._cliques = cliques
-        self._filtration = filtration
-        self._persistence = persistence
-        self._barcodes = barcodes
+    def __init__(self):
+        self.graph = None
+        self._numbered = None
+        self._nodes = []
+        self._years = []
+        self._nodes_for_year = {}
+        self._cliques = None
+        self._filtration = None
+        self._persistence = None
+        self._barcodes = None
     
     def build_graph(self, dump=None, nodes=None, depth_goal=1, filter_top=True,
                     remove_isolates=True, add_years=True, fill_empty_years=True,
@@ -542,7 +541,6 @@ class Net:
                 depth_num_items = len(queue)
                 depth_inc_pending = False
             if depth == depth_goal:
-                print('')
                 break
     
     @staticmethod
