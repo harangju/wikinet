@@ -5,7 +5,7 @@ This repository contains code for analysis used in `Ju et al. (2019) <https://go
 
 Install
 =======
-Code developed using `python 3.7.3` and `jupyter notebook`. See Docker setup.
+Code developed using ``python 3.7.3`` and ``jupyter notebook``.
 
 Get started
 ===========

@@ -15,13 +15,14 @@ import xml.etree.ElementTree as ET
 import sklearn.metrics.pairwise as smp
 
 class Dump:
-    """``Dump`` loads and parses dumps from wikipedia.
+    """``Dump`` loads and parses dumps from wikipedia from
+    ``path_xml`` with index ``path_idx``.
     
     Attributes
     ----------
     idx: dictionary
-        Loaded index file as {'page_name': (byte offset, page id, block size)}
-        Cached. Lazily loaded (when needed).
+        ``{'page_name': (byte offset, page id, block size)}``
+        Cached. Lazy.
     links: list of strings
         All links.
     article_links: list of strings
@@ -108,7 +109,7 @@ class Dump:
     def page(self):
         return self._page
     
-    @value.setter
+    @page.setter
     def page(self, page):
         self._page = page
         self._links = []
@@ -256,23 +257,16 @@ class Net:
         ``year`` is an index (see years)
     nodes: list
         List of node names,
-        indexed by node in numbered
+        indexed by node in ``numbered``
     years: list
         List of years,
-        indexed by ``year`` attribute in numbered
+        indexed by ``year`` in ``numbered``
     nodes_for_year: dict
-        Dictionary of {int year: [int node_index]}
-        (see nodes)
+        ``{int year: [int node_index]}``
     cliques: list of lists
-        each item is a list of nodes in a clique
     filtration: dionysus.filtration
-        see dionysus
     persistence: dionysus.reduced_matrix
-        see dionysus
     barcodes: pandas.DataFrame
-        ``dim``, ``birth``, ``death``,
-        ``birth simplex``, ``death simplex``
-        ``birth nodes``, ``death nodes``
     MAX_YEAR: int
         ``year = MAX_YEAR`` for nodes with parents without years
     YEAR_FILLED_DELTA: int
@@ -391,10 +385,10 @@ class Net:
         filter_top: bool
         add_years: bool
         fill_empty_years: bool
-        calculate_weights: bool
-        model: gensim.modes.tfidfmodel.TfidfModel
-            set model & dct to calculate edge weights
+        model: gensim.models.tfidfmodel.TfidfModel
+            set for weighted edges
         dct: gensim.corpora.Dictionary
+            set for weighted edges
         """
         self.graph = nx.DiGraph()
         if not dump:
