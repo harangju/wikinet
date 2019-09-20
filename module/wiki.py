@@ -347,7 +347,7 @@ class Net:
             raise AttributeError('wiki.Net: Provide wiki.Dump object.')
         print('wiki.Net: traversing Wikipedia...')
         Net.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
-                nodes=nodes, filter_top=filter_top, model=model, dct=dct)
+                nodes=nodes, filter_top=filter_top)
         if remove_isolates:
             print('wiki.Net: removing isolates...')
             self.graph.remove_nodes_from(nx.isolates(self.graph))
