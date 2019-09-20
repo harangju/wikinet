@@ -52,7 +52,8 @@ class Dump:
         self.offset_max = 0
         self.cache = (0, None) # offset, cache
         
-    def get_idx(self):
+    @property
+    def idx(self):
         if self._idx:
             return self._idx
         else:
@@ -70,9 +71,9 @@ class Dump:
             self.offset_max = max([x[0] for x in self._idx.values()])
             print('Dump: Loaded.')
             return self._idx
-    idx = property(get_idx)
     
-    def get_links(self):
+    @property
+    def links(self):
         if self._links:
             return self._links
         elif self.page:
@@ -81,9 +82,9 @@ class Dump:
             return self._links
         else:
             return self._links
-    links = property(get_links)
     
-    def get_article_links(self):
+    @property
+    def article_links(self):
         if self._article_links:
             return self._article_links
         elif self.links:
@@ -91,9 +92,9 @@ class Dump:
             return self._article_links
         else:
             return self._article_links
-    article_links = property(get_article_links)
     
-    def get_years(self):
+    @property
+    def years(self):
         if self._years:
             return self._years
         elif self.page:
@@ -102,17 +103,17 @@ class Dump:
             return self._years
         else:
             return self._years
-    years = property(get_years)
     
-    def get_page(self):
+    @property
+    def page(self):
         return self._page
     
-    def set_page(self, page):
+    @value.setter
+    def page(self, page):
         self._page = page
         self._links = []
         self._article_links = []
         self._years = []
-    page = property(get_page, set_page)
     
     def load_page(self, page_name, filter_top=False):
         """Loads & returs page (``mwparserfromhell.wikicode``)
@@ -291,7 +292,8 @@ class Net:
         self._persistence = None
         self._barcodes = None
     
-    def get_numbered(self):
+    @property
+    def numbered(self):
         if self._numbered:
             return self._numbered
         else:
@@ -302,17 +304,17 @@ class Net:
                 self._numbered.add_edges_from([(self.nodes.index(node), self.nodes.index(succ))
                                                for succ in self.graph.successors(node)])
             return self._numbered
-    numbered = property(get_numbered)
     
-    def get_nodes(self):
+    @property
+    def nodes(self):
         if self._nodes:
             return self._nodes
         else:
             self._nodes = [n for n in self.graph.nodes()]
             return self._nodes
-    nodes = property(get_nodes)
     
-    def get_years(self):
+    @property
+    def years(self):
         if self._years:
             return self._years
         else:
@@ -320,9 +322,9 @@ class Net:
                            for n in self.graph.nodes()]
             self._years = sorted(list(set(self._years)))
             return self._years
-    years = property(get_years)
     
-    def get_nodes_for_year(self):
+    @property
+    def nodes_for_year(self):
         if self._nodes_for_year:
             return self._nodes_for_year
         else:
@@ -331,18 +333,18 @@ class Net:
                                            if self.graph.nodes[n]['year']==year]
                                     for year in self.years}
             return self._nodes_for_year
-    nodes_for_year = property(get_nodes_for_year)
     
-    def get_cliques(self):
+    @property
+    def cliques(self):
         if self._cliques:
             return self._cliques
         else:
             self._cliques = list(nx.algorithms.clique.\
                                  enumerate_all_cliques(nx.Graph(self.numbered)))
             return self._cliques
-    cliques = property(get_cliques)
     
-    def get_filtration(self):
+    @property
+    def filtration(self):
         if self._filtration != None:
             return self._filtration
         else:
@@ -356,17 +358,17 @@ class Net:
                         self._filtration.append(d.Simplex(clique, year))
             self._filtration.sort()
             return self._filtration
-    filtration = property(get_filtration)
     
-    def get_persistence(self):
+    @property
+    def persistence(self):
         if self._persistence:
             return self._persistence
         else:
             self._persistence = d.homology_persistence(self.filtration)
             return self._persistence
-    persistence = property(get_persistence)
     
-    def get_barcodes(self):
+    @property
+    def barcodes(self):
         if isinstance(self._barcodes, pd.DataFrame)\
             and len(self._barcodes.index) != 0:
             return self._barcodes
@@ -375,7 +377,6 @@ class Net:
                                                   self.persistence,
                                                   self.graph, self.nodes)
             return self._barcodes
-    barcodes = property(get_barcodes)
     
     def build_graph(self, dump=None, nodes=None, depth_goal=1, filter_top=True,
                     remove_isolates=True, add_years=True, fill_empty_years=True,
