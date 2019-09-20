@@ -1,13 +1,3 @@
-"""
-Module: wiki
-
-contains classes
-- Dump
-- Corpus
-- Net
-- Crawler
-"""
-
 import sys
 import os
 import bz2
@@ -25,7 +15,7 @@ import xml.etree.ElementTree as ET
 import sklearn.metrics.pairwise as smp
 
 class Dump:
-    """Dump loads and parses dumps from wikipedia.
+    """``Dump`` loads and parses dumps from wikipedia.
     
     Attributes
     ----------
@@ -49,27 +39,6 @@ class Dump:
         Maximum offset. Set as the size of the zipped dump.
     cache: xml.etree.ElementTree.Node
         Cache of the XML tree in current block
-    
-    Methods
-    -------
-    load_page(page_name)
-        Loads page with page_name
-    
-    Static methods
-    --------------
-    fetch_block(path, offset, block_size) -> string
-        Fetches block of bytes at offset in the zipped dump at path.
-        Returns uncompressed text.
-    search_id(root, pid) -> string
-        Returns the text of the page with id pid
-    filter_top_section(text) -> string
-        Returns the top section of text,
-        where the first header has the form '==Heading=='
-    get_history(page) -> string
-        Returns the text of the history section.
-        Returns None if not found.
-    filter_years(text) -> list of integers
-        Filters the years from text.
     """
     
     def __init__(self, path_xml, path_idx):
@@ -146,6 +115,10 @@ class Dump:
     page = property(get_page, set_page)
     
     def load_page(self, page_name, filter_top=False):
+        """Loads & returs page (``mwparserfromhell.wikicode``)
+        named ``page_name`` from dump file. Returns only the
+        top section if ``filter_top``.
+        """
         if page_name not in self.idx.keys():
             self.page = None
             return
@@ -164,24 +137,36 @@ class Dump:
     
     @staticmethod
     def fetch_block(path, offset, block_size):
+        """ Fetches block of ``block_size`` (``int``) bytes
+        at ``offset`` (``int``) in the zipped dump at 
+        ``path`` (``string``) and returns the uncompressed
+        text (``string``).
+        """
         with open(path, 'rb') as file:
             file.seek(offset)
             return bz2.decompress(file.read(block_size))
     
     @staticmethod
     def search_id(root, pid):
+        """Returns the text of the page with id ``pid``"""
         for page in root.iter('page'):
             if pid == int(page.find('id').text):
                 return page.find('revision').find('text').text
     
     @staticmethod
     def filter_top_section(text):
+        """Returns the top section of text,
+        where the first header has the form ``==Heading==``
+        """
         head = re.search(r'==.*?==', text)
         idx = head.span(0)[0] if head else len(text)
         return text[:idx] #(text[:idx], text[idx:])
     
     @staticmethod
     def get_history(page):
+        """Returns the text of the history section.
+        Returns None if not found.
+        """
         headings = page.filter_headings()
         idx = [i for i, head in enumerate(headings) 
                        if 'History' in head]
@@ -193,6 +178,7 @@ class Dump:
     
     @staticmethod
     def filter_years(text):
+        """Filters the years from text."""
         months = ['january', 'february', 'march', 'april', 'may', 'june',
                   'july', 'august', 'september', 'october', 'november', 'december']
         prepositions = ['about', 'around', 'after', 'at', 'as',
@@ -212,19 +198,20 @@ class Dump:
         return sorted(years + centuries)
 
 class Corpus:
-    """Corpus is an iterable & an iterator
-    that uses Dump to iterate through articles.
+    """``Corpus`` is an ``iterable`` & an ``iterator``
+    that uses ``Dump`` to iterate through articles.
+    
+    Parameters
+    ----------
+    dump: wiki.Dump
+    output: string
+        'doc' for array of documents
+        'tag' for TaggedDocument(doc, [self.i])
+        'bow' for bag of words [(int, int)]
+    dct: gensim.corpus.Dictionary
+        used to create BoW representation
     """
     def __init__(self, dump, output='doc', dct=None):
-        """
-        dump: wiki.Dump
-        output: string
-            'doc' for array of documents
-            'tag' for TaggedDocument(doc, [self.i])
-            'bow' for bag of words [(int, int)]
-        dct: gensim.corpus.Dictionary
-            used to create BoW representation
-        """
         self.dump = dump
         self.names = list(self.dump.idx.keys())
         self.output = output
@@ -255,61 +242,40 @@ class Corpus:
         return gu.simple_preprocess(doc.strip_code())
 
 class Net:
-    """ Net is a wrapper for networkx.DiGraph.
-    Uses dionysus for persistence homology.
+    """``Net`` is a wrapper for ``networkx.DiGraph``.
+    Uses ``dionysus`` for persistence homology.
     
     Attributes
     ----------
-    name: string
-        Name of network
     graph: networkx.DiGraph
         node name is name of wikipedia page
-        'Year' attribute indicates year
-    
-    Attributes (lazy)
-    -----------------
+        ``year`` attribute indicates year
     numbered: networkx.DiGraph
-        node name is an index (see nodes)
-        'Year' is an index (see years)
+        node name is an index (see nodes),
+        ``year`` is an index (see years)
     nodes: list
         List of node names,
         indexed by node in numbered
     years: list
         List of years,
-        indexed by 'Year' attribute in numbered
+        indexed by ``year`` attribute in numbered
     nodes_for_year: dict
         Dictionary of {int year: [int node_index]}
         (see nodes)
     cliques: list of lists
+        each item is a list of nodes in a clique
     filtration: dionysus.filtration
+        see dionysus
     persistence: dionysus.reduced_matrix
+        see dionysus
     barcodes: pandas.DataFrame
-    
-    Class attributes
-    ----------------
+        ``dim``, ``birth``, ``death``,
+        ``birth simplex``, ``death simplex``
+        ``birth nodes``, ``death nodes``
     MAX_YEAR: int
-        when calling fill_empty_nodes(),
-        year = MAX_YEAR for nodes with
-        parents without years
+        ``year = MAX_YEAR`` for nodes with parents without years
     YEAR_FILLED_DELTA: int
-        when calling fill_empty_nodes(),
-        year = year of parents + YEAR_FILLED_DELTA
-    
-    Methods
-    -------
-    build_graph(path)
-    load_graph(path)
-    save_graph(path)
-    load_barcodes(path)
-    save_barcodes(path)
-        NOTE: computes barcodes to save
-    
-    Static methods
-    --------------        
-    fill_empty_nodes()
-    bft()
-    filter()
-    set_weights()
+        ``year = year of parents + YEAR_FILLED_DELTA``
     """
     MAX_YEAR = 2020
     YEAR_FILLED_DELTA = 1
@@ -324,52 +290,6 @@ class Net:
         self._filtration = None
         self._persistence = None
         self._barcodes = None
-    
-    def build_graph(self, dump=None, nodes=None, depth_goal=1, filter_top=True,
-                    remove_isolates=True, add_years=True, fill_empty_years=True,
-                    model=None, dct=None):
-        """ Builds self.graph (networkx.Graph) from nodes
-        Parameters
-        ----------
-        dump: wiki.Dump
-        nodes: list of **strings**
-        depth_goal: int
-        filter_top: bool
-        add_years: bool
-        fill_empty_years: bool
-        calculate_weights: bool
-        model: gensim.modes.tfidfmodel.TfidfModel
-            set model & dct to calculate edge weights
-        dct: gensim.corpora.Dictionary
-        """
-        self.graph = nx.DiGraph()
-        if not dump:
-            raise AttributeError('wiki.Net: Provide wiki.Dump object.')
-        print('wiki.Net: traversing Wikipedia...')
-        Net.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
-                nodes=nodes, filter_top=filter_top)
-        if remove_isolates:
-            print('wiki.Net: removing isolates...')
-            self.graph.remove_nodes_from(nx.isolates(self.graph))
-        if add_years:
-            print('wiki.Net: adding years...')
-            for node in self.graph.nodes:
-                dump.load_page(node)
-                self.graph.nodes[node]['year'] = dump.years[0] if len(dump.years)>0 else []
-        if fill_empty_years:
-            print('wiki.Net: filling empty years...')
-            nodes_filled = True
-            while nodes_filled:
-                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=True)
-            nodes_filled = True
-            while nodes_filled:
-                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=False)
-            for node in self.graph.nodes:
-                if not self.graph.nodes[node]['year']:
-                    self.graph.nodes[node]['year'] = Net.MAX_YEAR
-        if model and dct:
-            print('wiki.Net: calculating weights...')
-            Net.set_weights(graph, dump, model, dct)
     
     def get_numbered(self):
         if self._numbered:
@@ -457,21 +377,73 @@ class Net:
             return self._barcodes
     barcodes = property(get_barcodes)
     
+    def build_graph(self, dump=None, nodes=None, depth_goal=1, filter_top=True,
+                    remove_isolates=True, add_years=True, fill_empty_years=True,
+                    model=None, dct=None):
+        """ Builds ``self.graph`` (``networkx.Graph``) from nodes.
+        
+        Parameters
+        ----------
+        dump: wiki.Dump
+        nodes: list of **strings**
+        depth_goal: int
+        filter_top: bool
+        add_years: bool
+        fill_empty_years: bool
+        calculate_weights: bool
+        model: gensim.modes.tfidfmodel.TfidfModel
+            set model & dct to calculate edge weights
+        dct: gensim.corpora.Dictionary
+        """
+        self.graph = nx.DiGraph()
+        if not dump:
+            raise AttributeError('wiki.Net: Provide wiki.Dump object.')
+        print('wiki.Net: traversing Wikipedia...')
+        Net.bft(self.graph, dump, nodes, depth_goal=depth_goal, 
+                nodes=nodes, filter_top=filter_top)
+        if remove_isolates:
+            print('wiki.Net: removing isolates...')
+            self.graph.remove_nodes_from(nx.isolates(self.graph))
+        if add_years:
+            print('wiki.Net: adding years...')
+            for node in self.graph.nodes:
+                dump.load_page(node)
+                self.graph.nodes[node]['year'] = dump.years[0] if len(dump.years)>0 else []
+        if fill_empty_years:
+            print('wiki.Net: filling empty years...')
+            nodes_filled = True
+            while nodes_filled:
+                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=True)
+            nodes_filled = True
+            while nodes_filled:
+                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=False)
+            for node in self.graph.nodes:
+                if not self.graph.nodes[node]['year']:
+                    self.graph.nodes[node]['year'] = Net.MAX_YEAR
+        if model and dct:
+            print('wiki.Net: calculating weights...')
+            Net.set_weights(graph, dump, model, dct)
+    
     def load_graph(self, path):
+        """Loads graph from ``.gexf``."""
         self.graph = nx.read_gexf(path)
     
     def save_graph(self, path):
+        """Saves graph as ``.gexf``."""
         nx.write_gexf(self.graph, path)
     
     def load_barcodes(self, path):
+        """Loads ``barcodes`` from ``pickle``."""
         self._barcodes = pickle.load(open(path, 'rb'))
     
     def save_barcodes(self, path):
+        """Saves ``barcodes`` as ``pickle``."""
         pickle.dump(self.barcodes, open(path, 'wb'))
     
     @staticmethod
     def fill_empty_nodes(graph, full_parents=True):
-        """
+        """ Fills nodes without ``year`` with the ``year`` of parents
+        
         Parameters
         ----------
         graph: networkx.DiGraph
@@ -503,7 +475,8 @@ class Net:
     
     @staticmethod
     def bft(graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
-        """ breadth-first traversal
+        """Breadth-first traversal of hyperlink graph.
+        
         Parameters
         ----------
         graph: networkx.DiGraph
@@ -545,6 +518,7 @@ class Net:
     
     @staticmethod
     def filter(page, link, graph, nodes=None):
+        """Filter out links"""
         if nodes and link not in nodes:
             return False
         if (page, link) in graph.edges:
@@ -553,7 +527,11 @@ class Net:
     
     @staticmethod
     def set_weights(graph, dump, model, dct):
-        """
+        """Set the weights of graph as the cosine similarity
+        between ``tf-idf`` vectors of nodes.
+        
+        Parameters
+        ----------
         graph: networkx.DiGraph
         dump: wiki.Dump
         model: gensim.modes.tfidfmodel.TfidfModel
@@ -567,8 +545,9 @@ class Net:
     
     @staticmethod
     def compute_barcodes(f, m, graph, names):
-        """ Uses dionysus filtration & persistence
-        (in reduced matrix form) to compute barcodes
+        """Uses dionysus filtration & persistence
+        (in reduced matrix form) to compute barcodes.
+        
         Parameters
         ----------
         f: dionysus.Filtration
@@ -576,6 +555,7 @@ class Net:
             (see homology_persistence)
         names: list of strings
             names of node indices
+        
         Returns
         -------
         barcodes: pandas.DataFrame
