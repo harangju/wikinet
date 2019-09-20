@@ -129,3 +129,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Docs
+build
+_static
+_templates
