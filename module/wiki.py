@@ -3,6 +3,7 @@ import os
 import bz2
 import re
 import math
+import random
 import pickle
 import numpy as np
 import pandas as pd
@@ -379,20 +380,9 @@ class Net:
     def build_graph(self, dump=None, nodes=None, depth_goal=1, filter_top=True,
                     remove_isolates=True, add_years=True, fill_empty_years=True,
                     model=None, dct=None):
-        """ Builds ``self.graph`` (``networkx.Graph``) from nodes.
-        
-        Parameters
-        ----------
-        dump: wiki.Dump
-        nodes: list of **strings**
-        depth_goal: int
-        filter_top: bool
-        add_years: bool
-        fill_empty_years: bool
-        model: gensim.models.tfidfmodel.TfidfModel
-            set for weighted edges
-        dct: gensim.corpora.Dictionary
-            set for weighted edges
+        """ Builds ``self.graph`` (``networkx.Graph``) from nodes (``list``
+        of ``string``). Set ``model`` (from ``gensim``) and ``dct``
+        (``gensim.corpora.Dictionary``) for weighted edges.
         """
         self.graph = nx.DiGraph()
         if not dump:
@@ -438,6 +428,23 @@ class Net:
     def save_barcodes(self, path):
         """Saves ``barcodes`` as ``pickle``."""
         pickle.dump(self.barcodes, open(path, 'wb'))
+    
+    def randomize(self, null_type):
+        """Returns a randomized copy of graph in ``wiki.Net``.
+        
+        Parameters
+        ----------
+        null_type: string
+            ``node order``, 
+        """
+        network = Net()
+        network.graph = self.graph.copy()
+        if null_type == 'node order':
+            years = list(nx.get_node_attributes(network.graph, 'year').values())
+            random.shuffle(years)
+            for node in network.graph.nodes:
+                network.graph.nodes[node]['year'] = years.pop()
+        return network
     
     @staticmethod
     def fill_empty_nodes(graph, full_parents=True):
