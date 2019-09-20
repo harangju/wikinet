@@ -254,19 +254,23 @@ class Net:
         ``year`` attribute indicates year
     numbered: networkx.DiGraph
         node name is an index (see nodes),
-        ``year`` is an index (see years)
+        ``year`` is an index (see years), lazy
     nodes: list
         List of node names,
-        indexed by node in ``numbered``
+        indexed by node in ``numbered``, lazy
     years: list
         List of years,
-        indexed by ``year`` in ``numbered``
+        indexed by ``year`` in ``numbered``, lazy
     nodes_for_year: dict
-        ``{int year: [int node_index]}``
+        ``{int year: [int node_index]}``, lazy
     cliques: list of lists
+        lazy
     filtration: dionysus.filtration
+        lazy
     persistence: dionysus.reduced_matrix
+        lazy
     barcodes: pandas.DataFrame
+        lazy
     MAX_YEAR: int
         ``year = MAX_YEAR`` for nodes with parents without years
     YEAR_FILLED_DELTA: int
