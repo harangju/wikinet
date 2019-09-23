@@ -553,7 +553,7 @@ class Net:
         for n1, n2 in graph.edges:
             v1 = vecs[:,nodes.index(n1)].transpose()
             v2 = vecs[:,nodes.index(n2)].transpose()
-            graph[n1][n2]['weight'] = smp.cosine_similarity(X=v1, Y=v2)
+            graph[n1][n2]['weight'] = smp.cosine_similarity(X=v1, Y=v2)[0,0]
     
     @staticmethod
     def compute_barcodes(f, m, graph, names):
