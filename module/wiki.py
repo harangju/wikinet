@@ -509,6 +509,7 @@ class Net:
                 depth += 1
                 print('\nwiki.Net: depth = ' + str(depth))
                 depth_inc_pending = True
+            if depth == depth_goal: break
             page = dump.load_page(name, filter_top=filter_top)
             if not page: continue
             links = [l for l in dump.article_links
@@ -520,8 +521,6 @@ class Net:
             if depth_inc_pending:
                 depth_num_items = len(queue)
                 depth_inc_pending = False
-            if depth == depth_goal:
-                break
     
     @staticmethod
     def filter(page, link, graph, nodes=None):
