@@ -11,6 +11,7 @@ import dionysus as d
 import networkx as nx
 import gensim.utils as gu
 import gensim.models as gm
+import gensim.matutils as gmat
 import mwparserfromhell as mph
 import xml.etree.ElementTree as ET
 import sklearn.metrics.pairwise as smp
@@ -411,14 +412,14 @@ class Net:
                     self.graph.nodes[node]['year'] = Net.MAX_YEAR
         if model and dct:
             print('wiki.Net: calculating weights...')
-            Net.set_weights(graph, dump, model, dct)
+            Net.set_weights(self.graph, dump, model, dct)
     
     def load_graph(self, path):
-        """Loads graph from ``.gexf``."""
+        """Loads ``graph`` from ``.gexf``."""
         self.graph = nx.read_gexf(path)
     
     def save_graph(self, path):
-        """Saves graph as ``.gexf``."""
+        """Saves ``graph`` as ``.gexf``."""
         nx.write_gexf(self.graph, path)
     
     def load_barcodes(self, path):
@@ -430,7 +431,7 @@ class Net:
         pickle.dump(self.barcodes, open(path, 'wb'))
     
     def randomize(self, null_type):
-        """Returns a randomized copy of graph in ``wiki.Net``.
+        """Returns a randomized copy of ``graph`` in ``wiki.Net``.
         
         Parameters
         ----------
@@ -543,11 +544,16 @@ class Net:
         model: gensim.modes.tfidfmodel.TfidfModel
         dct: gensim.corpora.Dictionary
         """
+        nodes = list(graph.nodes)
+        pages = [dump.load_page(page) for page in nodes]
+        bows = [model[dct.doc2bow(gu.simple_preprocess(page.strip_code()))]
+                if page else []
+                for page in pages]
+        vecs = gmat.corpus2csc(bows)
         for n1, n2 in graph.edges:
-            p1 = gu.simple_preprocess(dump.load_page(n1).strip_code())
-            p2 = gu.simple_preprocess(dump.load_page(n2).strip_code())
-            graph[n1][n2]['weight'] = smp.cosine_similarity(X=model[dct.doc2bow(p1)],
-                                                            Y=model[dct.doc2bow(p2)])
+            v1 = vecs[:,nodes.index(n1)].transpose()
+            v2 = vecs[:,nodes.index(n2)].transpose()
+            graph[n1][n2]['weight'] = smp.cosine_similarity(X=v1, Y=v2)
     
     @staticmethod
     def compute_barcodes(f, m, graph, names):
