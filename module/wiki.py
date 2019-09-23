@@ -437,15 +437,31 @@ class Net:
         Parameters
         ----------
         null_type: string
-            ``node order``, 
+            ``year``, ``target``
         """
         network = Net()
         network.graph = self.graph.copy()
-        if null_type == 'node order':
+        if null_type == 'year':
             years = list(nx.get_node_attributes(network.graph, 'year').values())
             random.shuffle(years)
             for node in network.graph.nodes:
                 network.graph.nodes[node]['year'] = years.pop()
+        elif null_type == 'target':
+            nodes = list(network.graph.nodes)
+            for s, t in self.graph.edges:
+                network.graph.remove_edge(s, t)
+                nodes.remove(t)
+                network.graph.add_edge(s, random.choice(nodes),
+                                       weight=self.graph[s][t]['weight'])
+                nodes.append(t)
+        elif null_type == 'source':
+            nodes = list(network.graph.nodes)
+            for s, t in self.graph.edges:
+                network.graph.remove_edge(s, t)
+                nodes.remove(s)
+                network.graph.add_edge(random.choice(nodes), t,
+                                       weight=self.graph[s][t]['weight'])
+                nodes.append(s)
         return network
     
     @staticmethod
