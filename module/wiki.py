@@ -274,9 +274,10 @@ class Net:
     barcodes: pandas.DataFrame
         lazy
     MAX_YEAR: int
-        ``year = MAX_YEAR`` for nodes with parents without years
+        ``year = MAX_YEAR (2020)`` for nodes with parents 
+        without years
     YEAR_FILLED_DELTA: int
-        ``year = year of parents + YEAR_FILLED_DELTA``
+        ``year = year of parents + YEAR_FILLED_DELTA (1)``
     """
     MAX_YEAR = 2020
     YEAR_FILLED_DELTA = 1
