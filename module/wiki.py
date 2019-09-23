@@ -432,12 +432,9 @@ class Net:
         pickle.dump(self.barcodes, open(path, 'wb'))
     
     def randomize(self, null_type):
-        """Returns a randomized copy of ``graph`` in ``wiki.Net``.
-        
-        Parameters
-        ----------
-        null_type: string
-            ``year``, ``target``
+        """Returns a new ``wiki.Net`` with a randomized 
+        copy of ``graph``. Set ``null_type`` as one of
+        ``'year'``, ``'target'``.
         """
         network = Net()
         network.graph = self.graph.copy()
