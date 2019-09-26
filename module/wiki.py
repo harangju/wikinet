@@ -11,6 +11,7 @@ import dionysus as d
 import networkx as nx
 import gensim.utils as gu
 import gensim.models as gm
+import gensim.matutils as gmat
 import mwparserfromhell as mph
 import xml.etree.ElementTree as ET
 import sklearn.metrics.pairwise as smp
@@ -273,9 +274,10 @@ class Net:
     barcodes: pandas.DataFrame
         lazy
     MAX_YEAR: int
-        ``year = MAX_YEAR`` for nodes with parents without years
+        ``year = MAX_YEAR (2020)`` for nodes with parents 
+        without years
     YEAR_FILLED_DELTA: int
-        ``year = year of parents + YEAR_FILLED_DELTA``
+        ``year = year of parents + YEAR_FILLED_DELTA (1)``
     """
     MAX_YEAR = 2020
     YEAR_FILLED_DELTA = 1
@@ -411,14 +413,14 @@ class Net:
                     self.graph.nodes[node]['year'] = Net.MAX_YEAR
         if model and dct:
             print('wiki.Net: calculating weights...')
-            Net.set_weights(graph, dump, model, dct)
+            Net.set_weights(self.graph, dump, model, dct)
     
     def load_graph(self, path):
-        """Loads graph from ``.gexf``."""
+        """Loads ``graph`` from ``.gexf``."""
         self.graph = nx.read_gexf(path)
     
     def save_graph(self, path):
-        """Saves graph as ``.gexf``."""
+        """Saves ``graph`` as ``.gexf``."""
         nx.write_gexf(self.graph, path)
     
     def load_barcodes(self, path):
@@ -430,20 +432,33 @@ class Net:
         pickle.dump(self.barcodes, open(path, 'wb'))
     
     def randomize(self, null_type):
-        """Returns a randomized copy of graph in ``wiki.Net``.
-        
-        Parameters
-        ----------
-        null_type: string
-            ``node order``, 
+        """Returns a new ``wiki.Net`` with a randomized 
+        copy of ``graph``. Set ``null_type`` as one of
+        ``'year'``, ``'target'``.
         """
         network = Net()
         network.graph = self.graph.copy()
-        if null_type == 'node order':
+        if null_type == 'year':
             years = list(nx.get_node_attributes(network.graph, 'year').values())
             random.shuffle(years)
             for node in network.graph.nodes:
                 network.graph.nodes[node]['year'] = years.pop()
+        elif null_type == 'target':
+            nodes = list(network.graph.nodes)
+            for s, t in self.graph.edges:
+                network.graph.remove_edge(s, t)
+                nodes.remove(t)
+                network.graph.add_edge(s, random.choice(nodes),
+                                       weight=self.graph[s][t]['weight'])
+                nodes.append(t)
+        elif null_type == 'source':
+            nodes = list(network.graph.nodes)
+            for s, t in self.graph.edges:
+                network.graph.remove_edge(s, t)
+                nodes.remove(s)
+                network.graph.add_edge(random.choice(nodes), t,
+                                       weight=self.graph[s][t]['weight'])
+                nodes.append(s)
         return network
     
     @staticmethod
@@ -508,6 +523,7 @@ class Net:
                 depth += 1
                 print('\nwiki.Net: depth = ' + str(depth))
                 depth_inc_pending = True
+            if depth == depth_goal: break
             page = dump.load_page(name, filter_top=filter_top)
             if not page: continue
             links = [l for l in dump.article_links
@@ -519,8 +535,6 @@ class Net:
             if depth_inc_pending:
                 depth_num_items = len(queue)
                 depth_inc_pending = False
-            if depth == depth_goal:
-                break
     
     @staticmethod
     def filter(page, link, graph, nodes=None):
@@ -543,11 +557,16 @@ class Net:
         model: gensim.modes.tfidfmodel.TfidfModel
         dct: gensim.corpora.Dictionary
         """
+        nodes = list(graph.nodes)
+        pages = [dump.load_page(page) for page in nodes]
+        bows = [model[dct.doc2bow(gu.simple_preprocess(page.strip_code()))]
+                if page else []
+                for page in pages]
+        vecs = gmat.corpus2csc(bows)
         for n1, n2 in graph.edges:
-            p1 = gu.simple_preprocess(dump.load_page(n1).strip_code())
-            p2 = gu.simple_preprocess(dump.load_page(n2).strip_code())
-            graph[n1][n2]['weight'] = smp.cosine_similarity(X=model[dct.doc2bow(p1)],
-                                                            Y=model[dct.doc2bow(p2)])
+            v1 = vecs[:,nodes.index(n1)].transpose()
+            v2 = vecs[:,nodes.index(n2)].transpose()
+            graph[n1][n2]['weight'] = smp.cosine_similarity(X=v1, Y=v2)[0,0]
     
     @staticmethod
     def compute_barcodes(f, m, graph, names):
