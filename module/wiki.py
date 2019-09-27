@@ -440,7 +440,8 @@ class Net:
         """Saves ``barcodes`` as ``pickle``."""
         pickle.dump(self.barcodes, open(path, 'wb'))
     
-    def randomize(self, null_type):
+    def randomize(self, null_type,
+                  compute_core_periphery=True, compute_communities=True):
         """Returns a new ``wiki.Net`` with a randomized 
         copy of ``graph``. Set ``null_type`` as one of
         ``'year'``, ``'target'``.
@@ -468,6 +469,12 @@ class Net:
                 network.graph.add_edge(random.choice(nodes), t,
                                        weight=self.graph[s][t]['weight'])
                 nodes.append(s)
+        if compute_core_periphery:
+            print('wiki.Net: computing core-periphery...')
+            Net.assign_core_periphery(network.graph)
+        if compute_communities:
+            print('wiki.Net: computing communities...')
+            Net.assign_communities(network.graph)
         return network
     
     @staticmethod
