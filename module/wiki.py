@@ -425,12 +425,22 @@ class Net:
             Net.assign_communities(self.graph)
     
     def load_graph(self, path):
-        """Loads ``graph`` from ``.gexf``."""
-        self.graph = nx.read_gexf(path)
+        """Loads ``graph`` from ``path``.
+        If ``filename.gexf`` then read as ``gexf``.
+        Else, use ``pickle``."""
+        if path.split('.')[-1]=='gexf':
+            self.graph = nx.read_gexf(path)
+        else:
+            self.graph = nx.read_gpickle(path)
     
     def save_graph(self, path):
-        """Saves ``graph`` as ``.gexf``."""
-        nx.write_gexf(self.graph, path)
+        """Saves ``graph`` at ``path``.
+        If ``filename.gexf`` then save as ``gexf``.
+        Else, use ``pickle``."""
+        if path.split('.')[-1]=='gexf':
+            nx.write_gexf(self.graph, path)
+        else:
+            nx.write_gpickle(self.graph, path)
     
     def load_barcodes(self, path):
         """Loads ``barcodes`` from ``pickle``."""
