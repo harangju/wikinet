@@ -429,8 +429,10 @@ class Net:
         If ``filename.gexf`` then read as ``gexf``.
         Else, use ``pickle``."""
         if path.split('.')[-1]=='gexf':
+            print('wiki.Net: load as gexf')
             self.graph = nx.read_gexf(path)
         else:
+            print('wiki.Net: load as pickle')
             self.graph = nx.read_gpickle(path)
     
     def save_graph(self, path):
@@ -438,8 +440,10 @@ class Net:
         If ``filename.gexf`` then save as ``gexf``.
         Else, use ``pickle``."""
         if path.split('.')[-1]=='gexf':
+            print('wiki.Net: save as gexf')
             nx.write_gexf(self.graph, path)
         else:
+            print('wiki.Net: save as pickle')
             nx.write_gpickle(self.graph, path)
     
     def load_barcodes(self, path):
