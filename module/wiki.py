@@ -379,14 +379,15 @@ class Net:
                                                   self.graph, self.nodes)
             return self._barcodes
     
-    def build_graph(self, dump=None, nodes=None, depth_goal=1, filter_top=True,
-                    remove_isolates=True, add_years=True, fill_empty_years=True,
-                    model=None, dct=None):
+    def build_graph(self, name='', dump=None, nodes=None, depth_goal=1,
+                    filter_top=True, remove_isolates=True, add_years=True,
+                    fill_empty_years=True, model=None, dct=None):
         """ Builds ``self.graph`` (``networkx.Graph``) from nodes (``list``
         of ``string``). Set ``model`` (from ``gensim``) and ``dct``
         (``gensim.corpora.Dictionary``) for weighted edges.
         """
         self.graph = nx.DiGraph()
+        self.graph.name = name
         if not dump:
             raise AttributeError('wiki.Net: Provide wiki.Dump object.')
         print('wiki.Net: traversing Wikipedia...')
