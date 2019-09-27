@@ -1,7 +1,8 @@
-import sys
 import os
-import bz2
 import re
+import sys
+import bz2
+import bct
 import math
 import random
 import pickle
@@ -381,7 +382,8 @@ class Net:
     
     def build_graph(self, name='', dump=None, nodes=None, depth_goal=1,
                     filter_top=True, remove_isolates=True, add_years=True,
-                    fill_empty_years=True, model=None, dct=None):
+                    fill_empty_years=True, model=None, dct=None,
+                    compute_core_periphery=True, compute_communities=True):
         """ Builds ``self.graph`` (``networkx.Graph``) from nodes (``list``
         of ``string``). Set ``model`` (from ``gensim``) and ``dct``
         (``gensim.corpora.Dictionary``) for weighted edges.
@@ -415,6 +417,12 @@ class Net:
         if model and dct:
             print('wiki.Net: calculating weights...')
             Net.set_weights(self.graph, dump, model, dct)
+        if compute_core_periphery:
+            print('wiki.Net: computing core-periphery...')
+            Net.assign_core_periphery(self.graph)
+        if compute_communities:
+            print('wiki.Net: computing communities...')
+            Net.assign_communities(self.graph)
     
     def load_graph(self, path):
         """Loads ``graph`` from ``.gexf``."""
@@ -568,6 +576,36 @@ class Net:
             v1 = vecs[:,nodes.index(n1)].transpose()
             v2 = vecs[:,nodes.index(n2)].transpose()
             graph[n1][n2]['weight'] = smp.cosine_similarity(X=v1, Y=v2)[0,0]
+    
+    @staticmethod
+    def assign_core_periphery(graph):
+        """ Compute core-periphery of ``graph`` (``nx.DiGraph``;
+        converted to symmetric ``nx.Graph``).
+        Assign ``core`` as ``1`` or ``0`` to each node.
+        Assign ``coreness`` to ``graph``.
+        See ``core_periphery_dir()`` in ``bctpy``.
+        """
+        core_periphery = bct.core_periphery_dir(nx.convert_matrix\
+                                                .to_numpy_array(graph))
+        for i, node in enumerate(graph.nodes):
+            graph.nodes[node]['core'] = core_periphery[0][i]
+        graph.graph['coreness'] = core_periphery[1]
+    
+    @staticmethod
+    def assign_communities(graph):
+        """ Compute modular communities of ``graph`` (``nx.DiGraph``).
+        Assign community number ``community`` to each node.
+        Assign ``modularity`` to ``graph``.
+        See ``greedy_modularity_communities`` in ``networkx``.
+        """
+        communities = nx.algorithms.community\
+                        .greedy_modularity_communities(nx.Graph(graph))
+        for node in graph.nodes:
+            graph.nodes[node]['community'] = [i for i,c in enumerate(communities)
+                                              if node in c][0]
+        graph.graph['modularity'] = nx.algorithms.community.quality\
+                                      .modularity(nx.Graph(graph),
+                                                  communities)
     
     @staticmethod
     def compute_barcodes(f, m, graph, names):
