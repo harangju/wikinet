@@ -174,7 +174,7 @@ class Dump:
         """
         headings = page.filter_headings()
         idx = [i for i, head in enumerate(headings) 
-                       if 'History' in head]
+                       if 'History' in head or 'history' in head]
         if not idx:
             return
         sections = page.get_sections(include_headings=True)
@@ -429,10 +429,10 @@ class Net:
         If ``filename.gexf`` then read as ``gexf``.
         Else, use ``pickle``."""
         if path.split('.')[-1]=='gexf':
-            print('wiki.Net: load as gexf')
+#             print('wiki.Net: load as gexf')
             self.graph = nx.read_gexf(path)
         else:
-            print('wiki.Net: load as pickle')
+#             print('wiki.Net: load as pickle')
             self.graph = nx.read_gpickle(path)
     
     def save_graph(self, path):
@@ -440,10 +440,10 @@ class Net:
         If ``filename.gexf`` then save as ``gexf``.
         Else, use ``pickle``."""
         if path.split('.')[-1]=='gexf':
-            print('wiki.Net: save as gexf')
+#             print('wiki.Net: save as gexf')
             nx.write_gexf(self.graph, path)
         else:
-            print('wiki.Net: save as pickle')
+#             print('wiki.Net: save as pickle')
             nx.write_gpickle(self.graph, path)
     
     def load_barcodes(self, path):
