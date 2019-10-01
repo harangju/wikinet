@@ -629,6 +629,26 @@ class Net:
                                                   communities)
     
     @staticmethod
+    def assign_cores_to_communities(graph):
+        """"""
+        num_comm = max([graph.nodes[n]['community'] for n in graph.nodes])
+        community_coreness = {i: 0 for i in range(num_comm)}
+        for i in range(num_comm+1):
+            community = [n for n in graph.nodes if graph.nodes[n]['community']==i]
+            subgraph = graph.subgraph(community)
+            matrix = nx.convert_matrix.to_numpy_array(subgraph)
+            if matrix.size>1:
+                core_peri = bct.core_periphery_dir(matrix)
+                community_coreness[i] = core_peri[1]
+                for j, node in enumerate(subgraph.nodes):
+                    graph.nodes[node]['community_core'] = core_peri[0][j]
+            else:
+                community_coreness[i] = 0
+                for j, node in enumerate(subgraph.nodes):
+                    graph.nodes[node]['community_core'] = 1
+        graph.graph['community_coreness'] = community_coreness
+    
+    @staticmethod
     def compute_barcodes(f, m, graph, names):
         """Uses dionysus filtration & persistence
         (in reduced matrix form) to compute barcodes.
