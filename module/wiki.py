@@ -283,7 +283,7 @@ class Net:
     MAX_YEAR = 2020
     YEAR_FILLED_DELTA = 1
     
-    def __init__(self):
+    def __init__(self, path_graph='', path_barcodes=''):
         self.graph = None
         self._numbered = None
         self._nodes = []
@@ -293,6 +293,10 @@ class Net:
         self._filtration = None
         self._persistence = None
         self._barcodes = None
+        if path_graph:
+            self.load_graph(path_graph)
+        if path_barcodes:
+            self.load_barcodes(path_barcodes)
     
     @property
     def numbered(self):
@@ -429,10 +433,8 @@ class Net:
         If ``filename.gexf`` then read as ``gexf``.
         Else, use ``pickle``."""
         if path.split('.')[-1]=='gexf':
-#             print('wiki.Net: load as gexf')
             self.graph = nx.read_gexf(path)
         else:
-#             print('wiki.Net: load as pickle')
             self.graph = nx.read_gpickle(path)
     
     def save_graph(self, path):
@@ -440,10 +442,8 @@ class Net:
         If ``filename.gexf`` then save as ``gexf``.
         Else, use ``pickle``."""
         if path.split('.')[-1]=='gexf':
-#             print('wiki.Net: save as gexf')
             nx.write_gexf(self.graph, path)
         else:
-#             print('wiki.Net: save as pickle')
             nx.write_gpickle(self.graph, path)
     
     def load_barcodes(self, path):
@@ -686,6 +686,7 @@ class Net:
                 death_year = np.inf
                 death_simplex = []
                 death_nodes = []
+            
             barcodes.append([dim, birth_year, death_year,
                              birth_simplex, death_simplex,
                              birth_nodes, death_nodes])
