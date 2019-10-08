@@ -261,6 +261,10 @@ class Net:
     nodes: list
         List of node names,
         indexed by node in ``numbered``, lazy
+    tfidf: scipy.sparse.csc.csc_matrix
+        sparse column matrix of tfidfs,
+        ordered by nodes, also stored in
+        ```self.graph.graph['tfidf']```, lazy
     years: list
         List of years,
         indexed by ``year`` in ``numbered``, lazy
@@ -287,6 +291,7 @@ class Net:
         self.graph = None
         self._numbered = None
         self._nodes = []
+        self._tfidf = None
         self._years = []
         self._nodes_for_year = {}
         self._cliques = None
@@ -316,8 +321,16 @@ class Net:
         if self._nodes:
             return self._nodes
         else:
-            self._nodes = [n for n in self.graph.nodes()]
+            self._nodes = list(self.graph.nodes)
             return self._nodes
+    
+    @property
+    def tfidf(self):
+        if self._tfidf:
+            return self._tfidf
+        elif 'tfidf' in self.graph.graph.keys():
+            self._tfidf = self.graph.graph['tfidf']
+            return self._tfidf
     
     @property
     def years(self):
@@ -420,7 +433,8 @@ class Net:
                     self.graph.nodes[node]['year'] = Net.MAX_YEAR
         if model and dct:
             print('wiki.Net: calculating weights...')
-            Net.set_weights(self.graph, dump, model, dct)
+            self.graph.graph['tfidf'] = Net.compute_tfidf(self.nodes, dump, model, dct)
+            Net.set_weights(self.graph)
         if compute_core_periphery:
             print('wiki.Net: computing core-periphery...')
             Net.assign_core_periphery(self.graph)
@@ -576,26 +590,35 @@ class Net:
         return True
     
     @staticmethod
-    def set_weights(graph, dump, model, dct):
-        """Set the weights of graph as the cosine similarity
-        between ``tf-idf`` vectors of nodes.
+    def compute_tfidf(nodes, dump, model, dct):
+        """Compute tf-idf of pages with titles in ``nodes``.
         
         Parameters
         ----------
-        graph: networkx.DiGraph
+        nodes: list of nodes
         dump: wiki.Dump
         model: gensim.modes.tfidfmodel.TfidfModel
         dct: gensim.corpora.Dictionary
+        
+        Returns
+        -------
+        vecs: scipy.sparse.csc.csc_matrix
         """
-        nodes = list(graph.nodes)
         pages = [dump.load_page(page) for page in nodes]
         bows = [model[dct.doc2bow(gu.simple_preprocess(page.strip_code()))]
                 if page else []
                 for page in pages]
-        vecs = gmat.corpus2csc(bows)
+        return gmat.corpus2csc(bows)
+    
+    @staticmethod
+    def set_weights(graph):
+        """Set the weights of graph (``networkx.DiGraph``) as
+        the cosine similarity between ``graph.graph['tf-idf']]``
+        vectors of nodes."""
+        vecs = graph.graph['tfidf']
         for n1, n2 in graph.edges:
-            v1 = vecs[:,nodes.index(n1)].transpose()
-            v2 = vecs[:,nodes.index(n2)].transpose()
+            v1 = vecs[:,list(graph.nodes).index(n1)].transpose()
+            v2 = vecs[:,list(graph.nodes).index(n2)].transpose()
             graph[n1][n2]['weight'] = smp.cosine_similarity(X=v1, Y=v2)[0,0]
     
     @staticmethod
