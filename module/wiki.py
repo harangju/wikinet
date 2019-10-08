@@ -689,8 +689,9 @@ class Net:
         barcodes: pandas.DataFrame
         """
         print('wiki.Net: computing barcodes... (skip negatives)')
+        node_list = list(graph.nodes)
         barcodes = []
-        for i in range(len(m)):
+        for i, c in enumerate(m):
             if m.pair(i) < i: continue
             sys.stdout.write("\rwiki.Net: barcode {}/{}".\
                              format(i+1,len(m)))
@@ -709,14 +710,18 @@ class Net:
                 death_year = np.inf
                 death_simplex = []
                 death_nodes = []
-            
-            barcodes.append([dim, birth_year, death_year,
+            pair = m.pair(i) if m.pair(i) != m.unpaired else np.inf
+            chain = m[pair] if pair != np.inf else m[i]
+            simp_comp = [f[entry.index] for entry in chain]
+            nodes = [node_list[idx] for simplex in simp_comp for idx in simplex]
+            barcodes.append([dim, birth_year, death_year, death_year-birth_year,
                              birth_simplex, death_simplex,
-                             birth_nodes, death_nodes])
+                             birth_nodes, death_nodes, list(set(nodes))])
         print('')
         barcodes.sort(key=lambda x: x[0])
         bar_data = pd.DataFrame(data=barcodes,
-                                columns=['dim', 'birth', 'death',
+                                columns=['dim', 'birth', 'death', 'lifetime',
                                          'birth simplex', 'death simplex',
-                                         'birth nodes', 'death nodes'])
+                                         'birth nodes', 'death nodes',
+                                         'homology nodes'])
         return bar_data
