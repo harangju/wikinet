@@ -1,6 +1,7 @@
 name: wikinet
 dependencies:
   - python=3.7
+  - jupyter
   - numpy
   - scipy
   - pandas
