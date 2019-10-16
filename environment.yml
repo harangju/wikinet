@@ -9,6 +9,7 @@ dependencies:
   - seaborn
   - networkx
   - gensim
+  - pygraphviz
   - pip
   - pip:
     - bctpy
