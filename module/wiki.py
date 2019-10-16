@@ -103,7 +103,8 @@ class Dump:
             return self._years
         elif self.page:
             history = Dump.get_history(self.page)
-            self._years = Dump.filter_years(history) if history else []
+            top = self.page.get_sections()[0].strip_code()
+            self._years = Dump.filter_years(top + history)
             return self._years
         else:
             return self._years
