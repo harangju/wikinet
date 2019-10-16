@@ -428,6 +428,9 @@ class Net:
             for node in self.graph.nodes:
                 dump.load_page(node)
                 self.graph.nodes[node]['year'] = dump.years[0] if len(dump.years)>0 else []
+            self.graph.graph['num_years'] = sum([bool(y) 
+                                                 for y in nx.get_node_attributes(self.graph,
+                                                                                 'year').values()])
         if fill_empty_years:
             print('wiki.Net: filling empty years...')
             nodes_filled = True
