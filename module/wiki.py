@@ -142,7 +142,11 @@ class Dump:
         text = Dump.search_id(root, pid)
         text = Dump.filter_top_section(text) if filter_top else text
         self.page = mph.parse(text, skip_style_tags = True)
-        return self.page
+        if self.page and 'REDIRECT' in self.page.strip_code():
+            redirect = self.page.filter_wikilinks()[0].title
+            return self.load_page(str(redirect))
+        else:
+            return self.page
     
     @staticmethod
     def fetch_block(path, offset, block_size):
