@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import dionysus as d
 import networkx as nx
+import cpalgorithm as cpa
 import gensim.utils as gu
 import gensim.models as gm
 import gensim.matutils as gmat
@@ -640,11 +641,17 @@ class Net:
         Assign ``coreness`` to ``graph``.
         See ``core_periphery_dir()`` in ``bctpy``.
         """
-        core_periphery = bct.core_periphery_dir(nx.convert_matrix\
-                                                .to_numpy_array(graph))
+        # borgatti-everett
+        be = bct.core_periphery_dir(nx.convert_matrix.to_numpy_array(graph))
         for i, node in enumerate(graph.nodes):
-            graph.nodes[node]['core'] = core_periphery[0][i]
-        graph.graph['coreness'] = core_periphery[1]
+            graph.nodes[node]['core_be'] = be[0][i]
+        graph.graph['coreness_be'] = be[1]
+        # rombach
+        rb = cpa.Rombach()
+        rb.detect(graph)
+        for node, coreness in rb.get_coreness().items():
+            graph.nodes[node]['core_rb'] = coreness
+        graph.graph['coreness_rb'] = rb.score()
     
     @staticmethod
     def assign_communities(graph):
