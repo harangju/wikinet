@@ -81,8 +81,11 @@ class Dump:
         if self._links:
             return self._links
         elif self.page:
-            self._links = [str(x.title).split('#')[0].capitalize()
-                           for x in self.page.filter_wikilinks()]
+            self._links = [str(x.title) for x in self.page.filter_wikilinks()]
+            self._links = [l.split('#')[0] for l in self._links]
+            self._links = [l.split(' ') for l in self._links]
+            self._links = [l[0].capitalize() for l in self._links]
+            self._links = [' '.join(l) for l in self._links]
             return self._links
         else:
             return self._links
