@@ -170,13 +170,13 @@ class Dump:
     @staticmethod
     def get_history(page):
         """Returns the text of the history section.
-        Returns None if not found.
+        Returns ``""`` if not found.
         """
         headings = page.filter_headings()
         idx = [i for i, head in enumerate(headings) 
                        if 'History' in head or 'history' in head]
         if not idx:
-            return
+            return ""
         sections = page.get_sections(include_headings=True)
         history = str(sections[idx[0]+1].strip_code())
         return history
