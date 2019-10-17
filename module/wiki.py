@@ -687,7 +687,7 @@ class Net:
             community = [n for n in graph.nodes if graph.nodes[n]['community']==i]
             subgraph = graph.subgraph(community).copy()
             matrix = nx.convert_matrix.to_numpy_array(subgraph)
-            if matrix.size>1:
+            if (matrix.size>1) & (np.sum(matrix)>0):
                 # borgatti-everett
                 be = bct.core_periphery_dir(matrix)
                 # rombach
