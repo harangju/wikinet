@@ -409,7 +409,8 @@ class Net:
     def build_graph(self, name='', dump=None, nodes=None, depth_goal=1,
                     filter_top=True, remove_isolates=True, add_years=True,
                     fill_empty_years=True, model=None, dct=None,
-                    compute_core_periphery=True, compute_communities=True):
+                    compute_core_periphery=True, compute_communities=True,
+                    compute_community_cores=True):
         """ Builds ``self.graph`` (``networkx.Graph``) from nodes (``list``
         of ``string``). Set ``model`` (from ``gensim``) and ``dct``
         (``gensim.corpora.Dictionary``) for weighted edges.
@@ -453,6 +454,9 @@ class Net:
         if compute_communities:
             print('wiki.Net: computing communities...')
             Net.assign_communities(self.graph)
+        if compute_community_cores:
+            print('wiki.Net: computing cores within communities...')
+            Net.assign_cores_to_communities(self.graph)
     
     def load_graph(self, path):
         """Loads ``graph`` from ``path``.
@@ -481,7 +485,8 @@ class Net:
         pickle.dump(self.barcodes, open(path, 'wb'))
     
     def randomize(self, null_type,
-                  compute_core_periphery=True, compute_communities=True):
+                  compute_core_periphery=True, compute_communities=True,
+                  compute_community_cores=True):
         """Returns a new ``wiki.Net`` with a randomized 
         copy of ``graph``. Set ``null_type`` as one of
         ``'year'``, ``'target'``.
@@ -515,6 +520,9 @@ class Net:
         if compute_communities:
             print('wiki.Net: computing communities...')
             Net.assign_communities(network.graph)
+        if compute_community_cores:
+            print('wiki.Net: computing cores within communities...')
+            Net.assign_cores_to_communities(self.graph)
         return network
     
     @staticmethod
@@ -651,7 +659,7 @@ class Net:
         rb.detect(graph)
         for node, coreness in rb.get_coreness().items():
             graph.nodes[node]['core_rb'] = coreness
-        graph.graph['coreness_rb'] = rb.score()
+        graph.graph['coreness_rb'] = rb.score()[0]
     
     @staticmethod
     def assign_communities(graph):
@@ -673,21 +681,33 @@ class Net:
     def assign_cores_to_communities(graph):
         """"""
         num_comm = max([graph.nodes[n]['community'] for n in graph.nodes])
-        community_coreness = {i: 0 for i in range(num_comm)}
+        community_coreness_be = {i: 0 for i in range(num_comm)}
+        community_coreness_rb = {i: 0 for i in range(num_comm)}
         for i in range(num_comm+1):
             community = [n for n in graph.nodes if graph.nodes[n]['community']==i]
-            subgraph = graph.subgraph(community)
+            subgraph = graph.subgraph(community).copy()
             matrix = nx.convert_matrix.to_numpy_array(subgraph)
             if matrix.size>1:
-                core_peri = bct.core_periphery_dir(matrix)
-                community_coreness[i] = core_peri[1]
+                # borgatti-everett
+                be = bct.core_periphery_dir(matrix)
+                # rombach
+                rb = cpa.Rombach()
+                rb.detect(subgraph)
+                # assign
+                community_coreness_be[i] = be[1]
+                community_coreness_rb[i] = rb.score()[0]
+                cp_rb = rb.get_coreness()
                 for j, node in enumerate(subgraph.nodes):
-                    graph.nodes[node]['community_core'] = core_peri[0][j]
+                    graph.nodes[node]['community_core_be'] = be[0][j]
+                    graph.nodes[node]['community_core_rb'] = cp_rb[node]
             else:
-                community_coreness[i] = 0
+                community_coreness_be[i] = 0
+                community_coreness_rb[i] = 0
                 for j, node in enumerate(subgraph.nodes):
-                    graph.nodes[node]['community_core'] = 1
-        graph.graph['community_coreness'] = community_coreness
+                    graph.nodes[node]['community_core_be'] = 1
+                    graph.nodes[node]['community_core_rb'] = 1
+        graph.graph['community_coreness_be'] = community_coreness_be
+        graph.graph['community_coreness_rb'] = community_coreness_rb
     
     @staticmethod
     def compute_barcodes(f, m, graph, names):
