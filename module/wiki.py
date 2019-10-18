@@ -204,10 +204,10 @@ class Dump:
         articles = ['the']
         times = ['early', 'mid', 'late']
         patterns = months + prepositions + conjugations + articles + times
-        re_string = r'\b(' + '|'.join(patterns) + r')\b(\s|-)\b([0-9]{3,4})s?\b\s?(BCE|BC)?'
+        re_string = r'\b(' + '|'.join(patterns) + r')\b(\s|-)\b([0-9]{3,4})s?\b(?i)(?!\sMYA)\s?(BCE|BC)?'
         years = [int(match.group(3)) * (-2*bool(match.group(4))+1)
                 for match in re.finditer(re_string, text, re.IGNORECASE)]
-        re_string = r'([0-9]{1,2})th century\s?(BCE|BC)?'
+        re_string = r'([0-9]{1,2})(st|nd|rd|th) century\s?(BCE|BC)?'
         centuries = [(int(match.group(1)) * 100 - 100) * (-2*bool(match.group(2))+1)
                      for match in re.finditer(re_string, text, re.IGNORECASE)]
         years += centuries
