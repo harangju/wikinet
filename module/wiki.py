@@ -195,10 +195,10 @@ class Dump:
         """Filters the years from text."""
         months = ['january', 'february', 'march', 'april', 'may', 'june',
                   'july', 'august', 'september', 'october', 'november', 'december']
-        prepositions = ['about', 'around', 'after', 'at', 'as',
+        prepositions = ['around', 'after', 'at', 'as',
                         'approximately', 'before', 'between', 'by',
                         'during', 'from', 'in', 'near', 'past',
-                        'since', 'until', 'within'] # removed: on
+                        'since', 'until', 'within'] # removed: about, on
         conjugations = ['and']
         articles = ['the']
         times = ['early', 'mid', 'late']
