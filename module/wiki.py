@@ -45,6 +45,7 @@ class Dump:
     cache: xml.etree.ElementTree.Node
         Cache of the XML tree in current block
     """
+    MAX_YEAR = 2020
     
     def __init__(self, path_xml, path_idx):
         self._idx = {}
@@ -209,6 +210,8 @@ class Dump:
         re_string = r'([0-9]{1,2})th century\s?(BCE|BC)?'
         centuries = [(int(match.group(1)) * 100 - 100) * (-2*bool(match.group(2))+1)
                      for match in re.finditer(re_string, text, re.IGNORECASE)]
+        years += centuries
+        years = [y for y in years if y<Dump.MAX_YEAR]
         return sorted(years + centuries)
 
 class Corpus:
