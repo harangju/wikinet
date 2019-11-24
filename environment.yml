@@ -10,6 +10,7 @@ dependencies:
   - networkx
   - gensim
   - pygraphviz
+  - mpmath # for incomplete gamma function
   - pip
   - pip:
     - bctpy
@@ -18,3 +19,4 @@ dependencies:
     - dionysus
     - pybind11
     - cpalgorithm
+    - powerlaw
