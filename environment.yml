@@ -10,7 +10,8 @@ dependencies:
   - networkx
   - gensim
   - pygraphviz
-  - mpmath # for incomplete gamma function
+  - mpmath # for powerlaw
+  - cython
   - pip
   - pip:
     - bctpy
