@@ -12,6 +12,7 @@ dependencies:
   - pygraphviz
   - mpmath # for powerlaw
   - cython
+  - sphinx
   - pip
   - pip:
     - bctpy
@@ -21,3 +22,4 @@ dependencies:
     - pybind11
     - cpalgorithm
     - powerlaw
+    - sphinx_rtd_theme
