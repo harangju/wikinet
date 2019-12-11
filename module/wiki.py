@@ -7,6 +7,7 @@ import math
 import random
 import pickle
 import numpy as np
+import scipy as sp
 import pandas as pd
 import dionysus as d
 import networkx as nx
@@ -766,3 +767,51 @@ class Net:
                                          'birth nodes', 'death nodes',
                                          'homology nodes'])
         return bar_data
+
+class Model():
+    """
+    
+    Attributes
+    ----------
+    graph: networkx.DiGraph
+    vectors: scipy.sparse.csc_matrix
+    seeds: {node string: []}
+    year: int
+    """
+    
+    def __init__(self, parent_graph, parent_vector, start_year):
+        self.graph = None
+        self.vectors = None
+        self.seeds = {}
+        self.year = start_year
+    
+    def evolve(year_end, n_seeds, rvs, point, insert, delete, neighbor):
+        pass
+    
+    def initialize_seeds():
+        pass
+    
+    def mutate_seeds():
+        pass
+    
+    @staticmethod
+    def mutate():
+        pass
+    
+    def create_nodes():
+        pass
+    
+    @staticmethod
+    def connect():
+        pass
+    
+    @staticmethod
+    def find_top_words():
+        pass
+    
+    def crossover_seeds():
+        pass
+    
+    @staticmethod
+    def crossover(v1, v2):
+        pass
