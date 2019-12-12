@@ -777,41 +777,227 @@ class Model():
     vectors: scipy.sparse.csc_matrix
     seeds: {node string: []}
     year: int
+    record: pandas.DataFrame
+        record of evolution
     """
     
     def __init__(self, parent_graph, parent_vector, start_year):
-        self.graph = None
-        self.vectors = None
+        start_nodes = [n for n in parent_graph.nodes
+                       if parent_graph.nodes[n]['year'] <= start_year]
+        self.graph = parent_graph.subgraph(start_nodes).copy()
+        self.vectors = sp.sparse.hstack([parent_vector[:,list(parent_graph.nodes).index(n)]
+                                         for n in start_nodes])
         self.seeds = {}
         self.year = start_year
+        self.record = pd.DataFrame()
     
-    def evolve(year_end, n_seeds, rvs, point, insert, delete, neighbor):
-        pass
+    def evolve(year_end, n_seeds, point, insert, delete, rvs,
+               thresholds_create, threshold_crossover):
+        """ Evolves a graph based on vector representations
+        
+        Parameters
+        ----------
+        graph: networkx.DiGraph
+        vectors: scipy.sparse.csc_matrix
+        year_end: int
+        n_seeds: int
+            number of seeds per node
+        rvs: lambda n->float
+            random values for point mutations & insertions
+        point, insert, delete: tuple
+            See ``mutate()``.
+        thresholds_create: lambda n-> float 
+            thresholds of cosine similarity between parent
+            for node creation
+        threshold_crossover: float
+            threshold of cosine similarity between parent
+            for crossing over nodes
+        """
+        seeds = {}
+        thresholds = {}
+        start_year = self.year
+        for year in range(start_year, year_end+1):
+            sys.stdout.write(f"\r{year_start}\t> {year}\t> {year_end}"+\
+                             f"\tn={graph.number_of_nodes()}"+\
+                             f" {list(seeds.keys())}")
+            sys.stdout.flush()
+            initialize_seeds(seeds, graph, n_seeds, vectors, thresholds, thresholds_create)
+            mutate_seeds(seeds, rvs, point=point, insert=insert, delete=delete)
+            vectors = create_nodes(seeds, graph, vectors, thresholds, year)
+            crossover_seeds(seeds, threshold_crossover)
+            for seed, seed_vecs in seeds.items():
+                for seed_vec in seed_vecs:
+                    self.record = self.record.append({'Year': year,
+                                                      'Parent': seed,
+                                                      'Seed vectors': seed_vec},
+                                                     ignore_index=True)
+            self.year = year
+        return vectors, data
     
-    def initialize_seeds():
-        pass
+    def initialize_seeds(n_seeds, vectors, thresholds, thresholds_create):
+        for node in graph.nodes:
+            if node not in seeds.keys():
+                seeds[node] = []
+                thresholds[node] = []
+            if len(seeds[node]) < n_seeds:
+                seeds[node].append(vectors[:,list(graph.nodes).index(node)].copy())
+                thresholds[node].append(thresholds_create(1))
     
-    def mutate_seeds():
-        pass
+    def mutate_seeds(seeds, rvs, point, insert, delete):
+        for node, vecs in seeds.items():
+            seeds[node] = [mutate(vec, rvs, point=point, insert=insert, delete=delete)
+                           for vec in vecs]
+    
+    def create_nodes(seeds, graph, vectors, thresholds, year):
+        nodes = list(graph.nodes) # graph.nodes changed in ``connect()``
+        for i, node in enumerate(nodes):
+            parent_vec = vectors[:,i].transpose()
+            for j, seed_vec in enumerate(seeds[node]):
+                sim_to_parent = smp.cosine_similarity(seed_vec.transpose(), parent_vec)
+                if sim_to_parent[0,0] < thresholds[node][j]:
+                    connect(seed_vec, graph, vectors, dct, match_n=3)
+                    vectors = ss.hstack([vectors, seed_vec])
+                    seeds[node].pop(j)
+                    thresholds[node].pop(j)
+        for node in graph.nodes:
+            if 'year' not in graph.nodes[node].keys():
+                graph.nodes[node]['year'] = year
+        return vectors
     
     @staticmethod
-    def mutate():
-        pass
-    
-    def create_nodes():
-        pass
+    def mutate(x, rvs, point=(0,0), insert=(0,0,None), delete=(0,0)):
+        """ Mutates vector ``x`` with point mutations,
+        insertions, and deletions. Insertions and point
+        mutations draw from a random process ``rvs``.
+        
+        Parameters
+        ----------
+        x: spipy.sparse.csc_matrix
+        rvs: lambda (n)-> float
+            returns ``n`` random weights in [0,1]
+        point: tuple (int n, float p)
+            n = number of elements to insert
+            p = probability of insertion for each trial
+        insert: tuple (n, p, iterable s)
+            s = set of elements from which to select
+                if None, select from all zero elements
+        delete: tuple (n, p)
+        max_weight: float
+        """
+        data = x.data
+        idx = x.indices
+        n_point = np.random.binomial(point[0], point[1])
+        i_point = np.random.choice(x.size, size=n_point, replace=False)
+        data[i_point] = rvs(n_point)
+        # insertion
+        n_insert = np.random.binomial(insert[0], insert[1])
+        for _ in range(n_insert):
+            while True:
+                insert_idx = np.random.choice(insert[2]) if insert[2]\
+                    else np.random.choice(x.shape[0])
+                if insert_idx not in idx: break
+            idx = np.append(idx, insert_idx)
+            data = np.append(data, rvs(1))
+        # deletion
+        n_delete = np.random.binomial(delete[0], delete[1])
+        i_delete = np.random.choice(idx.size, size=n_delete, replace=False)
+        idx = np.delete(idx, i_delete)
+        data = np.delete(data, i_delete)
+        y = sp.sparse.csc_matrix((data, (idx, np.zeros(idx.shape, dtype=int))),
+                                 shape=x.shape)
+        return y
     
     @staticmethod
-    def connect():
-        pass
+    def connect(seed_vector, graph, vectors, dct, top_words=5, match_n=3):
+        """
+        
+        Parameters
+        ----------
+        seed_vector: scipy.sparse.csc_matrix
+        graph: networkx.DiGraph (not optional)
+        vectors: scipy.sparse.csc_matrix (not optional)
+        dct: gensim.corpora.dictionary (not optional)
+        top_words: int (default=5)
+        match_n: int
+            how many words should be matched by...
+        """
+        seed_top_words, seed_top_idx = Model.find_top_words(seed_vector, dct)
+        seed_name = ' '.join(seed_top_words)
+        nodes = list(graph.nodes)
+        graph.add_node(seed_name)
+        for i, node in enumerate(nodes):
+            node_vector = vectors[:,i]
+            node_top_words, node_top_idx = Model.find_top_words(node_vector, dct)
+            if len(set(seed_top_idx).intersection(set(node_vector.indices))) >= match_n:
+                graph.add_edge(node, seed_name)
+            if len(set(node_top_idx).intersection(set(seed_vector.indices))) >= match_n:
+                graph.add_edge(seed_name, node)
     
     @staticmethod
-    def find_top_words():
-        pass
+    def find_top_words(x, dct, top_n=5, stoplist=set('for a of the and to in'.split())):
+        """
+
+        Parameters
+        ----------
+        x: scipy.sparse.csc_matrix
+        dct: gensim.corpora.dictionary
+        top_n: int
+
+        Returns
+        -------
+        words:
+        idx_vector: 
+        """
+        top_idx = np.argsort(x.data)[-top_n:]
+        idx = [x.indices[i] for i in top_idx if dct[x.indices[i]] not in stoplist]
+        words = [dct[i] for i in idx]
+        return words, idx
     
-    def crossover_seeds():
-        pass
+    @staticmethod
+    def crossover_seeds(seeds, threshold=.7):
+        """ Crosses ``seeds`` if similarity between two seeds
+        is greater than ``threshold``. Then, it sets one of the
+        seeds to ``None``.
+        
+        Parameters
+        ----------
+        seeds: dict {str: [scipy.sparse.csc_matrix]}
+        threshold: float
+        """
+        for i, node_i in enumerate(seeds.keys()):
+            for j, node_j in enumerate(seeds.keys()):
+                if i==j: continue
+                for k, seed_vec_k in enumerate(seeds[node_i]):
+                    for l, seed_vec_l in enumerate(seeds[node_j]):
+                        similarity = smp.cosine_similarity(seed_vec_k.transpose(),
+                                                           seed_vec_l.transpose())[0,0]
+                        if similarity > threshold:
+                            if bool(np.random.rand() < 0.5):
+                                seeds[node_i][k] = Model.crossover(seed_vec_k, seed_vec_l)
+                                seeds[node_j].pop(l)
+                            else:
+                                seeds[node_i].pop(k)
+                                seeds[node_j][l] = Model.crossover(seed_vec_k, seed_vec_l)
     
     @staticmethod
     def crossover(v1, v2):
-        pass
+        """ Crosses two vectors by combining half of one
+        and half of the other.
+
+        Parameters
+        ----------
+        v1, v2: scipy.sparse.matrix
+
+        Returns
+        -------
+        v3: scipy.sparse.matrix
+        """
+        idx1 = np.random.choice(v1.size, size=int(v1.size/2))
+        idx2 = np.random.choice(v2.size, size=int(v2.size/2))
+        data = np.array([v1.data[i] for i in idx1] +
+                        [v2.data[i] for i in idx2])
+        idx = np.array([v1.indices[i] for i in idx1] +
+                       [v2.indices[i] for i in idx2])
+        v3 = sp.sparse.csc_matrix((data, (idx, np.zeros(idx.shape, dtype=int))),
+                                  shape=v1.shape)
+        return v3
