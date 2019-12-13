@@ -827,14 +827,15 @@ class Model():
             sys.stdout.flush()
             self.initialize_seeds(n_seeds, create)
             self.mutate_seeds(rvs, point, insert, delete)
-            self.create_nodes(dct)
             self.crossover_seeds(crossover)
+            self.create_nodes(dct, year)
             self.record = pd.concat([self.record] + \
                                     [pd.DataFrame({'Year': year,
                                                    'Parent': seed,
+                                                   'Seed number': i,
                                                    'Seed vectors': seed_vec}, index=[0])
                                      for seed, seed_vecs in self.seeds.items()
-                                     for seed_vec in seed_vecs],
+                                     for i, seed_vec in enumerate(seed_vecs)],
                                     ignore_index=True)
     
     def initialize_seeds(self, n_seeds, thresholds_create):
@@ -854,40 +855,35 @@ class Model():
             self.seeds[node] = [Model.mutate(vec, rvs, point, insert, delete)
                                 for vec in vecs]
     
-    def create_nodes(self, dct):
+    def crossover_seeds(self, threshold):
+        nodes = list(self.graph.nodes)
+        for i in range(len(nodes)):
+            seeds_i = sp.sparse.hstack(self.seeds[nodes[i]])
+            for j in range(i+1,len(nodes)):
+                seeds_j = sp.sparse.hstack(self.seeds[nodes[j]])
+                similarity = smp.cosine_similarity(seeds_i.transpose(),
+                                                   seeds_j.transpose())
+                for k,l in np.argwhere(similarity>threshold):
+                    cross = Model.crossover(seeds_i[:,k], seeds_j[:,l])
+                    choice = np.random.choice(2)
+                    self.seeds[nodes[i]][k] = cross if choice else self.vectors[:,i]
+                    self.seeds[nodes[j]][l] = cross if not choice else self.vectors[:,j]
+    
+    def create_nodes(self, dct, year):
         nodes = list(self.graph.nodes)
         for i, node in enumerate(nodes):
-            parent_vec = self.vectors[:,i].transpose()
+            parent = self.vectors[:,i]
+            seeds = sp.sparse.hstack(self.seeds[node])
+            sim_to_parent = smp.cosine_similarity(parent.transpose(), seeds.transpose())
             for j, seed_vec in enumerate(self.seeds[node]):
-                sim_to_parent = smp.cosine_similarity(seed_vec.transpose(), parent_vec)
-                if sim_to_parent[0,0] < self.thresholds[node][j]:
-                    print('\n', sim_to_parent[0,0], self.thresholds[node][j], i, j)
-                    print(self.thresholds)
+                if sim_to_parent[0,j] < self.thresholds[node][j]:
                     Model.connect(seed_vec, self.graph, self.vectors, dct, match_n=3)
                     self.vectors = sp.sparse.hstack([self.vectors, seed_vec])
-#                     seeds[node][j] = 
                     self.seeds[node].pop(j)
                     self.thresholds[node].pop(j)
         for node in self.graph.nodes:
             if 'year' not in self.graph.nodes[node].keys():
                 self.graph.nodes[node]['year'] = year
-    
-    def crossover_seeds(self, threshold):
-        nodes = list(self.graph.nodes)
-        for i, node_i in enumerate(self.seeds.keys()):
-            for j, node_j in enumerate(self.seeds.keys()):
-                if i==j: continue
-                for k, seed_vec_k in enumerate(self.seeds[node_i]):
-                    for l, seed_vec_l in enumerate(self.seeds[node_j]):
-                        similarity = smp.cosine_similarity(seed_vec_k.transpose(),
-                                                           seed_vec_l.transpose())[0,0]
-                        if similarity > threshold:
-                            if bool(np.random.rand() < 0.5):
-                                self.seeds[node_i][k] = Model.crossover(seed_vec_k, seed_vec_l)
-                                self.seeds[node_j][l] = self.vectors[:,nodes.index(node_j)]
-                            else:
-                                self.seeds[node_i][k] = self.vectors[:,nodes.index(node_i)]
-                                self.seeds[node_j][l] = Model.crossover(seed_vec_k, seed_vec_l)
     
     @staticmethod
     def mutate(x, rvs, point=(0,0), insert=(0,0,None), delete=(0,0)):
