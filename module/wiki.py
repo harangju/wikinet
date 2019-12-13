@@ -775,30 +775,30 @@ class Model():
     ----------
     graph: networkx.DiGraph
     vectors: scipy.sparse.csc_matrix
-    seeds: {node string: []}
+    seeds: {node string: [scipy.sparse.csc_matrix]}
+    thresholds: {node string: [float]}
     year: int
     record: pandas.DataFrame
         record of evolution
     """
     
-    def __init__(self, parent_graph, parent_vector, start_year):
-        start_nodes = [n for n in parent_graph.nodes
-                       if parent_graph.nodes[n]['year'] <= start_year]
-        self.graph = parent_graph.subgraph(start_nodes).copy()
-        self.vectors = sp.sparse.hstack([parent_vector[:,list(parent_graph.nodes).index(n)]
+    def __init__(self, graph_parent, vector_parent, year_start):
+        start_nodes = [n for n in graph_parent.nodes
+                       if graph_parent.nodes[n]['year'] <= year_start]
+        self.graph = graph_parent.subgraph(start_nodes).copy()
+        self.vectors = sp.sparse.hstack([vector_parent[:,list(graph_parent.nodes).index(n)]
                                          for n in start_nodes])
         self.seeds = {}
-        self.year = start_year
+        self.thresholds = {}
+        self.year = year_start
         self.record = pd.DataFrame()
     
-    def evolve(year_end, n_seeds, point, insert, delete, rvs,
+    def evolve(self, year_end, n_seeds, point, insert, delete, rvs,
                thresholds_create, threshold_crossover):
         """ Evolves a graph based on vector representations
         
         Parameters
         ----------
-        graph: networkx.DiGraph
-        vectors: scipy.sparse.csc_matrix
         year_end: int
         n_seeds: int
             number of seeds per node
@@ -813,41 +813,45 @@ class Model():
             threshold of cosine similarity between parent
             for crossing over nodes
         """
-        seeds = {}
-        thresholds = {}
-        start_year = self.year
-        for year in range(start_year, year_end+1):
+        year_start = self.year
+        for year in range(year_start, year_end+1):
             sys.stdout.write(f"\r{year_start}\t> {year}\t> {year_end}"+\
-                             f"\tn={graph.number_of_nodes()}"+\
-                             f" {list(seeds.keys())}")
+                             f"\tn={self.graph.number_of_nodes()}")
             sys.stdout.flush()
-            initialize_seeds(seeds, graph, n_seeds, vectors, thresholds, thresholds_create)
-            mutate_seeds(seeds, rvs, point=point, insert=insert, delete=delete)
-            vectors = create_nodes(seeds, graph, vectors, thresholds, year)
-            crossover_seeds(seeds, threshold_crossover)
-            for seed, seed_vecs in seeds.items():
-                for seed_vec in seed_vecs:
-                    self.record = self.record.append({'Year': year,
-                                                      'Parent': seed,
-                                                      'Seed vectors': seed_vec},
-                                                     ignore_index=True)
+            Model.initialize_seeds(self.seeds, self.graph, n_seeds, self.vectors,
+                                   self.thresholds, thresholds_create)
+            Model.mutate_seeds(self.seeds, rvs, point, insert, delete)
+            vectors = Model.create_nodes(self.seeds, self.graph, self.vectors,
+                                         self.thresholds, year)
+            Model.crossover_seeds(self.seeds, self.graph, self.vectors, threshold_crossover)
+            self.record = pd.concat([self.record] + \
+                                    [pd.DataFrame({'Year': year,
+                                                   'Parent': seed,
+                                                   'Seed vectors': seed_vec}, index=[0])
+                                     for seed, seed_vecs in self.seeds.items()
+                                     for seed_vec in seed_vecs],
+                                    ignore_index=True)
             self.year = year
-        return vectors, data
     
-    def initialize_seeds(n_seeds, vectors, thresholds, thresholds_create):
+    @staticmethod
+    def initialize_seeds(seeds, graph, n_seeds, vectors, 
+                         thresholds, thresholds_create):
         for node in graph.nodes:
             if node not in seeds.keys():
                 seeds[node] = []
                 thresholds[node] = []
-            if len(seeds[node]) < n_seeds:
+            while len(seeds[node]) < n_seeds:
                 seeds[node].append(vectors[:,list(graph.nodes).index(node)].copy())
+            while len(thresholds[node]) < n_seeds:
                 thresholds[node].append(thresholds_create(1))
     
+    @staticmethod
     def mutate_seeds(seeds, rvs, point, insert, delete):
         for node, vecs in seeds.items():
-            seeds[node] = [mutate(vec, rvs, point=point, insert=insert, delete=delete)
+            seeds[node] = [Model.mutate(vec, rvs, point=point, insert=insert, delete=delete)
                            for vec in vecs]
     
+    @staticmethod
     def create_nodes(seeds, graph, vectors, thresholds, year):
         nodes = list(graph.nodes) # graph.nodes changed in ``connect()``
         for i, node in enumerate(nodes):
@@ -954,7 +958,7 @@ class Model():
         return words, idx
     
     @staticmethod
-    def crossover_seeds(seeds, threshold=.7):
+    def crossover_seeds(seeds, graph, vectors, threshold=.7):
         """ Crosses ``seeds`` if similarity between two seeds
         is greater than ``threshold``. Then, it sets one of the
         seeds to ``None``.
@@ -962,8 +966,11 @@ class Model():
         Parameters
         ----------
         seeds: dict {str: [scipy.sparse.csc_matrix]}
+        graph: networkx.DiGraph
+        vectors: scipy.sparse.csc_matrix
         threshold: float
         """
+        nodes = list(graph.nodes)
         for i, node_i in enumerate(seeds.keys()):
             for j, node_j in enumerate(seeds.keys()):
                 if i==j: continue
@@ -974,9 +981,9 @@ class Model():
                         if similarity > threshold:
                             if bool(np.random.rand() < 0.5):
                                 seeds[node_i][k] = Model.crossover(seed_vec_k, seed_vec_l)
-                                seeds[node_j].pop(l)
+                                seeds[node_j][l] = vectors[:,nodes.index(node_j)]
                             else:
-                                seeds[node_i].pop(k)
+                                seeds[node_i][k] = vectors[:,nodes.index(node_i)]
                                 seeds[node_j][l] = Model.crossover(seed_vec_k, seed_vec_l)
     
     @staticmethod
