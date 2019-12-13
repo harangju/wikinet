@@ -785,18 +785,18 @@ class Model():
     """
     
     def __init__(self, graph_parent, vectors_parent, year_start):
+        self.graph_parent = graph_parent
+        self.vectors_parent = vectors_parent
+        self.year = year_start
+        self.seeds = {}
+        self.thresholds = {}
+        self.record = pd.DataFrame()
         nodes = list(graph_parent.nodes)
         start_nodes = [n for n in nodes
                        if graph_parent.nodes[n]['year'] <= year_start]
         self.graph = graph_parent.subgraph(start_nodes).copy()
         self.vectors = sp.sparse.hstack([vectors_parent[:,nodes.index(n)]
                                          for n in start_nodes])
-        self.graph_parent = graph_parent
-        self.vectors_parent = vectors_parent
-        self.seeds = {}
-        self.thresholds = {}
-        self.year = year_start
-        self.record = pd.DataFrame()
     
     def evolve(self, year_end, n_seeds, point, insert, delete,
                rvs, dct, create, crossover):
@@ -840,13 +840,13 @@ class Model():
     
     def initialize_seeds(self, n_seeds, thresholds_create):
         nodes = list(self.graph.nodes)
-        for node in nodes:
+        for i, node in enumerate(nodes):
             if node not in self.seeds.keys():
                 self.seeds[node] = []
             if node not in self.thresholds.keys():
                 self.thresholds[node] = []
             while len(self.seeds[node]) < n_seeds:
-                self.seeds[node] += [self.vectors[:,nodes.index(node)]]
+                self.seeds[node] += [self.vectors[:,i]]
             while len(self.thresholds[node]) < n_seeds:
                 self.thresholds[node] += [thresholds_create(1)[0]]
     
