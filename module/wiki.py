@@ -859,7 +859,7 @@ class Model():
             for j, seed_vec in enumerate(seeds[node]):
                 sim_to_parent = smp.cosine_similarity(seed_vec.transpose(), parent_vec)
                 if sim_to_parent[0,0] < thresholds[node][j]:
-                    connect(seed_vec, graph, vectors, dct, match_n=3)
+                    Model.connect(seed_vec, graph, vectors, dct, match_n=3)
                     vectors = ss.hstack([vectors, seed_vec])
                     seeds[node].pop(j)
                     thresholds[node].pop(j)
