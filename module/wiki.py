@@ -823,7 +823,7 @@ class Model():
         for year in range(year_start, year_end+1):
             self.year = year
             sys.stdout.write(f"\r{year_start}\t> {year}\t> {year_end}"+\
-                             f"\tn={self.graph.number_of_nodes()}")
+                             f"\tn={self.graph.number_of_nodes()}\t\t")
             sys.stdout.flush()
             self.initialize_seeds(n_seeds, create)
             self.mutate_seeds(rvs, point, insert, delete)
