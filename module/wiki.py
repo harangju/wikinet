@@ -949,10 +949,9 @@ class Model():
         for i, node in enumerate(nodes):
             node_vector = vectors[:,i]
             node_top_words, node_top_idx = Model.find_top_words(node_vector, dct)
-            if len(set(seed_top_idx).intersection(set(node_vector.indices))) >= match_n:
+            if len(set(seed_top_idx).intersection(set(node_vector.indices))) >= match_n or\
+               len(set(node_top_idx).intersection(set(seed_vector.indices))) >= match_n:
                 graph.add_edge(node, seed_name)
-            if len(set(node_top_idx).intersection(set(seed_vector.indices))) >= match_n:
-                graph.add_edge(seed_name, node)
     
     @staticmethod
     def find_top_words(x, dct, top_n=5, stoplist=set('for a of the and to in'.split())):
