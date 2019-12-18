@@ -13,6 +13,7 @@ dependencies:
   - mpmath # for powerlaw
   - cython
   - sphinx
+  - line_profiler
   - pip
   - pip:
     - bctpy
