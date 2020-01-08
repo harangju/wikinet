@@ -17,6 +17,7 @@ dependencies:
   - sphinx
   - line_profiler
   - jupyter_contrib_nbextensions
+  - ipywidgets
   - pip
   - pip:
     - bctpy
