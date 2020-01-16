@@ -18,6 +18,7 @@ dependencies:
   - line_profiler
   - jupyter_contrib_nbextensions
   - ipywidgets
+  - plotly
   - pip
   - pip:
     - bctpy
@@ -28,3 +29,4 @@ dependencies:
     - cpalgorithm
     - powerlaw
     - sphinx_rtd_theme
+    - cufflinks
