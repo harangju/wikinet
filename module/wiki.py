@@ -836,7 +836,8 @@ class Model():
                                                    'Seed vectors': seed_vec}, index=[0])
                                      for seed, seed_vecs in self.seeds.items()
                                      for i, seed_vec in enumerate(seed_vecs)],
-                                    ignore_index=True)
+                                    ignore_index=True,
+                                    sort=False)
     
     def initialize_seeds(self, n_seeds, thresholds_create):
         nodes = list(self.graph.nodes)
@@ -846,7 +847,7 @@ class Model():
             if node not in self.thresholds.keys():
                 self.thresholds[node] = []
             while len(self.seeds[node]) < n_seeds:
-                self.seeds[node] += [self.vectors[:,i]]
+                self.seeds[node] += [self.vectors[:,i].copy()]
             while len(self.thresholds[node]) < n_seeds:
                 self.thresholds[node] += [thresholds_create(1)[0]]
     
