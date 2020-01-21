@@ -931,7 +931,7 @@ class Model():
         return y
     
     @staticmethod
-    def connect(seed_vector, graph, vectors, dct, top_words=10, match_n=4):
+    def connect(seed_vector, graph, vectors, dct, top_words=10, match_n=6):
         """
         
         Parameters
@@ -956,7 +956,7 @@ class Model():
                 graph.add_edge(node, seed_name)
     
     @staticmethod
-    def find_top_words(x, dct, top_n=10, stoplist=set('for a of the and to in'.split())):
+    def find_top_words(x, dct, top_n=10):
         """
         
         Parameters
