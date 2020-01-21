@@ -15,6 +15,7 @@ import cpalgorithm as cpa
 import gensim.utils as gu
 import gensim.models as gm
 import gensim.matutils as gmat
+import gensim.parsing.preprocessing as gpp
 import mwparserfromhell as mph
 import xml.etree.ElementTree as ET
 import sklearn.metrics.pairwise as smp
@@ -827,7 +828,7 @@ class Model():
             sys.stdout.flush()
             self.initialize_seeds(n_seeds, create)
             self.mutate_seeds(rvs, point, insert, delete)
-            self.crossover_seeds(crossover)
+#             self.crossover_seeds(crossover)
             self.create_nodes(dct, year)
             self.record = pd.concat([self.record] + \
                                     [pd.DataFrame({'Year': year,
@@ -878,7 +879,7 @@ class Model():
             sim_to_parent = smp.cosine_similarity(parent.transpose(), seeds.transpose())
             for j, seed_vec in enumerate(self.seeds[node]):
                 if sim_to_parent[0,j] < self.thresholds[node][j]:
-                    Model.connect(seed_vec, self.graph, self.vectors, dct, match_n=3)
+                    Model.connect(seed_vec, self.graph, self.vectors, dct)
                     self.vectors = sp.sparse.hstack([self.vectors, seed_vec])
                     self.seeds[node].pop(j)
                     self.thresholds[node].pop(j)
@@ -930,7 +931,7 @@ class Model():
         return y
     
     @staticmethod
-    def connect(seed_vector, graph, vectors, dct, top_words=5, match_n=3):
+    def connect(seed_vector, graph, vectors, dct, top_words=10, match_n=4):
         """
         
         Parameters
@@ -955,9 +956,9 @@ class Model():
                 graph.add_edge(node, seed_name)
     
     @staticmethod
-    def find_top_words(x, dct, top_n=5, stoplist=set('for a of the and to in'.split())):
+    def find_top_words(x, dct, top_n=10, stoplist=set('for a of the and to in'.split())):
         """
-
+        
         Parameters
         ----------
         x: scipy.sparse.csc_matrix
@@ -970,9 +971,12 @@ class Model():
         idx_vector: 
         """
         top_idx = np.argsort(x.data)[-top_n:]
-        idx = [x.indices[i] for i in top_idx if dct[x.indices[i]] not in stoplist]
+        idx = [x.indices[i] for i in top_idx]
         words = [dct[i] for i in idx]
-        return words, idx
+        words_nostop = gpp.remove_stopwords(' '.join(words)).split(' ')
+        idx_keep = list(map(lambda x: words.index(x), set(words).intersection(words_nostop)))
+        idx_nostop = list(map(idx.__getitem__, idx_keep))
+        return words_nostop, idx_nostop
         
     @staticmethod
     def crossover(v1, v2):
