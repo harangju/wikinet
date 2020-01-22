@@ -1,5 +1,4 @@
 
-tests/test-barcodes.ipynb
 tests/model*.pickle
 
 # Byte-compiled / optimized / DLL files
