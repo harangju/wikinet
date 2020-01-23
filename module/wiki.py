@@ -800,7 +800,7 @@ class Model():
     """
     
     def __init__(self, graph_parent, vectors_parent, year_start,
-                 n_seeds, point, insert, delete, rvs, dct,
+                 n_seeds, dct, point, insert, delete, rvs,
                  create, crossover):
         self.graph_parent = graph_parent
         self.vectors_parent = vectors_parent
@@ -816,11 +816,11 @@ class Model():
         self.vectors = sp.sparse.hstack([vectors_parent[:,nodes.index(n)]
                                          for n in self.start_nodes])
         self.n_seeds = n_seeds
+        self.dct = dct
         self.point = point
         self.insert = insert
         self.delete = delete
         self.rvs = rvs
-        self.dct = dct
         self.create = create
         self.crossover = crossover
     
