@@ -783,53 +783,73 @@ class Model():
     year: int
     record: pandas.DataFrame
         record of evolution
+    year_start: int
+    n_seeds: int
+        number of seeds per node
+    point, insert, delete: tuple
+        See ``mutate()``.
+    rvs: lambda n->float
+        random values for point mutations & insertions
+    dct: gensim.corpora.dictionary
+    create: lambda n-> float 
+        thresholds of cosine similarity with parent
+        for node creation
+    crossover: float
+        threshold of cosine similarity with parent
+        for crossing over nodes
     """
     
-    def __init__(self, graph_parent, vectors_parent, year_start):
+    def __init__(self, graph_parent, vectors_parent, year_start,
+                 n_seeds, point, insert, delete, rvs, dct,
+                 create, crossover):
         self.graph_parent = graph_parent
         self.vectors_parent = vectors_parent
+        self.year_start = year_start
         self.year = year_start
         self.seeds = {}
         self.thresholds = {}
         self.record = pd.DataFrame()
         nodes = list(graph_parent.nodes)
-        start_nodes = [n for n in nodes
-                       if graph_parent.nodes[n]['year'] <= year_start]
-        self.graph = graph_parent.subgraph(start_nodes).copy()
+        self.start_nodes = [n for n in nodes
+                            if graph_parent.nodes[n]['year'] <= year_start]
+        self.graph = graph_parent.subgraph(self.start_nodes).copy()
         self.vectors = sp.sparse.hstack([vectors_parent[:,nodes.index(n)]
-                                         for n in start_nodes])
+                                         for n in self.start_nodes])
+        self.n_seeds = n_seeds
+        self.point = point
+        self.insert = insert
+        self.delete = delete
+        self.rvs = rvs
+        self.dct = dct
+        self.create = create
+        self.crossover = crossover
     
-    def evolve(self, year_end, n_seeds, point, insert, delete,
-               rvs, dct, create, crossover):
-        """ Evolves a graph based on vector representations
-        
-        Parameters
-        ----------
-        year_end: int
-        n_seeds: int
-            number of seeds per node
-        rvs: lambda n->float
-            random values for point mutations & insertions
-        point, insert, delete: tuple
-            See ``mutate()``.
-        dct: gensim.corpora.dictionary
-        create: lambda n-> float 
-            thresholds of cosine similarity with parent
-            for node creation
-        crossover: float
-            threshold of cosine similarity with parent
-            for crossing over nodes
+    def __str__(self):
+        return f"Model\tparent: '{self.graph_parent.name}'\n" +\
+               f"\tyear_start: {self.year_start}\n" +\
+               f"\tstart_nodes: {self.start_nodes}\n" +\
+               f"\tn_seeds: {self.n_seeds}\n" +\
+               f"\tpoint: ({self.point[0]:.4f}, {self.point[1]:.4f})\n" +\
+               f"\tinsert: ({self.insert[0]}, {self.insert[1]:.4f}, {type(self.insert[2])})\n" +\
+               f"\tdelete: ({self.delete[0]}, {self.delete[1]:.4f})"
+    
+    def __repr__(self):
+        return self.__str__()
+    
+    def evolve(self, until):
+        """ Evolves a graph based on vector representations 
+        until `until (int)`
         """
         year_start = self.year
-        for year in range(year_start, year_end+1):
+        for year in range(year_start, until+1):
             self.year = year
-            sys.stdout.write(f"\r{year_start}\t> {year}\t> {year_end}"+\
+            sys.stdout.write(f"\r{year_start}\t> {year}\t> {until}"+\
                              f"\tn={self.graph.number_of_nodes()}\t\t")
             sys.stdout.flush()
-            self.initialize_seeds(n_seeds, create)
-            self.mutate_seeds(rvs, point, insert, delete)
-#             self.crossover_seeds(crossover)
-            self.create_nodes(dct, year)
+            self.initialize_seeds()
+            self.mutate_seeds()
+#             self.crossover_seeds()
+            self.create_nodes()
             self.record = pd.concat([self.record] + \
                                     [pd.DataFrame({'Year': year,
                                                    'Parent': seed,
@@ -840,24 +860,25 @@ class Model():
                                     ignore_index=True,
                                     sort=False)
     
-    def initialize_seeds(self, n_seeds, thresholds_create):
+    def initialize_seeds(self):
         nodes = list(self.graph.nodes)
         for i, node in enumerate(nodes):
             if node not in self.seeds.keys():
                 self.seeds[node] = []
             if node not in self.thresholds.keys():
                 self.thresholds[node] = []
-            while len(self.seeds[node]) < n_seeds:
+            while len(self.seeds[node]) < self.n_seeds:
                 self.seeds[node] += [self.vectors[:,i].copy()]
-            while len(self.thresholds[node]) < n_seeds:
-                self.thresholds[node] += [thresholds_create(1)[0]]
+            while len(self.thresholds[node]) < self.n_seeds:
+                self.thresholds[node] += [self.create(1)[0]]
     
-    def mutate_seeds(self, rvs, point, insert, delete):
+    def mutate_seeds(self):
         for node, vecs in self.seeds.items():
-            self.seeds[node] = [Model.mutate(vec, rvs, point, insert, delete)
+            self.seeds[node] = [Model.mutate(vec, self.rvs, self.point,
+                                             self.insert, self.delete)
                                 for vec in vecs]
     
-    def crossover_seeds(self, threshold):
+    def crossover_seeds(self):
         nodes = list(self.graph.nodes)
         for i in range(len(nodes)):
             seeds_i = sp.sparse.hstack(self.seeds[nodes[i]])
@@ -865,13 +886,13 @@ class Model():
                 seeds_j = sp.sparse.hstack(self.seeds[nodes[j]])
                 similarity = smp.cosine_similarity(seeds_i.transpose(),
                                                    seeds_j.transpose())
-                for k,l in np.argwhere(similarity>threshold):
+                for k,l in np.argwhere(similarity>self.threshold):
                     cross = Model.crossover(seeds_i[:,k], seeds_j[:,l])
                     choice = np.random.choice(2)
                     self.seeds[nodes[i]][k] = cross if choice else self.vectors[:,i]
                     self.seeds[nodes[j]][l] = cross if not choice else self.vectors[:,j]
     
-    def create_nodes(self, dct, year):
+    def create_nodes(self):
         nodes = list(self.graph.nodes)
         for i, node in enumerate(nodes):
             parent = self.vectors[:,i]
@@ -879,13 +900,13 @@ class Model():
             sim_to_parent = smp.cosine_similarity(parent.transpose(), seeds.transpose())
             for j, seed_vec in enumerate(self.seeds[node]):
                 if sim_to_parent[0,j] < self.thresholds[node][j]:
-                    Model.connect(seed_vec, self.graph, self.vectors, dct)
+                    Model.connect(seed_vec, self.graph, self.vectors, self.dct)
                     self.vectors = sp.sparse.hstack([self.vectors, seed_vec])
                     self.seeds[node].pop(j)
                     self.thresholds[node].pop(j)
         for node in self.graph.nodes:
             if 'year' not in self.graph.nodes[node].keys():
-                self.graph.nodes[node]['year'] = year
+                self.graph.nodes[node]['year'] = self.year
     
     @staticmethod
     def mutate(x, rvs, point=(0,0), insert=(0,0,None), delete=(0,0)):
