@@ -843,8 +843,8 @@ class Model():
         year_start = self.year
         for year in range(year_start, until+1):
             self.year = year
-            sys.stdout.write(f"\r{year_start}\t> {year}\t> {until}"+\
-                             f"\tn={self.graph.number_of_nodes()}\t\t")
+            sys.stdout.write(f"\r{year_start} > {year} > {until} "+\
+                             f"n={self.graph.number_of_nodes()}    ")
             sys.stdout.flush()
             self.initialize_seeds()
             self.mutate_seeds()
