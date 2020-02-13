@@ -1,6 +1,7 @@
 name: wikinet
 channels:
   - conda-forge
+  - plotly
 dependencies:
   - python=3.7
   - jupyter
@@ -14,11 +15,13 @@ dependencies:
   - pygraphviz
   - mpmath # for powerlaw
   - cython
-  - sphinx
+  - sphinx # documentation
   - line_profiler
   - jupyter_contrib_nbextensions
-  - ipywidgets
+  - ipywidgets # interactivity
   - plotly
+  - plotly-orca # saving plotly
+  - psutil # saving plotly
   - pip
   - pip:
     - bctpy
