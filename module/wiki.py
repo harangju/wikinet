@@ -801,7 +801,7 @@ class Model():
     
     def __init__(self, graph_parent, vectors_parent, year_start,
                  n_seeds, dct, point, insert, delete, rvs,
-                 create, crossover):
+                 create, crossover=None):
         self.graph_parent = graph_parent
         self.vectors_parent = vectors_parent
         self.year_start = year_start
