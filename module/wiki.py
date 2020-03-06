@@ -930,6 +930,8 @@ class Model():
         """
         data = x.data
         idx = x.indices
+        if idx.size==0:
+            return x
         n_point = np.random.binomial(point[0], point[1])
         i_point = np.random.choice(x.size, size=n_point, replace=False)
         data[i_point] = rvs(n_point)
