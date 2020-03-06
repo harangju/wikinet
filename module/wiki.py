@@ -799,9 +799,15 @@ class Model():
         for crossing over nodes
     """
     
-    def __init__(self, graph_parent, vectors_parent, year_start,
+    def __init__(self, graph_parent, vectors_parent, year_start, start_nodes,
                  n_seeds, dct, point, insert, delete, rvs,
                  create, crossover=None):
+        """
+        
+        Parameters
+        ----------
+        start_nodes: lambda wiki.Model -> list(networkx.Nodes)
+        """
         self.graph_parent = graph_parent
         self.vectors_parent = vectors_parent
         self.year_start = year_start
@@ -810,8 +816,7 @@ class Model():
         self.thresholds = {}
         self.record = pd.DataFrame()
         nodes = list(graph_parent.nodes)
-        self.start_nodes = [n for n in nodes
-                            if graph_parent.nodes[n]['year'] <= year_start]
+        self.start_nodes = start_nodes(self)
         self.graph = graph_parent.subgraph(self.start_nodes).copy()
         self.vectors = sp.sparse.hstack([vectors_parent[:,nodes.index(n)]
                                          for n in self.start_nodes])
@@ -838,20 +843,18 @@ class Model():
     
     def evolve(self, until):
         """ Evolves a graph based on vector representations 
-        until `until (int)`
+        until `until (lambda wiki.Model) == True`
         """
         year_start = self.year
-        for year in range(year_start, until+1):
-            self.year = year
-            sys.stdout.write(f"\r{year_start} > {year} > {until} "+\
+        while not until(self):
+            sys.stdout.write(f"\r{year_start} > {self.year} "+\
                              f"n={self.graph.number_of_nodes()}    ")
             sys.stdout.flush()
             self.initialize_seeds()
             self.mutate_seeds()
-#             self.crossover_seeds()
             self.create_nodes()
             self.record = pd.concat([self.record] + \
-                                    [pd.DataFrame({'Year': year,
+                                    [pd.DataFrame({'Year': self.year,
                                                    'Parent': seed,
                                                    'Seed number': i,
                                                    'Seed vectors': seed_vec}, index=[0])
@@ -859,6 +862,7 @@ class Model():
                                      for i, seed_vec in enumerate(seed_vecs)],
                                     ignore_index=True,
                                     sort=False)
+            self.year += 1
     
     def initialize_seeds(self):
         nodes = list(self.graph.nodes)
