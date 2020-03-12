@@ -33,3 +33,4 @@ dependencies:
     - powerlaw
     - sphinx_rtd_theme
     - cufflinks
+    - dill
