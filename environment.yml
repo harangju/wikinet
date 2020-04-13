@@ -7,7 +7,7 @@ dependencies:
   - jupyter
   - numpy
   - scipy
-  - pandas
+  - pandas>1.0.0
   - matplotlib
   - seaborn
   - networkx
