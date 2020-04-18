@@ -302,7 +302,7 @@ class Net:
     YEAR_FILLED_DELTA = 1
     
     def __init__(self, path_graph='', path_barcodes=''):
-        self.graph = None
+        self.graph = nx.DiGraph()
         self._numbered = None
         self._nodes = []
         self._tfidf = None
