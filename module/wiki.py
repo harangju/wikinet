@@ -259,8 +259,77 @@ class Corpus:
     def __getitem__(self, index):
         doc = self.dump.load_page(self.names[index])
         return gu.simple_preprocess(doc.strip_code())
-
-class PersistentHomology():
+    
+class GraphContainer():
+    """
+    
+    Attributes
+    ----------
+    graph: networkx.DiGraph
+        node name is name of wikipedia page
+        ``year`` attribute indicates year
+    numbered: networkx.DiGraph
+        node name is an index (see nodes),
+        ``year`` is an index (see years), lazy
+    nodes: list
+        List of node names,
+        indexed by node in ``numbered``, lazy
+    years: list
+        List of years,
+        indexed by ``year`` in ``numbered``, lazy
+    nodes_for_year: dict
+        ``{int year: [int node_index]}``, lazy
+    """
+    def __init__():
+        self.graph = nx.DiGraph()
+        self._numbered = None
+        self._nodes = []
+        self._years = []
+        self._nodes_for_year = {}
+    
+    @property
+    def numbered(self):
+        if self._numbered:
+            return self._numbered
+        else:
+            self._numbered = nx.DiGraph()
+            for node in self.graph.nodes:
+                self._numbered.add_node(self.nodes.index(node),
+                                        year = self.years.index(self.graph.nodes[node]['year']))
+                self._numbered.add_edges_from([(self.nodes.index(node), self.nodes.index(succ))
+                                               for succ in self.graph.successors(node)])
+            return self._numbered
+    
+    @property
+    def nodes(self):
+        if self._nodes:
+            return self._nodes
+        else:
+            self._nodes = list(self.graph.nodes)
+            return self._nodes
+    
+    @property
+    def years(self):
+        if self._years:
+            return self._years
+        else:
+            self._years = [self.graph.nodes[n]['year']
+                           for n in self.graph.nodes()]
+            self._years = sorted(list(set(self._years)))
+            return self._years
+    
+    @property
+    def nodes_for_year(self):
+        if self._nodes_for_year:
+            return self._nodes_for_year
+        else:
+            self._nodes_for_year = {year: [list(self.graph.nodes).index(n)
+                                           for n in self.graph.nodes
+                                           if self.graph.nodes[n]['year']==year]
+                                    for year in self.years}
+            return self._nodes_for_year
+    
+class PersistentHomology(GraphContainer):
     """
     
     Attributes
@@ -276,7 +345,11 @@ class PersistentHomology():
     """
     
     def __init__():
-        pass
+        GraphContainer.__init__()
+        self._cliques = None
+        self._filtration = None
+        self._persistence = None
+        self._barcodes = None
     
     @property
     def cliques(self):
@@ -318,7 +391,7 @@ class PersistentHomology():
             return self._barcodes
         else:
             self._barcodes = PersistentHomology.compute_barcodes(
-                self.filtration, self.persistence, self.graph, self.graph.nodes)
+                self.filtration, self.persistence, self.graph, self.nodes)
             return self._barcodes
     
     @staticmethod
@@ -382,32 +455,10 @@ class Net(PersistentHomology):
     
     Attributes
     ----------
-    graph: networkx.DiGraph
-        node name is name of wikipedia page
-        ``year`` attribute indicates year
-    numbered: networkx.DiGraph
-        node name is an index (see nodes),
-        ``year`` is an index (see years), lazy
-    nodes: list
-        List of node names,
-        indexed by node in ``numbered``, lazy
     tfidf: scipy.sparse.csc.csc_matrix
         sparse column matrix of tfidfs,
         ordered by nodes, also stored in
         ```self.graph.graph['tfidf']```, lazy
-    years: list
-        List of years,
-        indexed by ``year`` in ``numbered``, lazy
-    nodes_for_year: dict
-        ``{int year: [int node_index]}``, lazy
-    cliques: list of lists
-        lazy, see PersistentHomology
-    filtration: dionysus.filtration
-        lazy
-    persistence: dionysus.reduced_matrix
-        lazy
-    barcodes: pandas.DataFrame
-        lazy
     MAX_YEAR: int
         ``year = MAX_YEAR (2020)`` for nodes with parents 
         without years
@@ -419,41 +470,11 @@ class Net(PersistentHomology):
     
     def __init__(self, path_graph='', path_barcodes=''):
         PersistentHomology.__init__()
-        self.graph = nx.DiGraph()
-        self._numbered = None
-        self._nodes = []
         self._tfidf = None
-        self._years = []
-        self._nodes_for_year = {}
-        self._cliques = None
-        self._filtration = None
-        self._persistence = None
-        self._barcodes = None
         if path_graph:
             self.load_graph(path_graph)
         if path_barcodes:
             self.load_barcodes(path_barcodes)
-    
-    @property
-    def numbered(self):
-        if self._numbered:
-            return self._numbered
-        else:
-            self._numbered = nx.DiGraph()
-            for node in self.graph.nodes:
-                self._numbered.add_node(self.nodes.index(node),
-                                        year = self.years.index(self.graph.nodes[node]['year']))
-                self._numbered.add_edges_from([(self.nodes.index(node), self.nodes.index(succ))
-                                               for succ in self.graph.successors(node)])
-            return self._numbered
-    
-    @property
-    def nodes(self):
-        if self._nodes:
-            return self._nodes
-        else:
-            self._nodes = list(self.graph.nodes)
-            return self._nodes
     
     @property
     def tfidf(self):
@@ -462,27 +483,6 @@ class Net(PersistentHomology):
         elif 'tfidf' in self.graph.graph.keys():
             self._tfidf = self.graph.graph['tfidf']
             return self._tfidf
-    
-    @property
-    def years(self):
-        if self._years:
-            return self._years
-        else:
-            self._years = [self.graph.nodes[n]['year']
-                           for n in self.graph.nodes()]
-            self._years = sorted(list(set(self._years)))
-            return self._years
-    
-    @property
-    def nodes_for_year(self):
-        if self._nodes_for_year:
-            return self._nodes_for_year
-        else:
-            self._nodes_for_year = {year: [self.nodes.index(n)
-                                           for n in self.nodes
-                                           if self.graph.nodes[n]['year']==year]
-                                    for year in self.years}
-            return self._nodes_for_year
     
     def build_graph(self, name='', dump=None, nodes=None, depth_goal=1,
                     filter_top=True, remove_isolates=True, add_years=True,
