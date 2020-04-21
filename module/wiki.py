@@ -280,7 +280,7 @@ class GraphContainer():
     nodes_for_year: dict
         ``{int year: [int node_index]}``, lazy
     """
-    def __init__():
+    def __init__(self):
         self.graph = nx.DiGraph()
         self._numbered = None
         self._nodes = []
@@ -344,8 +344,8 @@ class PersistentHomology(GraphContainer):
         lazy
     """
     
-    def __init__():
-        GraphContainer.__init__()
+    def __init__(self):
+        GraphContainer.__init__(self)
         self._cliques = None
         self._filtration = None
         self._persistence = None
@@ -469,7 +469,7 @@ class Net(PersistentHomology):
     YEAR_FILLED_DELTA = 1
     
     def __init__(self, path_graph='', path_barcodes=''):
-        PersistentHomology.__init__()
+        PersistentHomology.__init__(self)
         self._tfidf = None
         if path_graph:
             self.load_graph(path_graph)
@@ -826,7 +826,7 @@ class Model(PersistentHomology):
         ----------
         start_nodes: lambda wiki.Model -> list(networkx.Nodes)
         """
-        PersistentHomology.__init__()
+        PersistentHomology.__init__(self)
         self.graph_parent = graph_parent
         self.vectors_parent = vectors_parent
         self.year_start = year_start
