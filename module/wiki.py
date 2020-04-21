@@ -318,7 +318,7 @@ class PersistentHomology():
             return self._barcodes
         else:
             self._barcodes = PersistentHomology.compute_barcodes(
-                self.filtration, self.persistence, self.graph, self.nodes)
+                self.filtration, self.persistence, self.graph, self.graph.nodes)
             return self._barcodes
     
     @staticmethod
