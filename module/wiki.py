@@ -860,7 +860,7 @@ class Model(PersistentHomology):
     def __repr__(self):
         return self.__str__()
     
-    def evolve(self, until):
+    def evolve(self, until, record=False):
         """ Evolves a graph based on vector representations 
         until `until (lambda wiki.Model) == True`
         """
@@ -872,16 +872,18 @@ class Model(PersistentHomology):
             self.initialize_seeds()
             self.mutate_seeds()
             self.create_nodes()
-            self.record = pd.concat([self.record] + \
-                                    [pd.DataFrame({'Year': self.year,
-                                                   'Parent': seed,
-                                                   'Seed number': i,
-                                                   'Seed vectors': seed_vec}, index=[0])
-                                     for seed, seed_vecs in self.seeds.items()
-                                     for i, seed_vec in enumerate(seed_vecs)],
-                                    ignore_index=True,
-                                    sort=False)
+            if record:
+                self.record = pd.concat([self.record] + \
+                                        [pd.DataFrame({'Year': self.year,
+                                                       'Parent': seed,
+                                                       'Seed number': i,
+                                                       'Seed vectors': seed_vec}, index=[0])
+                                         for seed, seed_vecs in self.seeds.items()
+                                         for i, seed_vec in enumerate(seed_vecs)],
+                                        ignore_index=True,
+                                        sort=False)
             self.year += 1
+        print('')
     
     def initialize_seeds(self):
         nodes = list(self.graph.nodes)
