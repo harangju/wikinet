@@ -735,9 +735,14 @@ class Net(PersistentHomology):
         # rombach
         rb = cpa.Rombach()
         rb.detect(graph)
-        for node, coreness in rb.get_coreness().items():
-            graph.nodes[node]['core_rb'] = coreness
-        graph.graph['coreness_rb'] = rb.score()[0]
+        if rb.get_coreness() != 0:
+            for node, coreness in rb.get_coreness().items():
+                graph.nodes[node]['core_rb'] = coreness
+            graph.graph['coreness_rb'] = rb.score()[0]
+        else:
+            for node in graph.nodes:
+                graph.nodes[node]['core_rb'] = 0
+            graph.graph['coreness_rb'] = 0
     
     @staticmethod
     def assign_communities(graph):
