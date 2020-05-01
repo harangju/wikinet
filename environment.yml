@@ -24,7 +24,7 @@ dependencies:
   - psutil # saving plotly
   - pip
   - pip:
-    - bctpy
+    - bctpy>=0.5.2
     - mwparserfromhell
     - sklearn
     - dionysus
