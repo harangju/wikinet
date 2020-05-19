@@ -1,8 +1,8 @@
 #!/bin/bash
 
 now=`date +"%Y%m%d_%H%M"`
-num_topics="12" #37
-i="11"
+num_topics="37"
+i="0"
 while [ $i -lt $num_topics ]
 do
   qsub simulate-models.sh $now $i
