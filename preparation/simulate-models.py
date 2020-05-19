@@ -8,6 +8,8 @@ import pandas as pd
 import networkx as nx
 import scipy as sp
 
+exec(open('helpers/priors.py').read())
+
 topics = [
     'anatomy', 'biochemistry', 'cognitive science', 'evolutionary biology',
     'genetics', 'immunology', 'molecular biology', 'chemistry', 'biophysics',
@@ -21,9 +23,10 @@ topics = [
     'number theory', 'dynamical systems and differential equations'
 ]
 
-path_dict = os.path.join()
-path_results = os.path.join()
-path_run = os.path.join()
+path_base = os.path.join('/cbica','home','harang','developer','data','wiki')
+path_dict = os.path.join(path_base, 'models', 'dict.model')
+path_networks = os.path.join(path_base, 'dated')
+path_sim = os.path.join(path_base, 'simulations')
 save_models = False
 
 print("Loading dictionary...")
@@ -33,8 +36,8 @@ print("Loading network for topics...")
 networks = {}
 for topic in topics:
     print(f"\t'{topic}'")
-    network = wiki.Net()
-    network.load_graph(os.path.join(path, topic+'.pickle'))
+    networks[topic] = wiki.Net()
+    networks[topic].load_graph(os.path.join(path_networks, topic+'.pickle'))
 
 print("Initializing model parameters...")
 n_seeds = 2
@@ -44,13 +47,22 @@ start_condition = lambda m: [
     n for n in m.graph_parent.nodes
     if m.graph_parent.nodes[n]['year'] <= year_start
 ]
-end_condition = lambda m:
-    (len(m.graph.nodes) >= len(m.graph_parent.nodes)) or (m.year > 2200)
+#end_condition = lambda m:\
+#    (len(m.graph.nodes) >= len(m.graph_parent.nodes)) or (m.year > 2200)
+end_condition = lambda m:\
+    (len(m.graph.nodes) >= len(m.graph_parent.nodes)) or (m.year > 100)
 stats = pd.DataFrame()
 
+print("Checking directory...")
+if not os.path.isdir(path_sim):
+    os.mkdir(path_sim)
+
+_topic = topics[index]
+_networks = {_topic: networks[_topic]}
+
 print("Starting simulations...")
-for topic, network in networks.items():
-    print(topic)
+for topic, network in _networks.items():
+    print(f"Topic {topic}")
     print('Analyzing priors...')
     tfidf = network.graph.graph['tfidf']
     yd = year_diffs(network.graph)
@@ -97,9 +109,9 @@ for topic, network in networks.items():
             dill.dump(
                 model,
                 open(
-                    os.path.join(base_dir, now, f"model_{topic}_{i}.pickle"),
+                    os.path.join(path_sim, now, f"model_{topic}_{i}.pickle"),
                     'wb'
                 )
             )
     print('')
-pickle.dump(stats, open(os.path.join(base_dir, now, 'stats.pickle'), 'wb'))
+pickle.dump(stats, open(os.path.join(path_sim, now, 'stats.pickle'), 'wb'))
