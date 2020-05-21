@@ -50,7 +50,7 @@ start_condition = lambda m: [
 #end_condition = lambda m:\
 #    (len(m.graph.nodes) >= len(m.graph_parent.nodes)) or (m.year > 2200)
 end_condition = lambda m:\
-    (len(m.graph.nodes) >= len(m.graph_parent.nodes)) or (m.year > 100)
+    (len(m.graph.nodes) >= len(m.graph_parent.nodes)) or (m.year > 2200)
 stats = pd.DataFrame()
 
 print("Checking directory...")
