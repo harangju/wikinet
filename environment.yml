@@ -1,7 +1,7 @@
 name: wikinet
 channels:
-  - conda-forge
   - plotly
+  - conda-forge
 dependencies:
   - python=3.7
   - jupyter
