@@ -9,6 +9,20 @@ import scipy as sp
 import leidenalg as la
 import igraph as ig
 
+def networkx_to_igraph(nx_graph, vertex_id=None):
+    nodes = list(nx_graph.nodes)
+    ig_graph = ig.Graph()
+    ig_graph.add_vertices(list(range(len(nodes))))
+    ig_graph.vs['name'] = nodes
+    ig_graph.vs['year'] = [nx_graph.nodes[n]['year'] for n in nodes]
+    ig_graph.add_edges([
+        (nodes.index(s), nodes.index(t)) for s,t in nx_graph.edges
+    ])
+    ig_graph.es['weight'] = [nx_graph.edges[s,t]['weight'] for s,t in nx_graph.edges]
+    if vertex_id:
+        ig_graph.vs['id'] = vertex_id
+    return ig_graph
+
 topics = [
     'anatomy', 'biochemistry', 'cognitive science', 'evolutionary biology',
     'genetics', 'immunology', 'molecular biology', 'chemistry', 'biophysics',
@@ -47,7 +61,6 @@ memberships = {}
 improvements = {}
 for topic in [_topic]:
     print(f"Topic '{topic}'")
-    fig = go.Figure()
     graph = networks[topic].graph
     nodes = list(graph.nodes)
 #     sorted_nodes = sorted(
