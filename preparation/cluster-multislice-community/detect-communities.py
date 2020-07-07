@@ -76,6 +76,6 @@ for topic in [_topic]:
         interslice_weight=Cjrs,
     )
     pickle.dump(
-        (memberships, improvements),
-        open(os.path.join(path_sim, 'memberships.pickle'), 'wb')
+        (memberships[topic], improvements[topic]),
+        open(os.path.join(path_sim, f"membership_{topic}.pickle"), 'wb')
     )
