@@ -22,6 +22,8 @@ dependencies:
   - plotly
   - plotly-orca # saving plotly
   - psutil # saving plotly
+  - leidenalg
+  - python-igraph
   - pip
   - pip:
     - bctpy>=0.5.2
