@@ -9,8 +9,6 @@ import scipy as sp
 import leidenalg as la
 import igraph as ig
 
-exec(open('priors.py').read())
-
 topics = [
     'anatomy', 'biochemistry', 'cognitive science', 'evolutionary biology',
     'genetics', 'immunology', 'molecular biology', 'chemistry', 'biophysics',
@@ -26,8 +24,7 @@ topics = [
 
 path_base = os.path.join('/cbica','home','harang','developer','data','wiki')
 path_networks = os.path.join(path_base, 'dated')
-path_sim = os.path.join(path_base, 'simulations', now)
-save_models = True
+path_sim = os.path.join(path_base, 'communities', now)
 
 print("Loading network for topics...")
 networks = {}
@@ -42,10 +39,9 @@ if not os.path.isdir(path_sim):
     os.mkdir(path_sim)
 
 _topic = topics[index]
-_networks = {_topic: networks[_topic]}
+Cjrs = 0.1
 
 print("Detecting communities...")
-Cjrs = 0.1
 print(f"Cjrs = {Cjrs}")
 memberships = {}
 improvements = {}
