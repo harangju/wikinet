@@ -1,11 +1,10 @@
 #!/bin/bash
 
 now=`date +"%Y%m%d_%H%M"`
-num_topics="37"
-i="0"
-while [ $i -lt $num_topics ]
+num_topics="38"
+for (( i=0; i<$num_topics; i++ ))
+#for i in 0 1 2
 do
   qsub detect-communities.sh $now $i
   echo "Submitted job" $i "at" $now
-  i=$[$i+1]
 done

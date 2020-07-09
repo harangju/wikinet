@@ -1,4 +1,5 @@
 #!/bin/bash
+#$ -l h_vmem=64.0G
 
 source activate wikinet
 

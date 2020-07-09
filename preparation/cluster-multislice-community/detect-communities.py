@@ -9,6 +9,9 @@ import scipy as sp
 import leidenalg as la
 import igraph as ig
 
+def round100(x):
+    return int(round(x / 100.0)) * 100
+
 def networkx_to_igraph(nx_graph, vertex_id=None):
     nodes = list(nx_graph.nodes)
     ig_graph = ig.Graph()
@@ -40,35 +43,35 @@ path_base = os.path.join('/cbica','home','harang','developer','data','wiki')
 path_networks = os.path.join(path_base, 'dated')
 path_sim = os.path.join(path_base, 'communities', now)
 
+print("Checking directory...")
+if not os.path.isdir(path_sim):
+    os.mkdir(path_sim)
+
 print("Loading network for topics...")
 networks = {}
 for topic in [topics[index]]:
     print(f"\t'{topic}'", end=' ')
     networks[topic] = wiki.Net()
     networks[topic].load_graph(os.path.join(path_networks, topic+'.pickle'))
+    #years = sorted(
+    #    nx.get_node_attributes(networks[topic].graph, 'year').values(),
+    #    reverse=True
+    #)
+    #for node in networks[topic].graph.nodes:
+    #    networks[topic].graph.nodes[node]['year'] = round100(networks[topic].graph.nodes[node]['year'])
+
 print('')
 
-print("Checking directory...")
-if not os.path.isdir(path_sim):
-    os.mkdir(path_sim)
-
-_topic = topics[index]
-Cjrs = 0.1
+Cjrs = 0.01
 
 print("Detecting communities...")
 print(f"Cjrs = {Cjrs}")
 memberships = {}
 improvements = {}
-for topic in [_topic]:
-    print(f"Topic '{topic}'")
+for topic in [topics[index]]:
     graph = networks[topic].graph
     nodes = list(graph.nodes)
-#     sorted_nodes = sorted(
-#         nodes,
-# #         key=lambda item: membership[-1][nodes_by_year[-1].index(item)]
-#         key=lambda node: graph.nodes[node]['year']
-#     )
-    years = sorted(nx.get_node_attributes(graph, 'year').values())
+    years = sorted(set(nx.get_node_attributes(graph, 'year').values()))
     nodes_by_year = [
         [n for n in nodes if graph.nodes[n]['year']<=year]
         for year in years
@@ -83,8 +86,10 @@ for topic in [_topic]:
         ],
         la.ModularityVertexPartition,
         interslice_weight=Cjrs,
+        n_iterations=-1
     )
     pickle.dump(
         (memberships[topic], improvements[topic]),
         open(os.path.join(path_sim, f"membership_{topic}.pickle"), 'wb')
     )
+print('Done.')
