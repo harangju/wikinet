@@ -9,8 +9,8 @@ import scipy as sp
 import leidenalg as la
 import igraph as ig
 
-def round100(x):
-    return int(round(x / 100.0)) * 100
+def round10(x):
+    return int(round(x / 10.0)) * 10
 
 def networkx_to_igraph(nx_graph, vertex_id=None):
     nodes = list(nx_graph.nodes)
@@ -53,12 +53,12 @@ for topic in [topics[index]]:
     print(f"\t'{topic}'", end=' ')
     networks[topic] = wiki.Net()
     networks[topic].load_graph(os.path.join(path_networks, topic+'.pickle'))
-    #years = sorted(
-    #    nx.get_node_attributes(networks[topic].graph, 'year').values(),
-    #    reverse=True
-    #)
-    #for node in networks[topic].graph.nodes:
-    #    networks[topic].graph.nodes[node]['year'] = round100(networks[topic].graph.nodes[node]['year'])
+    years = sorted(
+        nx.get_node_attributes(networks[topic].graph, 'year').values(),
+        reverse=True
+    )
+    for n in networks[topic].graph.nodes:
+        networks[topic].graph.nodes[n]['year'] = round10(networks[topic].graph.nodes[n]['year'])
 
 print('')
 
