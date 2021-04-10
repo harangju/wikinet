@@ -31,7 +31,7 @@ dependencies:
     - sklearn
     - dionysus
     - pybind11
-    - cpalgorithm
+    - cpnet
     - powerlaw
     - sphinx_rtd_theme
     - cufflinks
