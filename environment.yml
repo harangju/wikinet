@@ -28,7 +28,7 @@ dependencies:
     - bctpy>=0.5.2
     - mwparserfromhell
     - sklearn
-    - dionysus
+    - dionysus<=2.0.7 # not sure why this is failing the conda install
     - pybind11
     - cpnet
     - powerlaw

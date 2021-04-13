@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="wikinet", # Replace with your own username
-    version="0.0.4",
+    version="0.0.7",
     author="Harang Ju",
     author_email="harangju@gmail.com",
     description="Network of wikipedia articles",
@@ -22,8 +22,9 @@ setuptools.setup(
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
-    python_requires=">=3.8",
+    python_requires="==3.7", # need to make
     install_requires=[
+        'cython',
         'jupyter',
         'numpy',
         'scipy',
@@ -32,7 +33,6 @@ setuptools.setup(
         'gensim',
 #        'pygraphviz',
         'mpmath', # for powerlaw
-        'cython',
         'sphinx', # documentation
         'nbconvert==5.6.1', # https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529#issuecomment-695057809
         'plotly',
@@ -43,9 +43,9 @@ setuptools.setup(
         'bctpy>=0.5.2',
         'mwparserfromhell',
         'sklearn',
-        'dionysus',
+        'dionysus<=2.0.7', # weird dependency issue with python>3.7
         'pybind11',
-        'cpnet',
+        'cpnet', # doesn't work for some reason
         'powerlaw',
         'sphinx_rtd_theme',
         'cufflinks',
