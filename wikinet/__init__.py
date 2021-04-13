@@ -9,8 +9,7 @@ See https:// for complete documentation.
 
 from .dump import *
 from .corpus import *
-
-from .network.graph_container import *
-from .network.persistent_homology import *
-from .network.model import *
-from .network.net import *
+from .graph_container import *
+from .persistent_homology import *
+from .model import *
+from .net import *

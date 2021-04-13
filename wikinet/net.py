@@ -9,7 +9,7 @@ import cpnet as cp
 import gensim.utils as gu
 import gensim.matutils as gmat
 
-from ..dump import Dump
+from .dump import Dump
 from .persistent_homology import PersistentHomology
 
 __all__ = ['Net']
