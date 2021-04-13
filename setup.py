@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="wikinet", # Replace with your own username
+    name="wikinet",
     version="0.0.8",
     author="Harang Ju",
     author_email="harangju@gmail.com",
@@ -16,7 +16,7 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/harangju/wikinet/issues",
     },
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
@@ -32,9 +32,8 @@ setuptools.setup(
         'networkx',
         'gensim',
         'python-Levenshtein', # gensim warning
-#        'pygraphviz',
-        'mpmath', # for powerlaw
-        'sphinx', # documentation
+        'mpmath',
+        'sphinx',
         'nbconvert==5.6.1', # https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529#issuecomment-695057809
         'plotly',
 #        'plotly-orca', # saving plotly
@@ -46,7 +45,7 @@ setuptools.setup(
         'sklearn',
         'dionysus<=2.0.7', # weird dependency issue with python>3.7
         'pybind11',
-        'cpnet<=0.0.6', # doesn't work for some reason
+        'cpnet<=0.0.6',
         'powerlaw',
         'sphinx_rtd_theme',
         'cufflinks',
