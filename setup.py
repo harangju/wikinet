@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="wikinet", # Replace with your own username
-    version="0.0.7",
+    version="0.0.8",
     author="Harang Ju",
     author_email="harangju@gmail.com",
     description="Network of wikipedia articles",
@@ -22,7 +22,7 @@ setuptools.setup(
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
-    python_requires="==3.7", # need to make
+    python_requires="==3.7", # need to make >=
     install_requires=[
         'cython',
         'jupyter',
@@ -31,6 +31,7 @@ setuptools.setup(
         'pandas>1.0.0',
         'networkx',
         'gensim',
+        'python-Levenshtein', # gensim warning
 #        'pygraphviz',
         'mpmath', # for powerlaw
         'sphinx', # documentation
@@ -45,7 +46,7 @@ setuptools.setup(
         'sklearn',
         'dionysus<=2.0.7', # weird dependency issue with python>3.7
         'pybind11',
-        'cpnet', # doesn't work for some reason
+        'cpnet<=0.0.6', # doesn't work for some reason
         'powerlaw',
         'sphinx_rtd_theme',
         'cufflinks',
