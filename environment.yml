@@ -30,7 +30,7 @@ dependencies:
     - sklearn
     - dionysus<=2.0.7 # not sure why this is failing the conda install
     - pybind11
-    - cpnet
+    - cpnet==0.0.6 # >0.0.6 has no source
     - powerlaw
     - sphinx_rtd_theme
     - cufflinks
