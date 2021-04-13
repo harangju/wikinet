@@ -9,14 +9,12 @@ dependencies:
   - scipy
   - pandas>1.0.0
   - matplotlib
-  - seaborn
   - networkx
   - gensim
   - pygraphviz
   - mpmath # for powerlaw
   - cython
   - sphinx # documentation
-  - line_profiler
   - jupyter_contrib_nbextensions
   - nbconvert=5.6.1 # https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529#issuecomment-695057809
   - ipywidgets # interactivity
@@ -38,3 +36,5 @@ dependencies:
     - cufflinks
     - dill
     - rpy2
+    - build
+    - twine

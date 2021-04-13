@@ -11,7 +11,7 @@ import scipy as sp
 import pandas as pd
 import dionysus as d
 import networkx as nx
-import cpalgorithm as cpa
+import cpnet as cp
 import gensim.utils as gu
 import gensim.models as gm
 import gensim.matutils as gmat
@@ -733,7 +733,7 @@ class Net(PersistentHomology):
             graph.nodes[node]['core_be'] = be[0][i]
         graph.graph['coreness_be'] = be[1]
         # rombach
-        rb = cpa.Rombach()
+        rb = cp.Rombach()
         rb.detect(graph)
         if rb.get_coreness() != 0:
             for node, coreness in rb.get_coreness().items():
@@ -774,7 +774,7 @@ class Net(PersistentHomology):
                 # borgatti-everett
                 be = bct.core_periphery_dir(matrix)
                 # rombach
-                rb = cpa.Rombach()
+                rb = cp.Rombach()
                 rb.detect(subgraph)
                 # assign
                 community_coreness_be[i] = be[1]
