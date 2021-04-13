@@ -14,3 +14,8 @@ Wikipedia XML dumps are available at https://dumps.wikimedia.org/enwiki. Only tw
 
 ## Other options
 * `gensim` added a [`WikiCorpus`](https://radimrehurek.com/gensim/corpora/wikicorpus.html#module-gensim.corpora.wikicorpus) class that parses through Wikipedia dumps.
+
+## To-do
+
+* update `cpnet` - needs to upload source, just uploading `wheel` now
+* fix dependency issue with `dionysus` and `python`
