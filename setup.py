@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="wikinet",
-    version="0.0.10",
+    version="0.0.11",
     author="Harang Ju",
     author_email="harangju@gmail.com",
     description="Network of wikipedia articles",
@@ -20,8 +20,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "wikinet"},
-    packages=setuptools.find_packages(where="wikinet"),
+    packages=["wikinet"],
     python_requires="==3.7", # need to make >=
     install_requires=[
         'cython',
