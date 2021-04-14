@@ -2,4 +2,18 @@ name: wikinet-rtd
 channels:
   - conda-forge
 dependencies:
+  - python=3.7
   - cmake
+  - pip
+  - pip:
+    - numpy
+    - scipy
+    - pandas>1.0.0
+    - networkx
+    - gensim
+    - python-Levenshtein
+    - bctpy>=0.5.2
+    - mwparserfromhell
+    - sklearn
+    - dionysus
+    - cpnet<=0.0.6
