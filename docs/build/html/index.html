@@ -1,38 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>WikiNet &mdash; Wikinet 0.0.1 documentation</title>
+  <title>wikinet &mdash; wikinet 0.1.0 documentation</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Usage" href="usage.html" /> 
@@ -49,7 +52,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Wikinet
+            <a href="#" class="icon icon-home"> wikinet
           
 
           
@@ -72,6 +75,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -79,18 +83,16 @@
               
             
             
-              <p class="caption"><span class="caption-text">Documentation</span></p>
-<ul>
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wiki.html">Wiki API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wiki.html#to-do">To-do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -100,7 +102,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Wikinet</a>
+          <a href="#">wikinet</a>
         
       </nav>
 
@@ -125,18 +127,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>WikiNet</li>
+      <li>wikinet</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -151,37 +155,40 @@
            <div itemprop="articleBody">
             
   <div class="section" id="wikinet">
-<h1>WikiNet<a class="headerlink" href="#wikinet" title="Permalink to this headline">¶</a></h1>
-<p>This repository contains code for analysis used in <a class="reference external" href="https://google.com">Ju et al. (2019)</a>.</p>
-<div class="section" id="install">
-<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
-<p>Code developed using <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">3.7.3</span></code> and <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code>.</p>
+<span id="contents"></span><h1>wikinet<a class="headerlink" href="#wikinet" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">wikinet</span></code> is a Python package. With <code class="docutils literal notranslate"><span class="pre">wikinet</span></code>, you can</p>
+<ul class="simple">
+<li><p>read Wikipedia articles from zipped XML dumps,</p></li>
+<li><p>read through Wikipedia articles as a <code class="docutils literal notranslate"><span class="pre">gensim</span></code> corpus,</p></li>
+<li><p>create <code class="docutils literal notranslate"><span class="pre">networkx</span></code> networks from a list of article names, and</p></li>
+<li><p>run persistent homology on network.</p></li>
+</ul>
+<p>See <a class="reference internal" href="usage.html#usage"><span class="std std-ref">Usage</span></a> for details.</p>
+<div class="section" id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<p>Wikipedia XML dumps are available at <a class="reference external" href="https://dumps.wikimedia.org/enwiki">https://dumps.wikimedia.org/enwiki</a>. Only two files are required for reproduction: (1) <code class="docutils literal notranslate"><span class="pre">enwiki-DATE-pages-articles-multistream.xml.bz2</span></code> and (2) <code class="docutils literal notranslate"><span class="pre">enwiki-DATE-pages-articles-multistream-index.txt.bz2</span></code>, where DATE is the date of the dump. Both files are multistreamed versions of the zipped files, which allow the user to access an article without unpacking the whole file. In the article, we used the archived zipped file from August 1, 2019, which is available in <a class="reference external" href="https://www.dropbox.com/sh/kwsubhwf787p74k/AAA0Wf_3-SZggcvRYdrdzXBba?dl=0">Dropbox</a>.</p>
 </div>
-<div class="section" id="get-started">
-<h2>Get started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>To cite <code class="docutils literal notranslate"><span class="pre">wikinet</span></code> please use the following publication: <a class="reference external" href="https://arxiv.org/abs/2010.08381">https://arxiv.org/abs/2010.08381</a>.</p>
 </div>
-<div class="section" id="directories">
-<h2>Directories<a class="headerlink" href="#directories" title="Permalink to this headline">¶</a></h2>
-<p>The repository’s high-level structure is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├──analysis
-├──module
-├──preparation
-├──tests
-└──figures
-    └──supplement
-</pre></div>
-</div>
+<div class="section" id="id1">
+<h2>Contents<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wiki.html">Wiki API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wiki.html#to-do">To-do</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing</a></li>
 </ul>
 </div>
 </div>
+</div>
+<div class="section" id="index">
+<h1>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+</ul>
 </div>
 
 
@@ -189,27 +196,28 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Harang Ju
+        &#169; Copyright 2021, Harang Ju.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -217,7 +225,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

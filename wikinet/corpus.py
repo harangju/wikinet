@@ -9,8 +9,6 @@ class Corpus:
     """``Corpus`` is an ``iterable`` & an ``iterator``
     that uses ``Dump`` to iterate through articles.
 
-    Parameters
-    ----------
     dump: wiki.Dump
     output: string
         'doc' for array of documents

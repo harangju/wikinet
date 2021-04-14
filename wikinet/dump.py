@@ -10,8 +10,6 @@ class Dump:
     """``Dump`` loads and parses dumps from wikipedia from
     ``path_xml`` with index ``path_idx``.
 
-    Attributes
-    ----------
     idx: dictionary
         ``{'page_name': (byte offset, page id, block size)}``
         Cached. Lazy.
