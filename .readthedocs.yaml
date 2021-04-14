@@ -13,14 +13,11 @@ sphinx:
 # formats:
 #    - pdf
 
-# conda:
-#   environment: environment.yml
+conda:
+  environment: docs/environment.yml
 
 # Optionally set the version of Python and requirements required to build your docs
 python:
   version: 3.7
   install:
-  - method: pip
-    extra_requirements:
-      - cmake
   - requirements: docs/requirements.txt
