@@ -28,6 +28,4 @@ Modules:
 
 .. _persistent-homology:
 
-.. automodule:: wikinet.persistent_homology
-    :members:
-    :exclude-members:
+``dionysus`` not working with https://readthedocs.org.
