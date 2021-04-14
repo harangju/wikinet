@@ -1,3 +1,4 @@
+cmake
 scikit-build
 numpy
 scipy
