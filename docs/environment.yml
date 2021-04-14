@@ -1,0 +1,5 @@
+name: wikinet-rtd
+channels:
+  - conda-forge
+dependencies:
+  - cmake
