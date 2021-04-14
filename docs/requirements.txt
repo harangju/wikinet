@@ -7,6 +7,6 @@ python-Levenshtein
 bctpy>=0.5.2
 mwparserfromhell
 sklearn
-dionysus
+dionysus<=2.0.6
 cpnet<=0.0.6
 pytest
