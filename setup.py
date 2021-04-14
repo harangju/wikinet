@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="wikinet",
-    version="0.0.11",
+    version="0.0.12",
     author="Harang Ju",
     author_email="harangju@gmail.com",
     description="Network of wikipedia articles",
@@ -23,35 +23,17 @@ setuptools.setup(
     packages=["wikinet"],
     python_requires="==3.7", # need to make >=
     install_requires=[
-        'cython',
-        'jupyter',
         'numpy',
         'scipy',
         'pandas>1.0.0',
         'networkx',
         'gensim',
         'python-Levenshtein', # gensim warning
-        'mpmath',
-        'sphinx',
-        'nbconvert==5.6.1', # https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529#issuecomment-695057809
-        'plotly',
-#        'plotly-orca', # saving plotly
-        'psutil', # saving plotly
-        'leidenalg',
-        'python-igraph',
         'bctpy>=0.5.2',
         'mwparserfromhell',
         'sklearn',
         'dionysus<=2.0.7', # weird dependency issue with python>3.7
-        'pybind11',
         'cpnet<=0.0.6',
-        'powerlaw',
-        'sphinx_rtd_theme',
-        'cufflinks',
-        'dill',
-        'rpy2',
-        'build',
-        'twine',
         'pytest'
     ]
 )
