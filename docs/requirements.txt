@@ -1,3 +1,4 @@
+cmake
 setuptools
 numpy
 scipy
