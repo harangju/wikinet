@@ -18,4 +18,4 @@ python:
    version: 3.7
    install:
    - requirements: cmake
-   - requirements: docs/requirements.txt
+   - requirements: requirements.yml
