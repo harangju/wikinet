@@ -1,1 +1,12 @@
+numpy
+scipy
+pandas>1.0.0
+networkx
+gensim
+python-Levenshtein
+bctpy>=0.5.2
 mwparserfromhell
+sklearn
+dionysus<=2.0.7
+cpnet<=0.0.6
+pytest
