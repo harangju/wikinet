@@ -21,7 +21,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     packages=["wikinet"],
-    python_requires="==3.7", # need to make >=
+    python_requires=">=3.7", # need to make >=
     install_requires=[
         'numpy',
         'scipy',
