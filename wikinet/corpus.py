@@ -9,12 +9,19 @@ class Corpus:
     """``Corpus`` is an ``iterable`` & an ``iterator``
     that uses ``Dump`` to iterate through articles.
 
-    dump: wiki.Dump
-    output: string
-        'doc' for array of documents
-        'tag' for TaggedDocument(doc, [self.i])
-        'bow' for bag of words [(int, int)]
-    dct: gensim.corpus.Dictionary
+    .. code-block:: python
+
+        corpus = wikinet.Corpus(dump)
+        print(corpus[100])
+        [c for c in corpus]
+
+    dump: ``wikinet.Dump``
+        a ``Dump`` object
+    output: ``string``
+        ``doc`` for array of documents
+        ``tag`` for ``TaggedDocument(doc, [self.i])``
+        ``bow`` for bag of words ``[(int, int)]``
+    dct: ``gensim.corpus.Dictionary``
         used to create BoW representation
     """
     def __init__(self, dump, output='doc', dct=None, load_index=True):

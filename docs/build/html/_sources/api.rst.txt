@@ -1,6 +1,0 @@
-API
-===
-
-.. automodule:: dump
-    :members:
-    :exclude-members:

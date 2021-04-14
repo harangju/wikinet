@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Reference &mdash; wikinet 0.1.0 documentation</title>
+  <title>API Reference &mdash; wikinet 0.1.0 documentation</title>
   
 
   
@@ -86,7 +86,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -136,7 +136,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Reference</li>
+      <li>API Reference</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -155,11 +155,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-dump">
-<span id="reference"></span><h1>Reference<a class="headerlink" href="#module-dump" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="dump.Dump">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">dump.</span></code><code class="sig-name descname"><span class="pre">Dump</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_xml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_idx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dump.Dump" title="Permalink to this definition">¶</a></dt>
+  <div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>Modules:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Dump</span></code> <a class="reference internal" href="#dump"><span class="std std-ref">parse zipped XML dumps</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Corpus</span></code> <a class="reference internal" href="#corpus"><span class="std std-ref">iterate through articles</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Net</span></code> <a class="reference internal" href="#net"><span class="std std-ref">create networks from articles</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PersistentHomology</span></code> <a class="reference internal" href="#persistent-homology"><span class="std std-ref">run persistent homology</span></a></p></li>
+</ul>
+<span class="target" id="module-wikinet.dump"><span id="dump"></span></span><dl class="py class">
+<dt id="wikinet.dump.Dump">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">wikinet.dump.</span></code><code class="sig-name descname"><span class="pre">Dump</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_xml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_idx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.dump.Dump" title="Permalink to this definition">¶</a></dt>
 <dd><p><code class="docutils literal notranslate"><span class="pre">Dump</span></code> loads and parses dumps from wikipedia from
 <code class="docutils literal notranslate"><span class="pre">path_xml</span></code> with index <code class="docutils literal notranslate"><span class="pre">path_idx</span></code>.</p>
 <dl class="simple">
@@ -185,11 +192,128 @@ BC denoted as negative values</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="dump.Dump.load_page">
-<code class="sig-name descname"><span class="pre">load_page</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dump.Dump.load_page" title="Permalink to this definition">¶</a></dt>
+<dt id="wikinet.dump.Dump.load_page">
+<code class="sig-name descname"><span class="pre">load_page</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.dump.Dump.load_page" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads &amp; returs page (<code class="docutils literal notranslate"><span class="pre">mwparserfromhell.wikicode</span></code>)
 named <code class="docutils literal notranslate"><span class="pre">page_name</span></code> from dump file. Returns only the
 top section if <code class="docutils literal notranslate"><span class="pre">filter_top</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-wikinet.corpus"><span id="corpus"></span></span><dl class="py class">
+<dt id="wikinet.corpus.Corpus">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">wikinet.corpus.</span></code><code class="sig-name descname"><span class="pre">Corpus</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dump</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'doc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.corpus.Corpus" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">Corpus</span></code> is an <code class="docutils literal notranslate"><span class="pre">iterable</span></code> &amp; an <code class="docutils literal notranslate"><span class="pre">iterator</span></code>
+that uses <code class="docutils literal notranslate"><span class="pre">Dump</span></code> to iterate through articles.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="n">wikinet</span><span class="o">.</span><span class="n">Corpus</span><span class="p">(</span><span class="n">dump</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corpus</span><span class="p">[</span><span class="mi">100</span><span class="p">])</span>
+<span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>dump: <code class="docutils literal notranslate"><span class="pre">wikinet.Dump</span></code></dt><dd><p>a <code class="docutils literal notranslate"><span class="pre">Dump</span></code> object</p>
+</dd>
+<dt>output: <code class="docutils literal notranslate"><span class="pre">string</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">doc</span></code> for array of documents
+<code class="docutils literal notranslate"><span class="pre">tag</span></code> for <code class="docutils literal notranslate"><span class="pre">TaggedDocument(doc,</span> <span class="pre">[self.i])</span></code>
+<code class="docutils literal notranslate"><span class="pre">bow</span></code> for bag of words <code class="docutils literal notranslate"><span class="pre">[(int,</span> <span class="pre">int)]</span></code></p>
+</dd>
+<dt>dct: <code class="docutils literal notranslate"><span class="pre">gensim.corpus.Dictionary</span></code></dt><dd><p>used to create BoW representation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-wikinet.net"><span id="net"></span></span><dl class="py class">
+<dt id="wikinet.net.Net">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">wikinet.net.</span></code><code class="sig-name descname"><span class="pre">Net</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_barcodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.net.Net" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">Net</span></code> is a wrapper for <code class="docutils literal notranslate"><span class="pre">networkx.DiGraph</span></code>.
+Uses <code class="docutils literal notranslate"><span class="pre">dionysus</span></code> for persistence homology.</p>
+<dl class="simple">
+<dt>tfidf: scipy.sparse.csc.csc_matrix</dt><dd><p>sparse column matrix of tfidfs,
+ordered by nodes, also stored in
+<code class="docutils literal notranslate"><span class="pre">self.graph.graph['tfidf']</span></code>, lazy</p>
+</dd>
+<dt>MAX_YEAR: int</dt><dd><p><code class="docutils literal notranslate"><span class="pre">year</span> <span class="pre">=</span> <span class="pre">MAX_YEAR</span> <span class="pre">(2020)</span></code> for nodes with parents
+without years</p>
+</dd>
+<dt>YEAR_FILLED_DELTA: int</dt><dd><p><code class="docutils literal notranslate"><span class="pre">year</span> <span class="pre">=</span> <span class="pre">year</span> <span class="pre">of</span> <span class="pre">parents</span> <span class="pre">+</span> <span class="pre">YEAR_FILLED_DELTA</span> <span class="pre">(1)</span></code></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wikinet.net.Net.build_graph">
+<code class="sig-name descname"><span class="pre">build_graph</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_goal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_isolates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_years</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_empty_years</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_core_periphery</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_communities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_community_cores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.net.Net.build_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds <code class="docutils literal notranslate"><span class="pre">self.graph</span></code> (<code class="docutils literal notranslate"><span class="pre">networkx.Graph</span></code>) from nodes (<code class="docutils literal notranslate"><span class="pre">list</span></code> of <code class="docutils literal notranslate"><span class="pre">string</span></code>). Set <code class="docutils literal notranslate"><span class="pre">model</span></code> (from <code class="docutils literal notranslate"><span class="pre">gensim</span></code>) and <code class="docutils literal notranslate"><span class="pre">dct</span></code> (<code class="docutils literal notranslate"><span class="pre">gensim.corpora.Dictionary</span></code>) for weighted edges. Set <code class="docutils literal notranslate"><span class="pre">filter_top</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code> only if you want the top “lead” section of the article.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wikinet.net.Net.load_barcodes">
+<code class="sig-name descname"><span class="pre">load_barcodes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.net.Net.load_barcodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads <code class="docutils literal notranslate"><span class="pre">barcodes</span></code> from <code class="docutils literal notranslate"><span class="pre">pickle</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wikinet.net.Net.load_graph">
+<code class="sig-name descname"><span class="pre">load_graph</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.net.Net.load_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads <code class="docutils literal notranslate"><span class="pre">graph</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">filename.gexf</span></code> then read as <code class="docutils literal notranslate"><span class="pre">gexf</span></code>.
+Else, use <code class="docutils literal notranslate"><span class="pre">pickle</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wikinet.net.Net.randomize">
+<code class="sig-name descname"><span class="pre">randomize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">null_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_core_periphery</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_communities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_community_cores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.net.Net.randomize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new <code class="docutils literal notranslate"><span class="pre">wiki.Net</span></code> with a randomized
+copy of <code class="docutils literal notranslate"><span class="pre">graph</span></code>. Set <code class="docutils literal notranslate"><span class="pre">null_type</span></code> as one of
+<code class="docutils literal notranslate"><span class="pre">'year'</span></code>, <code class="docutils literal notranslate"><span class="pre">'target'</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wikinet.net.Net.save_barcodes">
+<code class="sig-name descname"><span class="pre">save_barcodes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.net.Net.save_barcodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves <code class="docutils literal notranslate"><span class="pre">barcodes</span></code> as <code class="docutils literal notranslate"><span class="pre">pickle</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wikinet.net.Net.save_graph">
+<code class="sig-name descname"><span class="pre">save_graph</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.net.Net.save_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves <code class="docutils literal notranslate"><span class="pre">graph</span></code> at <code class="docutils literal notranslate"><span class="pre">path</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">filename.gexf</span></code> then save as <code class="docutils literal notranslate"><span class="pre">gexf</span></code>.
+Else, use <code class="docutils literal notranslate"><span class="pre">pickle</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-wikinet.persistent_homology"><span id="persistent-homology"></span></span><dl class="py class">
+<dt id="wikinet.persistent_homology.PersistentHomology">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">wikinet.persistent_homology.</span></code><code class="sig-name descname"><span class="pre">PersistentHomology</span></code><a class="headerlink" href="#wikinet.persistent_homology.PersistentHomology" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">Net</span></code> is a child of <code class="docutils literal notranslate"><span class="pre">PersistentHomology</span></code>. So you can call any of the following with any <code class="docutils literal notranslate"><span class="pre">wikinet.Net</span></code> object.</p>
+<dl class="simple">
+<dt>cliques: list of lists</dt><dd><p>lazy</p>
+</dd>
+<dt>filtration: dionysus.filtration</dt><dd><p>lazy</p>
+</dd>
+<dt>persistence: dionysus.reduced_matrix</dt><dd><p>lazy</p>
+</dd>
+<dt>barcodes: pandas.DataFrame</dt><dd><p>lazy</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wikinet.persistent_homology.PersistentHomology.compute_barcodes">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">compute_barcodes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wikinet.persistent_homology.PersistentHomology.compute_barcodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses dionysus filtration &amp; persistence (in reduced matrix form) to compute barcodes.</p>
+<dl class="simple">
+<dt>f: dionysus.Filtration</dt><dd><p>filtration</p>
+</dd>
+<dt>m: dionysus.ReducedMatrix</dt><dd><p>(see homology_persistence)</p>
+</dd>
+<dt>names: list of strings</dt><dd><p>names of node indices</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

@@ -38,7 +38,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="next" title="API Reference" href="reference.html" />
     <link rel="prev" title="wikinet" href="index.html" /> 
 </head>
 
@@ -88,9 +88,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reading-zipped-wikipedia-xml-dumps">Reading zipped Wikipedia XML dumps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-network-of-wikipedia-articles">Creating a network of Wikipedia articles</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -176,7 +177,22 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">dump</span><span class="o">.</span><span class="n">years</span><span class="p">)</span> <span class="c1"># years in article (intro &amp; history sections)</span>
 </pre></div>
 </div>
-<hr class="docutils" />
+</div>
+<div class="section" id="creating-a-network-of-wikipedia-articles">
+<h2>Creating a network of Wikipedia articles<a class="headerlink" href="#creating-a-network-of-wikipedia-articles" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">topic</span> <span class="o">=</span> <span class="s1">&#39;earth science&#39;</span>
+<span class="n">dump</span><span class="o">.</span><span class="n">load_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index of </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2"> articles&quot;</span><span class="p">)</span>
+<span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">dump</span><span class="o">.</span><span class="n">article_links</span><span class="p">]</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">links</span><span class="p">)</span>
+<span class="c1"># optionally for edge weights with cosine distance between</span>
+<span class="c1"># tf-idf vectors of articles</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">tfidf</span><span class="p">,</span> <span class="c1"># gensim.models</span>
+    <span class="n">dct</span><span class="o">=</span><span class="n">dct</span><span class="p">,</span> <span class="c1"># gensim.corpora.Dictionary</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -186,7 +202,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="index.html" class="btn btn-neutral float-left" title="wikinet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

@@ -8,10 +8,8 @@ from .graph_container import GraphContainer
 __all__ = ['PersistentHomology']
 
 class PersistentHomology(GraphContainer):
-    """
+    """``Net`` is a child of ``PersistentHomology``. So you can call any of the following with any ``wikinet.Net`` object.
 
-    Attributes
-    ----------
     cliques: list of lists
         lazy
     filtration: dionysus.filtration
@@ -75,20 +73,16 @@ class PersistentHomology(GraphContainer):
 
     @staticmethod
     def compute_barcodes(f, m, graph, names):
-        """Uses dionysus filtration & persistence
-        (in reduced matrix form) to compute barcodes.
+        """Uses dionysus filtration & persistence (in reduced matrix form) to compute barcodes.
 
-        Parameters
-        ----------
         f: dionysus.Filtration
+            filtration
         m: dionysus.ReducedMatrix
             (see homology_persistence)
         names: list of strings
             names of node indices
 
-        Returns
-        -------
-        barcodes: pandas.DataFrame
+        :return: pandas.DataFrame
         """
         print('wiki.Net: computing barcodes... (skip negatives)')
         node_list = list(graph.nodes)

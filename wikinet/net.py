@@ -18,12 +18,10 @@ class Net(PersistentHomology):
     """``Net`` is a wrapper for ``networkx.DiGraph``.
     Uses ``dionysus`` for persistence homology.
 
-    Attributes
-    ----------
     tfidf: scipy.sparse.csc.csc_matrix
         sparse column matrix of tfidfs,
         ordered by nodes, also stored in
-        ```self.graph.graph['tfidf']```, lazy
+        ``self.graph.graph['tfidf']``, lazy
     MAX_YEAR: int
         ``year = MAX_YEAR (2020)`` for nodes with parents
         without years
@@ -54,9 +52,7 @@ class Net(PersistentHomology):
                     fill_empty_years=True, model=None, dct=None,
                     compute_core_periphery=True, compute_communities=True,
                     compute_community_cores=True):
-        """ Builds ``self.graph`` (``networkx.Graph``) from nodes (``list``
-        of ``string``). Set ``model`` (from ``gensim``) and ``dct``
-        (``gensim.corpora.Dictionary``) for weighted edges.
+        """ Builds ``self.graph`` (``networkx.Graph``) from nodes (``list`` of ``string``). Set ``model`` (from ``gensim``) and ``dct`` (``gensim.corpora.Dictionary``) for weighted edges. Set ``filter_top`` to ``True`` only if you want the top "lead" section of the article.
         """
         self.graph = nx.DiGraph()
         self.graph.name = name
@@ -172,16 +168,13 @@ class Net(PersistentHomology):
     def fill_empty_nodes(graph, full_parents=True):
         """ Fills nodes without ``year`` with the ``year`` of parents
 
-        Parameters
-        ----------
         graph: networkx.DiGraph
+            graph
         full_parents: bool
             whether to fill empty nodes that have
             all parents with non-empty 'year'
-        Returns
-        -------
-        bool
-            whether at least 1 empty node was filled
+
+        :return: whether at least 1 empty node was filled
         """
         empty_nodes = [n for n in graph.nodes if not graph.nodes[n]['year']]
         for node in empty_nodes:
@@ -205,16 +198,18 @@ class Net(PersistentHomology):
     def bft(graph, dump, queue, depth_goal=1, nodes=None, filter_top=True):
         """Breadth-first traversal of hyperlink graph.
 
-        Parameters
-        ----------
         graph: networkx.DiGraph
+            graph
         dump: wiki.Dump
+            dump
         queue: list of **strings**
             names of Wikipedia pages
         depth_goal: int
+            depth goal
         nodes: list of **strings**
             names of Wikipedia pages
         filter_top: bool
+            ``True`` for ``dump.load_page()``
         """
         queue = queue.copy()
         depth = 0
@@ -256,16 +251,12 @@ class Net(PersistentHomology):
     def compute_tfidf(nodes, dump, model, dct):
         """Compute tf-idf of pages with titles in ``nodes``.
 
-        Parameters
-        ----------
         nodes: list of nodes
         dump: wiki.Dump
         model: gensim.modes.tfidfmodel.TfidfModel
         dct: gensim.corpora.Dictionary
 
-        Returns
-        -------
-        vecs: scipy.sparse.csc.csc_matrix
+        :rtype: scipy.sparse.csc.csc_matrix
         """
         pages = [dump.load_page(page) for page in nodes]
         bows = [model[dct.doc2bow(gu.simple_preprocess(page.strip_code()))]
