@@ -47,56 +47,6 @@ class Net(PersistentHomology):
             self._tfidf = self.graph.graph['tfidf']
             return self._tfidf
 
-    def build_graph(self, name='', dump=None, nodes=None, depth_goal=1,
-                    filter_top=True, remove_isolates=True, add_years=True,
-                    fill_empty_years=True, model=None, dct=None,
-                    compute_core_periphery=True, compute_communities=True,
-                    compute_community_cores=True):
-        """ Builds ``self.graph`` (``networkx.Graph``) from nodes (``list`` of ``string``). Set ``model`` (from ``gensim``) and ``dct`` (``gensim.corpora.Dictionary``) for weighted edges. Set ``filter_top`` to ``True`` only if you want the top "lead" section of the article.
-        """
-        self.graph = nx.DiGraph()
-        self.graph.name = name
-        if not dump:
-            raise AttributeError('wiki.Net: Provide wiki.Dump object.')
-        print('wiki.Net: traversing Wikipedia...')
-        Net.bft(self.graph, dump, nodes, depth_goal=depth_goal,
-                nodes=nodes, filter_top=filter_top)
-        if remove_isolates:
-            print('wiki.Net: removing isolates...')
-            self.graph.remove_nodes_from(nx.isolates(self.graph))
-        if add_years:
-            print('wiki.Net: adding years...')
-            for node in self.graph.nodes:
-                dump.load_page(node)
-                self.graph.nodes[node]['year'] = dump.years[0] if len(dump.years)>0 else []
-            self.graph.graph['num_years'] = sum(
-                [bool(y) for y in nx.get_node_attributes(self.graph, 'year').values()]
-            )
-        if fill_empty_years:
-            print('wiki.Net: filling empty years...')
-            nodes_filled = True
-            while nodes_filled:
-                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=True)
-            nodes_filled = True
-            while nodes_filled:
-                nodes_filled = Net.fill_empty_nodes(self.graph, full_parents=False)
-            for node in self.graph.nodes:
-                if not self.graph.nodes[node]['year']:
-                    self.graph.nodes[node]['year'] = Net.MAX_YEAR
-        if model and dct:
-            print('wiki.Net: calculating weights...')
-            self.graph.graph['tfidf'] = Net.compute_tfidf(self.nodes, dump, model, dct)
-            Net.set_weights(self.graph)
-        if compute_core_periphery:
-            print('wiki.Net: computing core-periphery...')
-            Net.assign_core_periphery(self.graph)
-        if compute_communities:
-            print('wiki.Net: computing communities...')
-            Net.assign_communities(self.graph)
-        if compute_community_cores:
-            print('wiki.Net: computing cores within communities...')
-            Net.assign_cores_to_communities(self.graph)
-
     def load_graph(self, path):
         """Loads ``graph`` from ``path``.
         If ``filename.gexf`` then read as ``gexf``.
@@ -162,6 +112,62 @@ class Net(PersistentHomology):
         if compute_community_cores:
             print('wiki.Net: computing cores within communities...')
             Net.assign_cores_to_communities(self.graph)
+        return network
+
+    @staticmethod
+    def build_graph(name='', dump=None, nodes=None, depth_goal=1,
+                    filter_top=True, remove_isolates=True, add_years=True,
+                    fill_empty_years=True, model=None, dct=None,
+                    compute_core_periphery=True, compute_communities=True,
+                    compute_community_cores=True):
+        """ Builds ``network.graph`` (``networkx.Graph``) from nodes (``list`` of ``string``). Set ``model`` (from ``gensim``) and ``dct`` (``gensim.corpora.Dictionary``) for weighted edges. Set ``filter_top`` to ``True`` only if you want the top "lead" section of the article.
+        """
+        network = Net()
+        network.graph = nx.DiGraph()
+        network.graph.name = name
+        if not dump:
+            raise AttributeError('wiki.Net: Provide wiki.Dump object.')
+        print('wiki.Net: traversing Wikipedia...')
+        Net.bft(network.graph, dump, nodes, depth_goal=depth_goal,
+                nodes=nodes, filter_top=filter_top)
+        if remove_isolates:
+            print('wiki.Net: removing isolates...')
+            network.graph.remove_nodes_from(nx.isolates(network.graph))
+        if add_years:
+            print('wiki.Net: adding years...')
+            for node in network.graph.nodes:
+                dump.load_page(node)
+                network.graph.nodes[node]['year'] = dump.years[0] if len(dump.years)>0 else []
+            network.graph.graph['num_years'] = sum(
+                [
+                    bool(y)
+                    for y in nx.get_node_attributes(network.graph, 'year').values()
+                ]
+            )
+        if fill_empty_years:
+            print('wiki.Net: filling empty years...')
+            nodes_filled = True
+            while nodes_filled:
+                nodes_filled = Net.fill_empty_nodes(network.graph, full_parents=True)
+            nodes_filled = True
+            while nodes_filled:
+                nodes_filled = Net.fill_empty_nodes(network.graph, full_parents=False)
+            for node in network.graph.nodes:
+                if not network.graph.nodes[node]['year']:
+                    network.graph.nodes[node]['year'] = Net.MAX_YEAR
+        if model and dct:
+            print('wiki.Net: calculating weights...')
+            network.graph.graph['tfidf'] = Net.compute_tfidf(network.nodes, dump, model, dct)
+            Net.set_weights(network.graph)
+        if compute_core_periphery:
+            print('wiki.Net: computing core-periphery...')
+            Net.assign_core_periphery(network.graph)
+        if compute_communities:
+            print('wiki.Net: computing communities...')
+            Net.assign_communities(network.graph)
+        if compute_community_cores:
+            print('wiki.Net: computing cores within communities...')
+            Net.assign_cores_to_communities(network.graph)
         return network
 
     @staticmethod
