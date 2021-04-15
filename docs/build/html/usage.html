@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Usage &mdash; wikinet 0.1.0 documentation</title>
+  <title>Usage &mdash; wikinet 0.1.1 documentation</title>
   
 
   
@@ -183,12 +183,14 @@
 </div>
 <div class="section" id="creating-a-network-of-wikipedia-articles">
 <h2>Creating a network of Wikipedia articles<a class="headerlink" href="#creating-a-network-of-wikipedia-articles" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">wiki</span><span class="o">.</span><span class="n">Net</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">links</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">wiki</span><span class="o">.</span><span class="n">Net</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;my network&#39;</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Science&#39;</span><span class="p">,</span> <span class="s1">&#39;Mathematics&#39;</span><span class="p">,</span> <span class="s1">&#39;Philosophy&#39;</span><span class="p">]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<p>Optionally, for edge weights with cosine distance between tf-idf vectors of articles</p>
+<p>Optionally, for edge weights with cosine distance between <code class="docutils literal notranslate"><span class="pre">tf-idf</span></code> vectors of articles</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">wiki</span><span class="o">.</span><span class="n">Net</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;my network&#39;</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Science&#39;</span><span class="p">,</span> <span class="s1">&#39;Mathematics&#39;</span><span class="p">,</span> <span class="s1">&#39;Philosophy&#39;</span><span class="p">],</span>
     <span class="n">model</span><span class="o">=</span><span class="n">tfidf</span><span class="p">,</span> <span class="c1"># gensim.models</span>
     <span class="n">dct</span><span class="o">=</span><span class="n">dct</span><span class="p">,</span> <span class="c1"># gensim.corpora.Dictionary</span>
 <span class="p">)</span>

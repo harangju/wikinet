@@ -29,14 +29,16 @@ Creating a network of Wikipedia articles
 
 ::
 
-    network = wiki.Net.build_graph(name=topic, dump=dump, nodes=links)
+    network = wiki.Net.build_graph(
+        name='my network', dump=dump, nodes=['Science', 'Mathematics', 'Philosophy']
+    )
 
 Optionally, for edge weights with cosine distance between ``tf-idf`` vectors of articles
 
 ::
 
     network = wiki.Net.build_graph(
-        name=topic, dump=dump, nodes=links,
+        name='my network', dump=dump, nodes=['Science', 'Mathematics', 'Philosophy'],
         model=tfidf, # gensim.models
         dct=dct, # gensim.corpora.Dictionary
     )
