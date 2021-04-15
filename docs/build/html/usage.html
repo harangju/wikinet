@@ -164,13 +164,16 @@
 <span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">wikinet</span></code>.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">wikinet</span></code>. Then, <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">wikinet</span> <span class="pre">as</span> <span class="pre">wiki</span></code>.</p>
 </div>
 <div class="section" id="reading-zipped-wikipedia-xml-dumps">
 <h2>Reading zipped Wikipedia XML dumps<a class="headerlink" href="#reading-zipped-wikipedia-xml-dumps" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dump</span> <span class="o">=</span> <span class="n">wiki</span><span class="o">.</span><span class="n">Dump</span><span class="p">(</span><span class="n">path_xml</span><span class="p">,</span> <span class="n">path_index</span><span class="p">)</span>
 <span class="n">page</span> <span class="o">=</span> <span class="n">dump</span><span class="o">.</span><span class="n">load_page</span><span class="p">(</span><span class="s1">&#39;Science&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, you can view the page and information about the page.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">dump</span><span class="o">.</span><span class="n">page</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">dump</span><span class="o">.</span><span class="n">links</span><span class="p">)</span> <span class="c1"># all links</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">dump</span><span class="o">.</span><span class="n">article_links</span><span class="p">)</span> <span class="c1"># just links to articles</span>
@@ -180,19 +183,18 @@
 </div>
 <div class="section" id="creating-a-network-of-wikipedia-articles">
 <h2>Creating a network of Wikipedia articles<a class="headerlink" href="#creating-a-network-of-wikipedia-articles" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">topic</span> <span class="o">=</span> <span class="s1">&#39;earth science&#39;</span>
-<span class="n">dump</span><span class="o">.</span><span class="n">load_page</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index of </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2"> articles&quot;</span><span class="p">)</span>
-<span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">dump</span><span class="o">.</span><span class="n">article_links</span><span class="p">]</span>
-<span class="n">network</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">links</span><span class="p">)</span>
-<span class="c1"># optionally for edge weights with cosine distance between</span>
-<span class="c1"># tf-idf vectors of articles</span>
-<span class="n">network</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">wiki</span><span class="o">.</span><span class="n">Net</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">links</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Optionally, for edge weights with cosine distance between tf-idf vectors of articles</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">wiki</span><span class="o">.</span><span class="n">Net</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
     <span class="n">model</span><span class="o">=</span><span class="n">tfidf</span><span class="p">,</span> <span class="c1"># gensim.models</span>
     <span class="n">dct</span><span class="o">=</span><span class="n">dct</span><span class="p">,</span> <span class="c1"># gensim.corpora.Dictionary</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+<p>Then, <code class="docutils literal notranslate"><span class="pre">network.graph</span></code> gives you a <code class="docutils literal notranslate"><span class="pre">networkx.DiGraph</span></code>.</p>
 </div>
 </div>
 
