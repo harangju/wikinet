@@ -180,7 +180,7 @@ class Dump:
         return history
 
     @staticmethod
-    def filter_years(text):
+    def filter_years(text, get_matches=False):
         """Filters the years from text."""
         months = [
             'january', 'february', 'march', 'april', 'may', 'june',
@@ -207,4 +207,7 @@ class Dump:
         ]
         years += centuries
         years = [y for y in years if y<Dump.MAX_YEAR]
-        return sorted(years + centuries)
+        if get_matches:
+            return sorted(years + centuries), re.finditer(re_string, text, re.IGNORECASE)
+        else:
+            return sorted(years + centuries)
