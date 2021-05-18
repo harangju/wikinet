@@ -132,7 +132,7 @@ class Dump:
         self.page = mph.parse(text, skip_style_tags = True)
         if self.page and 'REDIRECT' in self.page.strip_code():
             redirect = self.page.filter_wikilinks()[0].title
-            return self.load_page(str(redirect))
+            return self.load_page(str(redirect).split('#')[0])
         else:
             return self.page
 
