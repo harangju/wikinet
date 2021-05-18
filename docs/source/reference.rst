@@ -24,7 +24,7 @@ Modules:
 
 .. automodule:: wikinet.net
     :members:
-    :exclude-members: assign_communities, assign_core_periphery, bft, compute_tfidf, fill_empty_nodes, filter, set_weights
+    :exclude-members: bft, compute_tfidf, fill_empty_nodes, filter, set_weights
 
 .. _persistent-homology:
 
