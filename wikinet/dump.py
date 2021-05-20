@@ -196,18 +196,20 @@ class Dump:
         times = ['early', 'mid', 'late']
         patterns = months + prepositions + conjugations + articles + times
         re_string = r'\b(' + '|'.join(patterns) + r')\b(\s|-)\b([0-9]{3,4})s?\b(?i)(?!\sMYA)\s?(BCE|BC)?'
+        year_matches = list(re.finditer(re_string, text, re.IGNORECASE))
         years = [
             int(match.group(3)) * (-2*bool(match.group(4))+1)
-            for match in re.finditer(re_string, text, re.IGNORECASE)
+            for match in year_matches
         ]
         re_string = r'([0-9]{1,2})(st|nd|rd|th) century\s?(BCE|BC)?'
+        century_matches = list(re.finditer(re_string, text, re.IGNORECASE))
         centuries = [
             (int(match.group(1)) * 100 - 100) * (-2*bool(match.group(2))+1)
-            for match in re.finditer(re_string, text, re.IGNORECASE)
+            for match in century_matches
         ]
         years += centuries
         years = [y for y in years if y<Dump.MAX_YEAR]
         if get_matches:
-            return sorted(years + centuries), re.finditer(re_string, text, re.IGNORECASE)
+            return sorted(years + centuries), year_matches + century_matches
         else:
             return sorted(years + centuries)
