@@ -116,6 +116,7 @@ class Dump:
         named ``page_name`` from dump file. Returns only the
         top section if ``filter_top``.
         """
+        page_name = page_name.capitalize()
         if page_name not in self.idx.keys():
             self.page = None
             return
