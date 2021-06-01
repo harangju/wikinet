@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="wikinet",
-    version="0.1.4",
+    version="0.1.5",
     author="Harang Ju",
     author_email="harangju@gmail.com",
     description="Network of wikipedia articles",
