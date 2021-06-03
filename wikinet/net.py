@@ -8,6 +8,7 @@ import networkx as nx
 import cpnet as cp
 import gensim.utils as gu
 import gensim.matutils as gmat
+import sklearn.metrics.pairwise as smp
 
 from .dump import Dump
 from .persistent_homology import PersistentHomology
@@ -138,12 +139,10 @@ class Net(PersistentHomology):
             for node in network.graph.nodes:
                 dump.load_page(node)
                 network.graph.nodes[node]['year'] = dump.years[0] if len(dump.years)>0 else []
-            network.graph.graph['num_years'] = sum(
-                [
-                    bool(y)
-                    for y in nx.get_node_attributes(network.graph, 'year').values()
-                ]
-            )
+            network.graph.graph['num_years'] = sum([
+                bool(y)
+                for y in nx.get_node_attributes(network.graph, 'year').values()
+            ])
         if fill_empty_years:
             print('wiki.Net: filling empty years...')
             nodes_filled = True

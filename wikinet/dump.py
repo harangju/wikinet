@@ -123,7 +123,7 @@ class Dump:
                 [page_name_words[i] for i in range(1, len(page_name_words))]
             )
         if page_name not in self.idx.keys():
-            print(f"Page '{page_name}' not in index.")
+            # print(f"Page '{page_name}' not in index.")
             self.page = None
             return
         offset, pid, block_size = self.idx[page_name]
@@ -140,9 +140,9 @@ class Dump:
         if self.page and 'REDIRECT' in self.page.strip_code():
             redirect = self.page.filter_wikilinks()[0].title
             redirect = str(redirect).split('#')[0]
-            print(f"Redirect from '{page_name}' to '{redirect}'.")
+            # print(f"Redirect from '{page_name}' to '{redirect}'.")
             if redirect==page_name:
-                print(f"Redirect page '{redirect}' same as requested page '{page_name}'.")
+                # print(f"Redirect page '{redirect}' same as requested page '{page_name}'.")
                 return
             return self.load_page(redirect)
         else:

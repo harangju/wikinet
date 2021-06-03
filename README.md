@@ -8,4 +8,4 @@ See [documentation](https://wikinet.readthedocs.io/en/latest/) to get started.
 
 ## To-do
 
-* fix dependency issue with `dionysus` and `python`
+* verbose option for building networks
