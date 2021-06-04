@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 import scipy as sp
 import networkx as nx
-import cpnet as cp
+# import cpnet as cp
 import gensim.utils as gu
 import gensim.matutils as gmat
 import sklearn.metrics.pairwise as smp
@@ -294,16 +294,18 @@ class Net(PersistentHomology):
             graph.nodes[node]['core_be'] = be[0][i]
         graph.graph['coreness_be'] = be[1]
         # rombach
-        rb = cp.Rombach()
-        rb.detect(graph)
-        if rb.get_coreness() != 0:
-            for node, coreness in rb.get_coreness().items():
-                graph.nodes[node]['core_rb'] = coreness
-            graph.graph['coreness_rb'] = rb.score()[0]
-        else:
-            for node in graph.nodes:
-                graph.nodes[node]['core_rb'] = 0
-            graph.graph['coreness_rb'] = 0
+        # rb = cp.Rombach()
+        # rb.detect(graph)
+        # if rb.get_coreness() != 0:
+        #     for node, coreness in rb.get_coreness().items():
+        #         graph.nodes[node]['core_rb'] = coreness
+        #     graph.graph['coreness_rb'] = rb.score(
+        #         graph, {n:0 for n in graph.nodes}, rb.get_coreness()
+        #     )[0]
+        # else:
+        #     for node in graph.nodes:
+        #         graph.nodes[node]['core_rb'] = 0
+        #     graph.graph['coreness_rb'] = 0
 
     @staticmethod
     def assign_communities(graph):
@@ -313,10 +315,11 @@ class Net(PersistentHomology):
         See ``greedy_modularity_communities`` in ``networkx``.
         """
         communities = nx.algorithms.community\
-                        .greedy_modularity_communities(nx.Graph(graph))
+            .greedy_modularity_communities(nx.Graph(graph))
         for node in graph.nodes:
-            graph.nodes[node]['community'] = [i for i,c in enumerate(communities)
-                                              if node in c][0]
+            graph.nodes[node]['community'] = [
+                i for i,c in enumerate(communities) if node in c
+            ][0]
         graph.graph['modularity'] = nx.algorithms.community.quality\
                                       .modularity(nx.Graph(graph),
                                                   communities)
@@ -326,7 +329,7 @@ class Net(PersistentHomology):
         """"""
         num_comm = max([graph.nodes[n]['community'] for n in graph.nodes])
         community_coreness_be = {i: 0 for i in range(num_comm)}
-        community_coreness_rb = {i: 0 for i in range(num_comm)}
+        # community_coreness_rb = {i: 0 for i in range(num_comm)}
         for i in range(num_comm+1):
             community = [n for n in graph.nodes if graph.nodes[n]['community']==i]
             subgraph = graph.subgraph(community).copy()
@@ -335,20 +338,20 @@ class Net(PersistentHomology):
                 # borgatti-everett
                 be = bct.core_periphery_dir(matrix)
                 # rombach
-                rb = cp.Rombach()
-                rb.detect(subgraph)
+                # rb = cp.Rombach()
+                # rb.detect(subgraph)
                 # assign
                 community_coreness_be[i] = be[1]
-                community_coreness_rb[i] = rb.score()[0]
-                cp_rb = rb.get_coreness()
+                # community_coreness_rb[i] = rb.score()[0]
+                # cp_rb = rb.get_coreness()
                 for j, node in enumerate(subgraph.nodes):
                     graph.nodes[node]['community_core_be'] = be[0][j]
-                    graph.nodes[node]['community_core_rb'] = cp_rb[node]
+                    # graph.nodes[node]['community_core_rb'] = cp_rb[node]
             else:
                 community_coreness_be[i] = 0
-                community_coreness_rb[i] = 0
+                # community_coreness_rb[i] = 0
                 for j, node in enumerate(subgraph.nodes):
                     graph.nodes[node]['community_core_be'] = 1
-                    graph.nodes[node]['community_core_rb'] = 1
+                    # graph.nodes[node]['community_core_rb'] = 1
         graph.graph['community_coreness_be'] = community_coreness_be
-        graph.graph['community_coreness_rb'] = community_coreness_rb
+        # graph.graph['community_coreness_rb'] = community_coreness_rb
