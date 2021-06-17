@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 import dionysus as d
 import networkx as nx
+import numpy as np
 
 from .graph_container import GraphContainer
 
