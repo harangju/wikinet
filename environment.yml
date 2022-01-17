@@ -30,7 +30,7 @@ dependencies:
     - mwparserfromhell
     - sklearn
     - dionysus<=2.0.7 # not sure why this is failing the conda install
-    - cpnet==0.0.6 # >0.0.6 has no source
+    # - cpnet==0.0.6 # >0.0.6 has no source
     - powerlaw
     - cufflinks
     - rpy2
