@@ -1,0 +1,265 @@
+Attention: 
+amin described this experience as "reception in a state of distraction." This disagreement could only be resolved through experimentation.  In 1890, William James, in his textbook ''The Principles of Psychology'', remarked:  James differentiated between censorial attention and intellect
+
+Lexicology: 
+r example, ''flesh'' vs. ''meat''), and any other issues involved in analyzing the whole lexicon of a language.  The term first appeared in the 1970s, though there were lexicologists in essence before the term was coined. Computational lexicology is a related field (in the same way that c
+
+Computational semiotics: none
+
+Autism: 
+ autism should be accepted as a difference and not treated as a disorder.  Globally, autism is estimated to affect 24.8 million people . In the 2000s, the number of people affected was estimated at 1–2 per 1,000 people worldwide. In the developed countries, about 1.5% of children are diag
+
+Cognition: none
+
+Neural network: 
+ocused on biological processes in the brain and the other focused on the application of neural networks to artificial intelligence.  In the late 1940s psychologist Donald Hebb  created a hypothesis of learning based on the mechanism of neural plasticity that is now known as Hebbian learning
+
+Writing systems: 
+ved on tortoise shells in Jiahu, c. 6600 BC  Vinča symbols (Tărtăria tablets), 5300 BC  Early Indus script, c. 3500 BC.  Nsibidi script, c. before 500 AD  The invention of the first writing systems is roughly contemporary with the beginning of the Bronze Age in the late Neolithic of the lat
+
+Philosophy of language: 
+logical positivists, and Quine.  A foundational work was Ferdinand de Saussure's ''Cours de linguistique générale'', published posthumously in 1916.  Philosophy of Language may investigate the relations between language, language users, and the world. The scope of Philosophy of Language
+
+Metonymy: none
+
+Comparative method: 
+roto-language was August Schleicher, in his ''Compendium der vergleichenden Grammatik der indogermanischen Sprachen'', originally published in 1861.. Here is Schleicher's explanation of why he offered reconstructed forms:. In the present work an attempt is made to set forth the inferred
+
+Sociolinguistics: 
+' that sociolinguistics studies.  The social aspects of language were in the modern sense first studied by Indian and Japanese linguists in the 1930s, and also by Louis Gauchat in Switzerland in the early 1900s, but none received much attention in the West until much later. The study of t
+
+Neuroscience: 
+euroscience.  thumb|right|The Golgi stain first allowed for the visualization of individual neurons. Luigi Galvani's pioneering work in the late 1700s set the stage for studying the electrical excitability of muscles and neurons. In the first half of the 19th century, Jean Pierre Flourens p
+
+Speech recognition: 
+ source-filter model of speech production.   '''1962''' – IBM demonstrated its 16-word "Shoebox" machine's speech recognition capability at the 1962 World's Fair.  '''1969''' – Funding at Bell Labs dried up for several years when, in 1969, the influential John Pierce wrote an open letter 
+
+Intelligence: none
+
+Turing test: 
+ion.Image adapted from Saygin, 2000.  website: http://www.aisb.org.uk/events/loebner-prize  The '''Turing test''', developed by Alan Turing in 1950, is a test of a machine's ability to exhibit intelligent behaviour equivalent to, or indistinguishable from, that of a human. Turing propos
+
+Motor control: none
+
+Semantics: 
+rrespondence theories of meaning. Each of these is related to the general philosophical study of reality and the representation of meaning. In 1960s psychosemantic studies became popular after Osgood's massive cross-cultural studies using his semantic differential (SD) method that used th
+
+Descriptive linguistics: none
+
+Collective intelligence: 
+bo, Gottfried Mayer-Kress (2003). History  left|thumb|H.G. Wells ''World Brain'' (1936–1938) The concept (although not so named) originated in 1785 with the Marquis de Condorcet, whose "jury theorem" states that if each member of a voting group is more likely than not to make a correct d
+
+Cognitive ergonomics: none
+
+Cybernetics: 
+disciplinary approach for exploring regulatory systems—their structures, constraints, and possibilities. Norbert Wiener defined cybernetics in 1948 as "the scientific study of control and communication in the animal and the machine." In other words, it is the scientific study of how huma
+
+Jerry Fodor: 
+y twenty-first century. In addition to having exerted an enormous influence on virtually every portion of the philosophy of mind literature since 1960, Fodor's work has had a significant impact on the development of the cognitive sciences."  Fodor argued that mental states, such as beliefs
+
+Pragmatics: none
+
+Historical-comparative linguistics: 
+communities  to study the history of words, i.e. etymologyHistory and development Western modern historical linguistics dates from the late 18th century.  It grew out of the earlier discipline of philology, the study of ancient texts and documents dating back to antiquity.  At first, histori
+
+Creole language: 
+er of creole languages is not known, particularly as many are poorly attested or documented. About one hundred creole languages have arisen since 1500.  These are predominantly based on European languages such as English and French due to the European Age of Discovery and the Atlantic slav
+
+Language families and languages: 
+'' within a language family as being ''genetically related''.  According to ''Ethnologue'' the 7,111 living human languages are distributed in 141 different language families.  A "living language" is simply one that is used as the primary form of communication of a group of people. Ther
+
+Qualia: none
+
+Prescription and description: 
+peaker preferences, and a prior understanding of how language is actually used is necessary for prescription to be effective. Since the mid-20th century some dictionaries and style guides, which are prescriptive works by nature, have increasingly integrated descriptive material and approaches
+
+Language: 
+mulated 3,959 rules of Sanskrit morphology. However, Sumerian scribes already studied the differences between Sumerian and Akkadian grammar around 1900 BC. Subsequent grammatical traditions developed in all of the ancient cultures that adopted writing.  In the 17th century AD, the French Port-
+
+Speech synthesis: 
+ing disabilities to listen to written words on a home computer. Many computer operating systems have included speech synthesizers since the early 1990s.  550px|thumb|Overview of a typical TTS system  A text-to-speech system (or "engine") is composed of two parts: a front-end and a back-end.
+
+Neurolinguistics: 
+roscience today.  The coining of the term "neurolinguistics" is attributed to Edith Crowell Trager, Henri Hecaen and Alexandr Luria, in the late 1940s and 1950s; Luria's book "Problems in Neurolinguistics" is likely the first book with Neurolinguistics in the title. Harry Whitaker populariz
+
+Natural language understanding: 
+voice command message too different output messages to be consumed for M2M communications and actions).History The program STUDENT, written in 1964 by Daniel Bobrow for his PhD dissertation at MIT is one of the earliest known attempts at natural-language understanding by a computer.Ameri
+
+Artificial intelligence: 
+ is able to be self-conscious and is self-aware in interactions with others.  Artificial intelligence was founded as an academic discipline in 1956, and in the years since has experienced several waves of optimism, followed by disappointment and the loss of funding (known as an "AI wint
+
+Artificial life: 
+tions with computer models, robotics, and biochemistry. The discipline was named by Christopher Langton, an American theoretical biologist, in 1986.The MIT Encyclopedia of the Cognitive Sciences, The MIT Press, p.37.  There are three main kinds of alife, named for their approaches:  ''s
+
+Mind: 
+and idealism continue to have many supporters. Another question concerns which types of beings are capable of having minds (New Scientist 8 September 2018 p10). For example, whether mind is exclusive to humans, possessed also by some or all animals, by all living things, whether it is a strictl
+
+Cognitive behaviour therapy: 
+modern roots of CBT can be traced to the development of behavior therapy in the early 20th century, the development of cognitive therapy in the 1960s, and the subsequent merging of the two. Groundbreaking work of behaviorism began with John B. Watson and Rosalie Rayner's studies of condit
+
+Transformational-generative grammar: none
+
+Stratificational linguistics: none
+
+Structuralism: 
+ord Dictionary of Philosophy'', second edition revised. Oxford: Oxford University Press, p. 353,   Structuralism in Europe developed in the early 1900s, mainly in France and Russian Empire, in the structural linguistics of Ferdinand de Saussure and the subsequent Prague,Deleuze, Gilles. 200
+
+Speech processing: 
+attempts at speech processing and recognition were primarily focused on understanding a handful of simple phonetic elements such as vowels. In 1952, three researchers at Bell Labs, Stephen. Balashek, R. Biddulph, and K. H. Davis, developed a system that could recognize digits spoken by 
+
+Linguistic layers: 
+f written, signed, or spoken discourse through varying speech communities, genres, and editorial or narrative formats in the mass media. In the 1960s, Jacques Derrida, for instance, further distinguished between speech and writing, by proposing that written language be studied as a lingui
+
+Comparative method (linguistics): 
+roto-language was August Schleicher, in his ''Compendium der vergleichenden Grammatik der indogermanischen Sprachen'', originally published in 1861.. Here is Schleicher's explanation of why he offered reconstructed forms:. In the present work an attempt is made to set forth the inferred
+
+Phonology: 
+ho (together with his students Mikołaj Kruszewski and Lev Shcherba) shaped the modern usage of the term ''phoneme'' in a series of lectures in 1876-1877. The word ''phoneme'' had been coined a few years earlier in 1873 by the French linguist A. Dufriche-Desgenettes. In a paper read at t
+
+Biology: 
+ derived from the Greek word , ''vios'', "life" and the suffix , ''-logia'', "study of." The Latin-language form of the term first appeared in 1736 when Swedish scientist Carl Linnaeus (Carl von Linné) used ''biologi'' in his ''Bibliotheca Botanica''. It was used again in 1766 in a work 
+
+Psychology: 
+as social sciences most commonly draws directly from sub-disciplines within psychology. Association for Psychological Science ''Observer'' (September 2007)  While psychological knowledge is often applied to the assessment and treatment of mental health problems, it is also directed towards und
+
+Cognitive Science Society: none
+
+George Lakoff: 
+involvement in the Gulf war was obscured or "spun" by the metaphors which were used by the first Bush administration to justify it.Compare: Between 2003 and 2008, Lakoff was involved with a progressive think tank, the now defunct Rockridge Institute. He is a member of the scientific committee
+
+Comparative linguistics: 
+ion of language pairs but such methods reduce the information. An outgrowth of lexicostatistics is glottochronology, initially developed in the 1950s, which proposed a mathematical formula for establishing the date when two languages separated, based on percentage of a core vocabulary of 
+
+Embodied philosophy: 
+ic and high-level abstract symbols (an approach called Good old-fashioned AI). This "disembodied" approach ran into serious difficulties in the 1970s and 80s, as researchers discovered that abstract, disembodied reasoning was highly inefficient and could not achieve human-levels of compete
+
+Speech therapy: none
+
+Cognitive science: 
+r comprehension of the mind and of learning and to develop intelligent devices. The cognitive sciences began as an intellectual movement in the 1950s often referred to as the cognitive revolution.History The cognitive sciences began as an intellectual movement in the 1950s, called the cogn
+
+Psychology of reasoning: none
+
+Cryptanalysis: 
+fluenced history; the ability to read the presumed-secret thoughts and plans of others can be a decisive advantage. For example, in England in 1587, Mary, Queen of Scots was tried and executed for treason as a result of her involvement in three plots to assassinate Elizabeth I of Englan
+
+Human–computer interaction: 
+ and Thomas P. Moran in their seminal 1983 book, ''The Psychology of Human–Computer Interaction'', although the authors first used the term in 1980 and the first known use was in 1975. The term connotes that, unlike other tools with only limited uses (such as a hammer, useful for driving
+
+Philosophy: 
+stotelianism and Neoplatonism. The work of Aristotle was very influential among the falsafa such as al-Kindi (9th century), Avicenna (980 – June 1037) and Averroes (12th century). Others such as Al-Ghazali were highly critical of the methods of the Aristotelian falsafa. Islamic thinkers a
+
+Alan Turing: 
+
+
+Intelligence (trait): none
+
+Behavioral economics: 
+dividuals rely on to understand and respond to events.  Market inefficiencies: These include mis-pricing and non-rational decision making.  In 2002, psychologist Daniel Kahneman was awarded the Nobel Memorial Prize in Economic Sciences "for having integrated insights from psychological 
+
+Theory of computation: none
+
+Computational linguistics: none
+
+Anthropology: none
+
+Cognitive psychology: 
+ economics.History Philosophically, ruminations of the human mind and its processes have been around since the times of the ancient Greeks. In 387 BCE, Plato is known to have suggested that the brain was the seat of the mental processes. In 1637, René Descartes posited that humans are born
+
+Metaphor: none
+
+Moral Politics: none
+
+Linguistics: 
+f written, signed, or spoken discourse through varying speech communities, genres, and editorial or narrative formats in the mass media. In the 1960s, Jacques Derrida, for instance, further distinguished between speech and writing, by proposing that written language be studied as a lingui
+
+Language acquisition: 
+ionist theory, and usage-based language acquisition.  Skinner's behaviourist idea was strongly attacked by Noam Chomsky in a review article in 1959, calling it "largely mythology" and a "serious delusion." Arguments against Skinner's idea of language acquisition through operant conditio
+
+Syntax: 
+at came to be known as "traditional grammar" began with the work of Dionysius Thrax.  For centuries, a framework known as  (first expounded in 1660 by Antoine Arnauld in a book of the same title) dominated work in syntax: as its basic premise the assumption that language is a direct refl
+
+Cognitive therapy: 
+ CT is one of the therapeutic approaches within the larger group of cognitive behavioral therapies (CBT) and was first expounded by Beck in the 1960s. Cognitive therapy is based on the cognitive model, which states that thoughts, feelings and behavior are all connected, and that individua
+
+Historical linguistics: 
+communities  to study the history of words, i.e. etymologyHistory and development Western modern historical linguistics dates from the late 18th century.  It grew out of the earlier discipline of philology, the study of ancient texts and documents dating back to antiquity.  At first, histori
+
+Theoretical linguistics: 
+etical linguists are most concerned with constructing models of linguistic knowledge, and ultimately developing a linguistic theory.  Since the 1960s, the term "theoretical linguistics" has typically been used in more or less the same sense as "general linguistics", even though it also co
+
+Corpus linguistics: 
+earch, assembled corpora have been used to compile dictionaries (starting with ''The American Heritage Dictionary of the English Language'' in 1969) and grammar guides, such as ''A Comprehensive Grammar of the English Language'', published in 1985. History   Some of the earliest efforts
+
+Linguistic relativity: 
+hersLinguistics and the Third Reich e.g. page 4, Christopher Hutton (online on Google Books), but has been reexamined by scholars since the late 1980's and on, aiming to avoid the context of racism, nationalism, or a hierarchy of intellectual capabilities which had previously surrounded t
+
+Cognitive science of mathematics: none
+
+Speaker recognition: none
+
+Orthography: none
+
+Psycholinguistics: none
+
+Linguistics basic topics: 
+t Greek study of language  Roman elaborations of Greek study  Medieval philosophical work in Latin  Beginnings of modern linguistics in the 19th century  Behaviorism and mental ''tabula rasa'' hypothesis  Chomsky and functionalism  Generative grammar leads to generative phonology and semantic
+
+Computer science: 
+e the development of sophisticated computing equipment.  Wilhelm Schickard designed and constructed the first working mechanical calculator in 1623. In 1673, Gottfried Leibniz demonstrated a digital mechanical calculator, called the Stepped Reckoner. He may be considered the first compu
+
+Herbert A. Simon: 
+ithin organizations and is best known for the theories of "bounded rationality" and "satisficing". He received the Nobel Prize in Economics in 1978 and the Turing Award in 1975. His research was noted for its interdisciplinary nature and spanned across the fields of cognitive science, co
+
+Interdisciplinary: none
+
+Noam Chomsky: 
+ in anarchism from alternative bookstores in New York City. At age 16 he began undergraduate studies at the University of Pennsylvania, and from 1951 to 1955 was a member of Harvard University's Society of Fellows, where he developed the theory of transformational grammar for which he earn
+
+Cognitive neuroscience: none
+
+Connotation: none
+
+Speech communication: none
+
+Where Mathematics Comes From: 
+ics into Being''''' (hereinafter ''WMCF'') is a book by George Lakoff, a cognitive linguist, and Rafael E. Núñez, a psychologist. Published in 2000, ''WMCF'' seeks to found a cognitive science of mathematics, a theory of embodied mathematics based on conceptual metaphor.
+
+Constructed language: 
+17th century, interest in magical languages was continued by the Rosicrucians and Alchemists (like John Dee and his Enochian). Jakob Boehme in 1623 spoke of a "natural language" (''Natursprache'') of the senses.  Musical languages from the Renaissance were tied up with mysticism, magic a
+
+Ethnologue: 
+e publication in print and online that provides statistics and other information on the living languages of the world.  It was first issued in 1951, and is now published annually by SIL International, a U.S.-based, worldwide, Christian non-profit organization. SIL's main purpose is to s
+
+Epistemology: none
+
+Neurophilosophy: none
+
+Decipherment: none
+
+Enactivism: none
+
+Phonetics: 
+ Sanskrit grammarians. The Hindu scholar Pāṇini is among the most well known of these early investigators, whose four-part grammar, written around 350 BCE, is influential in modern linguistics and still represents "the most complete generative grammar of any language yet written". His grammar 
+
+Lexicography: none
+
+Etymology: 
+h the supposed origins of words were creatively imagined to satisfy contemporary requirements; for example, the  Greek poet Pindar (born in approximately 522 BCE) employed inventive etymologies to flatter his patrons. Plutarch employed etymologies insecurely based on fancied resemblances in sounds. I
+
+List of linguistic topics: 
+t Greek study of language  Roman elaborations of Greek study  Medieval philosophical work in Latin  Beginnings of modern linguistics in the 19th century  Behaviorism and mental ''tabula rasa'' hypothesis  Chomsky and functionalism  Generative grammar leads to generative phonology and semantic
+
+Robotics: 
+. This field overlaps with electronics, computer science, artificial intelligence, mechatronics, nanotechnology and bioengineering.History  In 1948, Norbert Wiener formulated the principles of cybernetics, the basis of practical robotics.  Fully autonomous only appeared in the second ha
+
+Figure of speech: none
+
+Semiotics: 
+ in the work of most, perhaps all, major thinkers.)  The general study of signs that began in Latin with Augustine culminated in Latin with the 1632 ''Tractatus de Signis'' of John Poinsot, and then began anew in late modernity with the attempt in 1867 by Charles Sanders Peirce to draw up
+
+Morpheme: none
+
+Conceptual metaphor: 
+nation of the underlying processes, was first extensively explored by George Lakoff and Mark Johnson in their work ''Metaphors We Live By'' in 1980. Since then, the field of metaphor studies within the larger discipline of cognitive linguistics has increasingly developed, with several, 
+

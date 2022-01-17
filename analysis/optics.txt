@@ -1,0 +1,240 @@
+International Commission on Illumination: 
+sion internationale de l'éclairage''') is the international authority on light, illumination, colour, and colour spaces. It was established in 1913 as a successor to the Commission Internationale de Photométrie and is today based in Vienna, Austria. The President from 2015 is Yoshihiro O
+
+Interference (wave propagation): none
+
+Fresnel reflection: 
+tions correctly predicted the differing behaviour of waves of the ''s'' and ''p'' polarizations incident upon a material interface.History  In 1808, Étienne-Louis Malus discovered that when a ray of light was reflected off a non-metallic surface at the appropriate angle, it behaved like
+
+Photoelectric effect: 
+ the circuit. As soon as ultraviolet radiations are stopped, the current also stops. This initiated the concept of photoelectric emission.  In 1900, while studying black-body radiation, the German physicist Max Planck suggested that the energy carried by electromagnetic waves could only
+
+Dual polarisation interferometry: none
+
+Pleochroism: none
+
+Brewster's angle: none
+
+Quantum optics: 
+tons. The first major development leading to that understanding was the correct modeling of the blackbody radiation spectrum by  Max Planck in 1899 under the hypothesis of light being emitted in discrete units of energy. The photoelectric effect was further evidence of this quantization 
+
+Laser pumping: none
+
+Brillouin scattering: none
+
+Prime lens: none
+
+Abbe sine condition: none
+
+Photonic crystal: 
+ture in the form of structural coloration and animal reflectors, and, in different forms, promise to be useful in a range of applications.  In 1887 the English physicist Lord Rayleigh experimented with periodic multi-layer dielectric stacks, showing they had a photonic band-gap in one di
+
+Avalanche photodiode: 
+g of photomultipliers. By applying a high reverse bias voltage (typically 100–200 V in silicon), APDs show an internal current gain effect (around 100) due to impact ionization (avalanche effect). However, some silicon APDs employ alternative doping and beveling techniques compared to trad
+
+Effect of sun angle on climate: none
+
+Auroral light: none
+
+Optical fiber: 
+n the reflections of a ray of light inside a parabolic liquid stream". This particular illustration comes from a later article by Colladon, in 1884.  Guiding of light by refraction, the principle that makes fiber optics possible, was first demonstrated by Daniel Colladon and Jacques Bab
+
+Polaroid (polarizer): none
+
+Haze (optics): none
+
+Fiber optics: 
+n the reflections of a ray of light inside a parabolic liquid stream". This particular illustration comes from a later article by Colladon, in 1884.  Guiding of light by refraction, the principle that makes fiber optics possible, was first demonstrated by Daniel Colladon and Jacques Bab
+
+Zodiacal light: 
+vely forms a thick, pancake-shaped cloud called the zodiacal cloud, which straddles the ecliptic plane. The particle sizes range between 10 and 300 micrometres, most with a mass around 150 micrograms.
+
+Radiometry: none
+
+Microphotonics: none
+
+Dichroic filter: none
+
+Microscope: 
+amples of compound microscopes, which combine an objective lens near the specimen with an eyepiece to view a real image, appeared in Europe around 1620. The inventor is unknown although many claims have been made over the years. Several revolve around the spectacle-making centers in the Net
+
+Optics: 
+ lenses by the ancient Egyptians and Mesopotamians. The earliest known lenses, made from polished crystal, often quartz, date from as early as 700 BC for Assyrian lenses such as the Layard/Nimrud lens. The ancient Romans and Greeks filled glass spheres with water to make lenses. These pra
+
+Aventurescence: 
+Italian "a ventura", meaning "by chance". This is an allusion to the chance discovery of aventurine glass or goldstone at some point in the 18th century. Goldstone is still manufactured today as an artificial imitation of later discoveries aventurine quartz and aventurine feldspar (sunstone)
+
+Numerical aperture: none
+
+Fraunhofer diffraction: none
+
+Abbe number: 
+and ''n''C are the refractive indices of the material at the wavelengths of the Fraunhofer D-, F- and C- spectral lines (589.3 nm, 486.1 nm and 656.3 nm respectively).   Abbe numbers are used to classify glass and other optical materials in terms of their chromaticity. For example, the 
+
+Triangular prism (optics): none
+
+Kerr effect: 
+inearly with it. All materials show a Kerr effect, but certain liquids display it more strongly than others. The Kerr effect was discovered in 1875 by John Kerr, a Scottish physicist.  Two special cases of the Kerr effect are normally considered, these being the Kerr electro-optic effect
+
+Thin-film optics: none
+
+Snell's law: 
+. Parker, 1837.  The law eventually named after Snell was first accurately described by the Persian scientist Ibn Sahl at the Baghdad court in 984. In the manuscript ''On Burning Mirrors and Lenses'', Sahl used the law to derive lens shapes that focus light with no geometric aberration
+
+Focus (optics): none
+
+Entrance pupil: none
+
+Dichromatic reflectance model: none
+
+Zeeman effect: none
+
+Telescope: 
+
+
+Kerr cell: none
+
+Q-switching: 
+ higher pulse energies, and much longer pulse durations. The two techniques are sometimes applied together.  Q-switching was first proposed in 1958 by Gordon Gould, p. 93. and independently discovered and demonstrated in 1961 or 1962 by R.W. Hellwarth and F.J. McClung using electrically 
+
+Gegenschein: 
+ust causes this optical phenomenon. History  The gegenschein was first described by the French Jesuit astronomer and professor  (1692–1776) in 1730. Further observations were made by the German explorer Alexander von Humboldt during his South American journey from 1799 to 1803. It was a
+
+Optical path length: none
+
+Optical coating: none
+
+Aspheric lens: 
+le, producing better aesthetic appearance.History right|The Elgeet Golden Navitar 16mm Aspheric Wide Angle Lens shot and Advertisement from the 1950s. In 984, Ibn Sahl first discovered the law of refraction, usually called Snell's law, which he used to work out the shapes of anaclastic le
+
+Circle of confusion: 
+ublication of his father John Henry Dallmeyer's 1874  pamphlet ''On the Choice and Use of Photographic Lenses'' (in material that is not in the 1874 edition and appears to have been added from a paper by J.H.D. "On the Use of Diaphragms or Stops" of unknown date), says:  This latter state
+
+List of indices of refraction: none
+
+Fresnel equations: 
+tions correctly predicted the differing behaviour of waves of the ''s'' and ''p'' polarizations incident upon a material interface.History  In 1808, Étienne-Louis Malus discovered that when a ray of light was reflected off a non-metallic surface at the appropriate angle, it behaved like
+
+Willebrord Snell: 
+''')Encarta Winkler Prins, Grote Oosthoek, Eerste Nederlandse Systematisch Ingerichte Encyclopaedie (13 June 1580Sometimes mistakenly noted as 1590 or 1591; P.C. Molhuysen and P.J. Blok (edd.), ''Nieuw Nederlandsch biografisch woordenboek'', part 7, Leyden 1927.30 October 1626) was a Dut
+
+Excimer laser: 
+u. M. Popov, at the Lebedev Physical Institute in Moscow, using a xenon dimer (Xe2) excited by an electron beam to give stimulated emission at 172 nm wavelength. A later improvement, developed by many groups in 1975Basting, D. et al., History and future prospects of excimer laser techno
+
+Holography: 
+ms.Overview and history The Hungarian-British physicist Dennis Gabor (in Hungarian: ''Gábor Dénes'') was awarded the Nobel Prize in Physics in 1971 "for his invention and development of the holographic method". His work, done in the late 1940s, was built on pioneering work in the field o
+
+Luminosity: none
+
+Wavelength: none
+
+Transparency (optics): none
+
+Stereoscopy: 
+ a scene from nature thumb|Kaiserpanorama consisted of a multi-station viewing apparatus and sets of stereo slides. Patented by A. Fuhrmann around 1890. thumb|A company of ladies looking at stereoscopic views, painting by Jacob Spoel, before 1868. An early depiction of people using a stereo
+
+Optical path: none
+
+Fresnel zone: none
+
+Tilt (optics): none
+
+Luminiferous aether: 
+ light was explored, especially in the 19th century, the physical qualities required of an aether became increasingly contradictory. By the late 1800s, the existence of the aether was being questioned, although there was no physical theory to replace it.  The negative outcome of the Michel
+
+Airy disk: 
+ry disk created by passing a red laser beam through a 90-micrometer pinhole aperture with 27 orders of diffraction thumb|Airy disk captured by 2000 mm camera lens at f/25 aperture. Image size: 1×1 mm.  In optics, the '''Airy disk''' (or '''Airy  disc''') and '''Airy pattern''' are descri
+
+Aura (optics): none
+
+Refractive index: 
+ned the term ''index of refraction''.  Thomas Young was presumably the person who first used, and invented, the name "index of refraction", in 1807. At the same time he changed this value of refractive power into a single number, instead of the traditional ratio of two numbers. The rati
+
+Exit pupil: none
+
+Porro prism: none
+
+Differential group delay: none
+
+Optical spectrum: 
+enon in his book ''Opticks''. He was the first to use the word ''spectrum'' (Latin for "appearance" or "apparition") in this sense in print in 1671 in describing his experiments in optics. Newton observed that, when a narrow beam of sunlight strikes the face of a glass prism at an angle,
+
+Angle of incidence (optics): 
+ions in astronomy and computer graphics) was an open problem until the result was derived by mathematicians Allen R Miller and Emanuel Vegh in 1991.  thumb|center|650px|Refraction of light at the interface between two media.
+
+Crystal optics: none
+
+Lightning: none
+
+Phase (waves): 
+e variable  goes through each period (and  goes through each complete cycle).  Thus, if the phase is expressed in degrees, it will increase by 360° as  increases by one period.  If it is expressed in radians, the same increase in   will increase the phase by .  This convention is espec
+
+Brewster window: none
+
+Nicol prism: 
+nary ray is eliminated and only the extraordinary ray is transmitted through the prism. It was the first type of polarizing prism, invented in 1828 by William Nicol (1770–1851) of Edinburgh. It consists of a rhombohedral crystal of Iceland spar (a variety of calcite) that has been cut at
+
+Chromatic aberration: none
+
+Photographic lens: none
+
+Optical phenomenon: none
+
+Optical axis: none
+
+Haidinger's brush: 
+zation of light source.  '''Haidinger's brush''' is an entoptic phenomenon first described by Austrian physicist Wilhelm Karl von Haidinger in 1844.  Many people are able to perceive polarization of light. It may be seen as a yellowish horizontal bar or bow-tie shape (with "fuzzy" ends,
+
+Thermal radiation: none
+
+Camera lucida: 
+ints of the scene on the drawing surface, thus aiding in the accurate rendering of perspective.History   The ''camera lucida'' was patented in 1806 by William Hyde Wollaston. The basic optics were described 200 years earlier by Johannes Kepler in his Dioptrice (1611), but there is no evi
+
+Lux: none
+
+Waveguide: 
+ayne, D. Webb, in Annals NY Acad. Sci., '''188''':110-41 (1971)History  The first structure for guiding waves was proposed by J. J. Thomson in 1893, and was first experimentally tested by Oliver Lodge in 1894. The first mathematical analysis of electromagnetic waves in a metal cylinder 
+
+Optical window: 
+rly active in the passed wavelengths. It is called "optical" because the wavelengths we can see are all in this range. The window runs from around 300 nanometers (ultraviolet-B) at the short end up into the range the eye can use, roughly 400–700 nm and continues up through the visual infrar
+
+Catoptrics: none
+
+Camera lens: none
+
+Rainbow: 
+was repeated by Averroes, and, though incorrect, provided the groundwork for the correct explanations later given by Kamāl al-Dīn al-Fārisī in 1309 and, independently, by Theodoric of Freiberg (c. 1250–c. 1311)—both having studied al-Haytham's ''Book of Optics''.Nader El-Bizri 'Ibn al-Ha
+
+Radial polarisation: none
+
+Off-axis optical system: none
+
+Zoom lens: 
+opes to provide continuous variation of the magnification of the image, and this was first reported in the proceedings of the Royal Society in 1834. Early patents for telephoto lenses also included movable lens elements which could be adjusted to change the overall focal length of the l
+
+Physical optics: none
+
+Abbe prism: none
+
+Optical waveguide: none
+
+X-ray: 
+Pre-Röntgen observations and research thumb|Example of a Crookes Tube, a type of discharge tube that emitted X-rays  Before their discovery in 1895, X-rays were just a type of unidentified radiation emanating from experimental discharge tubes. They were noticed by scientists investigati
+
+Polarimeter: 
+nown as the angle of rotation. The angle of rotation is basically known as observed angle.History Polarization by reflection was discovered in 1808 by Étienne-Louis Malus (1775–1812). (See also Optical rotation#History). A nicol prism or a polaroid filter can be used to polarize the ligh
+
+Image processing: 
+ystems.History  Many of the techniques of digital image processing, or digital picture processing as it often was called, were developed in the 1960s at the Jet Propulsion Laboratory, Massachusetts Institute of Technology, Bell Laboratories, University of Maryland, and a few other research
+
+Ray transfer matrix analysis: none
+
+Pincushion distortion: none
+
+Photodiode: none
+
+Chrominance: 
+transmitting a color television signal with distinct luma and chrominance components originated with Georges Valensi, who patented the idea in 1938.French patent 841335, issued Feb. 6, 1939; cited in U.S. Patent 2375966 "System of Television in Colors", issued May 15, 1945. Valensi's pa
+
+Collimated light: none
+
