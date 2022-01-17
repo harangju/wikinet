@@ -1,0 +1,254 @@
+Filename extension: none
+
+Functional programming: 
+ons for the development of functional programming.  Functional programming has its origins in lambda calculus, a formal system developed in the 1930s to investigate computability, the Entscheidungsproblem, function definition, function application, and recursion. Many functional programmin
+
+Microcode: 
+ for example, hard disk drives are said to have their microcode updated, though they typically contain both microcode and firmware.History  In 1947, the design of the MIT Whirlwind introduced the concept of a control store as a way to simplify computer design and move beyond ''ad hoc'' 
+
+Object database: 
+
+
+Procedural programming: 
+ocedural programming languages first appeared circa 1960, including Fortran, ALGOL, COBOL and BASIC.  Pascal and C were published closer to the 1970s.  Computer processors provide hardware support for procedural programming through a stack register and instructions for calling procedures 
+
+Knowledge management: 
+fers to a multidisciplinary approach to achieving organisational objectives by making the best use of knowledge.  An established discipline since 1991, KM includes courses taught in the fields of business administration, information systems, management, library, and information sciences. O
+
+Forth (programming language): 
+ially supported systems.History Forth evolved from Charles H. Moore's personal programming system, which had been in continuous development since 1968. Forth was first exposed to other programmers in the early 1970s, starting with Elizabeth Rather at the US National Radio Astronomy Observa
+
+Boolean logic: 
+ his ''An Investigation of the Laws of Thought'' (1854). According to Huntington, the term "Boolean algebra" was first suggested by Sheffer in 1913,"The name Boolean algebra (or Boolean 'algebras') for the calculus originated by Boole, extended by Schröder, and perfected by Whitehead se
+
+Second-system effect: 
+inflated expectations and overconfidence.  The phrase was first used by Fred Brooks in his book ''The Mythical Man-Month'', first published in 1975. It described the jump from a set of simple operating systems on the IBM 700/7000 series to OS/360 on the 360 series, which happened in 196
+
+Computer multitasking: 
+r program, the built-in calendar, Vim, GIMP, and VLC media player. thumb|right|Multitasking capabilities of Microsoft Windows 1.01 released in 1985, here shown running the MS-DOS Executive and Calculator programs  In computing, '''multitasking''' is the concurrent execution of multiple 
+
+Game tester: none
+
+Object code: none
+
+Java Modeling Language: none
+
+Object-oriented programming: 
+.  Terminology invoking "objects" and "oriented" in the modern sense of object-oriented programming made its first appearance at MIT in the late 1950s and early 1960s. In the environment of the artificial intelligence group, as early as 1960, "object" could refer to identified items (LISP a
+
+Information technology engineering: 
+ng.  Information technology engineering has a somewhat chequered history that follows two very distinct threads. It originated in Australia between 1976 and 1980, and appears first in the literature in a series of Six InDepth articles by the same name published by US Computerworld in May - Ju
+
+Parallax scrolling: 
+sense of immersion in the virtual experience. The technique grew out of the multiplane camera technique used in traditional animation since the 1930s. Parallax scrolling was popularized in 2D computer graphics and video games by the arcade games ''Moon Patrol'' and ''Jungle Hunt'', both r
+
+Scripting language: 
+ games like Wesnoth, the variety of actual games played by players are scripts written by other users.History Early mainframe computers (in the 1950s) were non-interactive, instead using batch processing. IBM's Job Control Language (JCL) is the archetype of languages used to control batch
+
+2d computer graphics: 
+ices.  For these reasons, documents and illustrations are often stored or transmitted as 2D graphic files.  2D computer graphics started in the 1950s, based on vector graphics devices. These were largely supplanted by raster-based devices in the following decades. The PostScript language 
+
+Proprietary software: none
+
+Software bloat: none
+
+Program specification: none
+
+Level designer: none
+
+Kernel (computer science): 
+se programs are willing to work without any hardware abstraction or operating system support. Most early computers operated this way during the 1950s and early 1960s, which were reset and reloaded between the execution of different programs. Eventually, small ancillary programs such as pro
+
+Medical informatics: 
+y ICS 35.240.80 in which ISO 27799:2008 is one of the core components.History Worldwide use of computer technology in medicine began in the early 1950s with the rise of the computers. In 1949, Gustav Wagner established the first professional organization for informatics in Germany. The prehi
+
+Database: 
+ntists may classify database-management systems according to the database models that they support. Relational databases became dominant in the 1980s. These model data as rows and columns in a series of tables, and the vast majority use SQL for writing and querying data.  In the 2000s, no
+
+Static code analysis: none
+
+Software maintenance: 
+ransactions on Software Engineering. 27(1) 1-12.History Software maintenance and evolution of systems was first addressed by Meir M. Lehman in 1969. Over a period of twenty years, his research led to the formulation of Lehman's Laws (Lehman 1997). Key findings of his research conclude t
+
+Processor register: 
+rder to improve performance via register renaming, allowing parallel and speculative execution. Modern x86 design acquired these techniques around 1995 with the releases of Pentium Pro, Cyrix 6x86, Nx586, and AMD K5.  A common property of computer programs is locality of reference, which ref
+
+String (computer science): none
+
+Eprom: none
+
+Intermediate language: none
+
+Reflection (computer science): none
+
+Cyclomatic complexity: 
+quantitative measure of the number of linearly independent paths through a program's source code. It was developed by Thomas J. McCabe, Sr. in 1976.  Cyclomatic complexity is computed using the control flow graph of the program: the nodes of the graph correspond to indivisible groups of
+
+Forward compatibility: none
+
+Information technology: 
+omputer, and the earliest known geared mechanism. Comparable geared devices did not emerge in Europe until the 16th century, and it was not until 1645 that the first mechanical calculator capable of performing the four basic arithmetical operations was developed.  Electronic computers, usin
+
+Computer-aided manufacturing: 
+n large companies in the automotive and aerospace industries, for example Pierre Béziers work developing the CAD/CAM application UNISURF in the 1960s for car body design and tooling at Renault.  Historically, CAM software was seen to have several shortcomings that necessitated an overly hi
+
+Algorithm: 
+ould become the modern concept of algorithm began with attempts to solve the Entscheidungsproblem (decision problem) posed by David Hilbert in 1928. Later formalizations were framed as attempts to define "effective calculability"Kleene 1943 in Davis 1965:274 or "effective method".Rosser
+
+Linux: 
+g operating system on servers and other  big iron systems such as mainframe computers, and the only OS used on TOP500 supercomputers (since November 2017, having gradually eliminated all competitors). It is used by around 2.3 percent of desktop computers. The Chromebook, which runs the Linux 
+
+3d computer graphics: 
+o how accurate the rendering can match the virtual model. History   William Fetter was credited with coining the term ''computer graphics'' in 1961 to describe his work at Boeing. One of the first displays of computer animation was ''Futureworld'' (1976), which included an animation of a
+
+Software metric: none
+
+List of programming languages: none
+
+Software configuration management: 
+y made by a system administrator.History The history of software configuration management (SCM) in computing can be traced back as early as the 1950s, when CM (for Configuration Management), originally for hardware development and production control, was being applied to software developm
+
+Regression testing: none
+
+Relational database: 
+
+
+Code coverage: 
+methods invented for systematic software testing.  The first published reference was by Miller and Maloney in ''Communications of the ACM'' in 1963.
+
+Open-source software: 
+cialization of software in the years 1970-1980. However, academics still often developed software collaboratively. For example Donald Knuth in 1979 with the TeX typesetting system or Richard Stallman in 1983 with the GNU operating system. In 1997, Eric Raymond published ''The Cathedral a
+
+Structured programming: 
+d control flow constructs of selection (if/then/else) and repetition (while and for), block structures, and subroutines.  It emerged in the late 1950s with the appearance of the ALGOL 58 and ALGOL 60 programming languages, with the latter including support for block structures. Contributing
+
+Capability Maturity Model: 
+mprove existing software development processes, but it can also be applied to other processes.History  Prior need for software processes In the 1980s, the use of computers grew more widespread, more flexible and less costly. Organizations began to adopt computerized information systems, a
+
+Basic: none
+
+Real-time operating system: none
+
+Computer model: 
+igh Performance Computer Modernization Program." "Researchers stage largest Military Simulation ever" , Jet Propulsion Laboratory, Caltech, December 1997, Other examples include a 1-billion-atom model of material deformation; a 2.64-million-atom model of the complex protein-producing organell
+
+Ontology (computer science): 
+ and extrinsic properties, or essence and existence. Metaphysics has been an ongoing topic of discussion since recorded history.  Since the mid-1970s, researchers in the field of artificial intelligence (AI) have recognized that knowledge engineering is the key to building large and power
+
+Post-object programming: 
+, and followed this with the AspectJ AOP extension to Java. IBM's research team pursued a tool approach over a language design approach and in 2001 proposed Hyper/J and the Concern Manipulation Environment, which have not seen wide usage.   The examples in this article use AspectJ.  The 
+
+Business software: 
+ts). These business applications are installed on either desktops or big servers. Prior to the introduction of COBOL (a universal compiler) in 1965, businesses developed their own unique machine language.  RCA's language consisted of a 12-position instruction. For example, to read a rec
+
+Computer file: none
+
+Dead code: none
+
+Interactive programming: none
+
+Query optimizer: none
+
+Compiler: 
+ages evolved because digital devices only understand ones and zeros and the circuit patterns in the underlying machine architecture. In the late 1940s, assembly languages were created to offer a more workable abstraction of the computer architectures. Limited memory capacity of early compu
+
+Gtk+: 
+-like syntax, and the ability to receive information about other opened GTK applications.  The '+' was dropped returning to simply 'GTK' in February 2019 during a Hackathonhttps://gitlab.gnome.org/GNOME/gtk/commit/d080be3e5091c98d5171063a95d55c01170881f3   macOS  With Quartz-Backendhttps://wik
+
+Decision table: 
+ould also be represented as decision trees or in a programming language as a series of if-then-else and switch-case statements. History  In the 1960s and 1970s a range of "decision table based" languages such as Filetab were popular for business programming.
+
+Artificial intelligence: 
+ is able to be self-conscious and is self-aware in interactions with others.  Artificial intelligence was founded as an academic discipline in 1956, and in the years since has experienced several waves of optimism, followed by disappointment and the loss of funding (known as an "AI wint
+
+Java virtual machine: none
+
+Computer: 
+oards, mice, joystick, etc.), output devices (monitor screens, printers, etc.), and input/output devices that perform both functions (e.g., the 2000s-era touchscreen). Peripheral devices allow information to be retrieved from an external source and they enable the result of operations to 
+
+Configuration management: 
+ch as roads, bridges, canals, dams, and buildings.History Configuration Management originated in the United States Department of Defense in the 1950s as a technical management discipline for hardware material items—and it is now a standard practice in virtually every industry. The CM proce
+
+Invariant (computer science): none
+
+Unix: 
+UNIX''') is a family of multitasking, multiuser computer operating systems that derive from the original AT&T Unix, development starting in the 1970s at the Bell Labs research center by Ken Thompson, Dennis Ritchie, and others.  Initially intended for use inside the Bell System, AT&T licen
+
+Theory of computation: none
+
+C++: 
+standardized by the International Organization for Standardization (ISO), with the latest standard version ratified and published by ISO in December 2017 as ''ISO/IEC 14882:2017'' (informally known as C++17). The C++ programming language was initially standardized in 1998 as ''ISO/IEC 14882:19
+
+Iterative development: 
+o terms ''iterative'' and ''incremental'' has been long standing, and has been widely suggested for large development efforts. For example, the 1985 DOD-STD-2167DOD-STD-2167 Defense Systems Software Development (04 JUN 1985) on everyspec.com  mentions (in section 4.1.2): "During software 
+
+Agile software development: 
+some recent empirical studies have disputed that evidence.History Iterative and incremental development methods can be traced back as early as 1957,Gerald M. Weinberg, as quoted in  "We were doing incremental development as early as 1957, in Los Angeles, under the direction of Bernie Di
+
+Microsoft Windows: 
+Windows came to dominate the world's personal computer (PC) market with over 90% market share, overtaking Mac OS, which had been introduced in 1984.  Apple came to see Windows as an unfair encroachment on their innovation in GUI development as implemented on products such as the Lisa an
+
+Expert system: 
+f knowledge, represented mainly as if–then rules rather than through conventional procedural code. The first expert systems were created in the 1970s and then proliferated in the 1980s. Expert systems were among the first truly successful forms of artificial intelligence (AI) software.  An
+
+Mainframe computer: 
+d to distinguish high-end commercial machines from less powerful units.  Most large-scale computer system architectures were established in the 1960s, but continue to evolve. Mainframe computers are often used as servers.History  right|thumb|280px|An IBM 704 mainframe (1964) Several manuf
+
+Computation: none
+
+Multi-paradigm programming language: 
+nd grammar.  Common programming paradigms include:Nørmark, Kurt. ''Overview of the four main programming paradigms''. Aalborg University, 9 May 2011. Retrieved 22 September 2012.  imperative in which the programmer instructs the machine how to change its state,  procedural which groups i
+
+Eeprom: 
+0,000 cycles).  Many microcontrollers include both: flash memory for the firmware, and a small EEPROM for parameters and history.History In early 1970s, some studies, inventions, and development for electrically re-programmable non-volatile memories were performed by various companies and o
+
+Assertion (computing): 
+ failure –, the program considers itself to be broken and typically deliberately crashes or throws an assertion failure exception. History  In 1947 reports by von Neumann and GoldstineGoldstine and von Neumann. and Coding of problems for an Electronic Computing Instrument". Part II, Volu
+
+Programming paradigm: 
+nd grammar.  Common programming paradigms include:Nørmark, Kurt. ''Overview of the four main programming paradigms''. Aalborg University, 9 May 2011. Retrieved 22 September 2012.  imperative in which the programmer instructs the machine how to change its state,  procedural which groups i
+
+Firmware: none
+
+Machine language: none
+
+Abstract syntax tree: none
+
+Source lines of code: none
+
+Disk image: 
+ility is filesystem-aware it can omit copying unused space, and it can compress the used space.History  Disk images were originally (in the late 1960s) used for backup and disk cloning of mainframe disk media. The early ones were as small as 5 megabytes and as large as 330 megabytes, and t
+
+Backward compatibility: none
+
+Xerox PARC: 
+its contributions to information technology and hardware systems.  Founded by Jacob E. "Jack" Goldman, Xerox Corporation's chief scientist, in 1970, Xerox PARCoften just PARC has been in large part responsible for such developments as laser printing, Ethernet, the modern personal comput
+
+Operating system: 
+ce (13.23%), and the varieties of Linux are collectively in third place (1.57%). In the mobile (smartphone and tablet combined) sector, use in 2017 is up to 70% of Google's Android and according to third quarter 2016 data, Android on smartphones is dominant with 87.5 percent and a growth
+
+Design pattern (computer science): 
+a programming paradigm and a concrete algorithm.History Patterns originated as an architectural concept by Christopher Alexander (1977/78). In 1987, Kent Beck and Ward Cunningham began experimenting with the idea of applying patterns to programming – specifically pattern languages – and
+
+Instruction set: none
+
+Systems design: none
+
+Declarative programming: none
+
+Numerical analysis: 
+ carpentry, and construction.The New Zealand Qualification authority specifically mentions this skill in document 13004 version 2, dated 17 October 2003 titled CARPENTRY THEORY: Demonstrate knowledge of setting out a building  Numerical analysis continues this long tradition: rather than exac
+
+Interface description language: none
+
+Disassembler: none
+
+Antipattern: 
+..common approaches to solving recurring problems that prove to be ineffective. These approaches are called antipatterns." The term, coined in 1995 by Andrew Koenig,; was later re-printed in the:   "An antipattern is just like a pattern, except that instead of a solution it gives somethi
+
+Video game: 
+visual feedback on a two- or three-dimensional video display device such as a TV screen, virtual reality headset or computer monitor. Since the 1980s, video games have become an increasingly important part of the entertainment industry, and whether they are also a form of art is a matter 
+
+Java (programming language): 
+lion developers.  Java was originally developed by James Gosling at Sun Microsystems (which has since been acquired by Oracle) and released in 1995 as a core component of Sun Microsystems' Java platform. The original and reference implementation Java compilers, virtual machines, and clas
+
